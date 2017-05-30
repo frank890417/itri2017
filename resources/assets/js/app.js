@@ -17,6 +17,31 @@ window.Vue = require('vue');
 
 Vue.component('example', require('./components/Example.vue'));
 
+const routes = [
+  { path: '/', component: page_index },
+  { path: '/about', component: page_about },
+  { path: '/tech', component: page_tech },
+  { path: '/solution/:id', component: page_product , props: true},
+  { path: '/solution/0', alias: '/solution'},
+  { path: '/news', component: page_news },
+  { path: '/news/:id', component: page_post , props: true},
+  { path: '/news/cata/:cataname', component: page_news , props: true},
+  { path: '/job', component: page_job },
+  { path: '/contact', component: page_contact },
+  { path: '/tern', component: page_tern },
+  { path: '/search', component: section_search }
+];
+
+
+const store = new Vuex.Store({
+  state: {
+  });
+
+const router = new VueRouter({
+  routes,
+  mode: "history"
+})
+
 const app = new Vue({
     el: '#app'
 });

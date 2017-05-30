@@ -16,9 +16,18 @@
     "jquery": "^3.1.1",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10"
+    "vue": "^2.3.3"
   },
   "dependencies": {
-    "livereload": "^0.6.2"
+    "gulp": "^3.9.1",
+    "laravel-blade-jade": "^2.0.3",
+    "laravel-elixir": "^6.0.0-15",
+    "laravel-elixir-jade": "^0.2.4",
+    "laravel-elixir-vue-2": "^0.3.0",
+    "laravel-elixir-webpack-official": "^1.0.10",
+    "livereload": "^0.6.2",
+    "pug": "^2.0.0-rc.1",
+    "vue-router": "^2.5.3",
+    "vuex": "^2.3.1"
   }
 }
