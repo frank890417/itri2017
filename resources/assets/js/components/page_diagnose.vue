@@ -86,6 +86,9 @@ export default {
     }; 
   },
   watch:{
+    area_size (){
+      this.set_area_size(this.area_size);
+    },
     summer(){
       this.degree=0;
     },
@@ -182,8 +185,8 @@ export default {
     console.log("diagnose mounted");
     
   },
-  computed: {...mapState(['loading'])},
-  methods: {...mapMutations(['set_loading'])}
+  computed: {...mapState(['loading','house_area_size'])},
+  methods: {...mapMutations(['set_loading','set_area_size'])}
 }
 </script>
 

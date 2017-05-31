@@ -28,46 +28,7 @@
             h1 Consumption<br>of Daily <br>Electricity
     page_about
     page_diagnose
-    section.section_room
-      .container
-        .row
-          .col-sm-8
-            h4 / Kitchen
-            h1 客廳
-            h5 全家休閒吃飯的空間，常常會忘記關冷氣
-            ul
-              li 廚房
-              li 客廳
-              li 餐廳
-              li 浴室
-          .col-sm-4
-
-            h2 選電器的表單
-            .form_block
-              .form-group
-                .info
-                  .eng Speaker
-                  h1 音響
-            .form_block
-              .form-group
-                label 音響     除濕機     電視    燈    冷氣
-            .form_block
-              .form-group
-                label 電器瓦數
-                input
-              .form-group
-                label 數量
-                input(type="number")
-              .form-group
-                label 平均使用
-                .btn-group
-                  button 很少
-                  button 偶爾
-                  button 經常
-                  button 頻繁
-              .form-group
-                label 購買年份
-                input(type="number")
+    page_room
     section.section_solution.grey
       .container
         .row.text-left
@@ -124,6 +85,7 @@
 import page_load from './page_load'
 import page_diagnose from './page_diagnose'
 import page_about from './page_about'
+import page_room from './page_room'
 import {mapState,mapMutations} from 'vuex' 
 export default {
   name: 'page_index',
@@ -135,7 +97,8 @@ export default {
   components: {
     page_load,
     page_diagnose,
-    page_about
+    page_about,
+    page_room
   },
   mounted (){
     // console.log("index mounted");

@@ -27,11 +27,15 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
-    loading: false
+    loading: false,
+    house_area_size: 15
   },
   mutations: {
     set_loading(state,mode){
       state.loading=mode;
+    },
+    set_area_size(state,size){
+      state.house_area_size=size;
     }
   }
 });

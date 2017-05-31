@@ -112,6 +112,34 @@ section
     font-size: 50px
     font-weight: 400
 
+//---------------
+.section_room
+  .room_device_list
+    padding-left: 0
+    li
+      display: inline-block
+      padding: 5px 10px
+      cursor: pointer
+      border-bottom: solid 4px transparent
+      transition: 0.5s
+      
+
+      &:hover
+        border-bottom: solid 4px #eee
+      &.active
+        border-bottom: solid 4px $color_yellow
+      &.empty
+        opacity: 0.5
+  .input_side_btn
+    border: solid 1px 
+    display: inline-block
+    padding: 0px 10px
+    cursor: pointer
+    & + input
+      margin: 0
+  label
+    width: 100px
+
 
 //---------------
 

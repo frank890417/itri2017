@@ -7792,6 +7792,45 @@ section .title .chinese {
   font-weight: 400;
 }
 
+.section_room .room_device_list {
+  padding-left: 0;
+}
+
+.section_room .room_device_list li {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-bottom: solid 4px transparent;
+  transition: 0.5s;
+}
+
+.section_room .room_device_list li:hover {
+  border-bottom: solid 4px #eee;
+}
+
+.section_room .room_device_list li.active {
+  border-bottom: solid 4px #F5DA4E;
+}
+
+.section_room .room_device_list li.empty {
+  opacity: 0.5;
+}
+
+.section_room .input_side_btn {
+  border: solid 1px;
+  display: inline-block;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+
+.section_room .input_side_btn + input {
+  margin: 0;
+}
+
+.section_room label {
+  width: 100px;
+}
+
 .card {
   border: solid 2px;
   padding: 10px;
