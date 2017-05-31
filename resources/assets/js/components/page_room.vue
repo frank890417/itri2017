@@ -52,11 +52,16 @@
                 button.btn(:class="{active:now_device.buy_time_option==1}",@click="now_device.buy_time_option=1") 3-5年
                 button.btn(:class="{active:now_device.buy_time_option==2}",@click="now_device.buy_time_option=2") 5-10年
                 button.btn(:class="{active:now_device.buy_time_option==3}",@click="now_device.buy_time_option=3") 10年以上
+
             .form_group
+              hr
               h2 年：{{total.value}}度 (月平均 {{ parseInt(total.value/12) }} 度)
               h4 計算清單(測試用)
               ul
                 li(v-for="log in total.log") {{log}}
+              hr
+              ul
+                li(v-for="(r,id) in total.room_sum") {{rooms[id].name}}: {{r}}度 ({{parseInt(100*r/total.value)}}%)
 </template>
 
 <script>
@@ -85,6 +90,7 @@ export default {
       var total_c = 0;
       var log_list=[];
       var light_total=0;
+      var room_sum=[0,0,0,0];
       this.devices.forEach((d,i)=>{
         var cump=0;
         if (d.type=="normal"){
@@ -105,12 +111,14 @@ export default {
         total_c+=device_c;
         if (d.count>0)
         log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_c);
+
+        room_sum[this.get_place_id(d.place)]+=device_c;
       });
       if (light_total==0){
        log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh"); 
        total_c+=this.house_area_size*12;
       }
-      return {value: total_c,log: log_list};
+      return {value: total_c,log: log_list,room_sum: room_sum};
     },
     ...mapState(['house_area_size'])
   },
@@ -118,6 +126,14 @@ export default {
     switch_device(id){
       this.now_device_id=id;
       // this.now_device.count=1;
+    },
+    get_place_id(name){
+      var result=0;
+      this.rooms.forEach((d,i)=>{
+        if (d.name==name)
+          result=i;
+      });
+      return result;
     }
   },
   data(){
