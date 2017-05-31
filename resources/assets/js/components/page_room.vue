@@ -9,14 +9,15 @@
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
 
-          button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
+          button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
         .col-sm-5
 
           .form_block(v-if="now_device")
             .form-group
-              .info
+              .device_info
                 .eng Speaker
                 h1 {{now_device.name}}
+              img.device_pic
           .form_block
             .form-group
               ul.room_device_list
@@ -118,6 +119,7 @@ export default {
        log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh"); 
        total_c+=this.house_area_size*12;
       }
+      this.set_device_result({value: total_c,log: log_list,room_sum: room_sum});
       return {value: total_c,log: log_list,room_sum: room_sum};
     },
     ...mapState(['house_area_size'])
@@ -127,6 +129,10 @@ export default {
       this.now_device_id=id;
       // this.now_device.count=1;
     },
+    switch_place(id){
+      this.now_place_id=id;
+      this.now_device_id=0;
+    },
     get_place_id(name){
       var result=0;
       this.rooms.forEach((d,i)=>{
@@ -134,7 +140,8 @@ export default {
           result=i;
       });
       return result;
-    }
+    },
+    ...mapMutations(['set_device_result'])
   },
   data(){
     return {

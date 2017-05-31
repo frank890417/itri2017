@@ -29,26 +29,7 @@
     page_about
     page_diagnose
     page_room
-    section.section_solution.grey
-      .container
-        .row.text-left
-          .col-sm-12
-            h1.title SOLUTION
-              span.chinese 節能處方箋
-          .card.col-sm-4
-            .card_inner
-              h2 房間圖案
-              h4 廚房裡吃電怪獸排名：
-              h4 1.電冰箱 2.烤麵包機 3.電磁爐
-          .card.col-sm-8
-            .card_inner
-              h2 泡泡圖
-              h4 廚房用電比例
-          .card.col-sm-12
-            .card_inner
-              h2 節能處方
-              p 你的 「冷氣」、「電風扇」、 「電暖器」已經老舊囉！<br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
-
+    page_solution
     section.section_share.yellow
       .container
         .row
@@ -86,7 +67,10 @@ import page_load from './page_load'
 import page_diagnose from './page_diagnose'
 import page_about from './page_about'
 import page_room from './page_room'
+import page_solution from './page_solution'
+
 import {mapState,mapMutations} from 'vuex' 
+
 export default {
   name: 'page_index',
   data () {
@@ -98,7 +82,8 @@ export default {
     page_load,
     page_diagnose,
     page_about,
-    page_room
+    page_room,
+    page_solution
   },
   mounted (){
     // console.log("index mounted");

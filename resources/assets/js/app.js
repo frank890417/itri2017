@@ -28,14 +28,18 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     loading: false,
-    house_area_size: 15
+    house_area_size: 15,
+    device_result: {}
   },
   mutations: {
     set_loading(state,mode){
-      state.loading=mode;
+      state.loading = mode;
     },
     set_area_size(state,size){
-      state.house_area_size=size;
+      state.house_area_size = size;
+    },
+    set_device_result(state,result){
+      state.device_result = result;
     }
   }
 });

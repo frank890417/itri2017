@@ -105,8 +105,6 @@ export default {
           lastgate=obj;
           return obj;
         })
-        
-        
         var endflag=false;
         var lastgate={gate: 0,price:0,price_summer: 0,sub_total: 0,sub_total_summer: 0};
         gates.reverse().forEach((gate)=>{
