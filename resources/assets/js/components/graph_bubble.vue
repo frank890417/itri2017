@@ -1,57 +1,78 @@
 <template lang="pug">
-  svg.graph_bubble
+  svg.graph_bubble(:data-hash="hash")
 
 </template>
 
 
 <script>
 import {mapState,mapMutations} from 'vuex' 
-var d3 = require("d3")
-import 'd3-force'
-import {selection, select} from "d3-selection";
-import "d3-transition"
-import "d3-selection-multi";
-import rooms from '../rooms'
+import * as d3 from 'd3/build/d3.node';
+import d3SelectMulti from 'd3-selection-multi';
+console.log(d3.selection.prototype);
+import rooms from '../rooms';
+
 export default {
   name: 'page_solution',
   props: ["datas"],
   data(){
     return {
       nodes: [{name: "電冰箱", value: 26.2},
-     {name: "飲水機", value: 14.2},
-     {name: "電熱水瓶", value: 12.4},
-     {name: "冷氣機", value: 7.8},
-     {name: "照明設備", value: 7.8},
-     {name: "洗衣機", value: 5.2},
-     {name: "電腦", value: 5.1}]
+               {name: "飲水機", value: 14.2},
+               {name: "電熱水瓶", value: 12.4},
+               {name: "冷氣機", value: 7.8},
+               {name: "照明設備", value: 7.8},
+               {name: "洗衣機", value: 5.2},
+               {name: "電腦", value: 5.1}],
+      hash: parseInt(Math.random()*100000),
+      width: 600,
+      height: 500
     }; 
   },
   components: {
   },
+  watch: {
+
+  },
   mounted () {
-    var nodes = this.nodes;
+    var nodes = this.datas?this.datas:this.nodes;
+    var last=nodes.map(a=>a.value).reduce((a,b)=>(a+b));
+    //推一些無用的小球進去
+    for(var i=0;i<25;i++){
+      nodes.push({name: "", value: Math.random()*2+0.001});
+    }
+
+    //利用資料產生半徑，指數大小，亂數指定初始位置
+    nodes.map((d,i)=>{
+      d.r=Math.pow(d.value,0.6)*18;
+      d.x=Math.random()*200;
+      d.y=Math.random()*200;
+      return d;
+    });
+
+
     //設定模擬(v4)
     var simulation = d3.forceSimulation(nodes)
         //設定碰撞與半徑
         .force("collide", d3.forceCollide().radius(function(d) { return d.r + 3; }).iterations(5))
         //設定中心
-        .force("center", d3.forceCenter($(window).outerWidth()-300,$(window).outerHeight()/2))
+        .force("center", d3.forceCenter(this.width/2,this.height/2))
         //本身有排斥力
         .force("charge", d3.forceManyBody()) 
         //往中心的力量
         .force("y", d3.forceY(5))
         .force("x", d3.forceX(5))
         //隨時間更新
-        //.on("tick", ticked)
+        .on("tick", ticked)
     ;
 
     //設定svg畫布
-    var svg=d3.select("svg.graph_bubble");
+    var svg=d3.select("svg.graph_bubble[data-hash='"+this.hash+"']");
 
     //attrs 一次設定多個屬性（要多引入js庫）
+
     svg.attrs({
-      width: $(window).outerWidth(),
-      height: $(window).outerHeight()
+      width: this.width,
+      height: this.height
     });
 
 
@@ -163,7 +184,7 @@ export default {
           r: (d)=>d.r,
         })
       cir.transition().duration(100)
-        .attr("fill", (d,i)=>(vm.highlight_air?(nodes[i].name=="冷氣機"?color(d.r):"transparent"):color(d.r) )
+        .attr("fill", (d,i)=>(color(d.r))
         );
       
       cir_stroke
@@ -186,6 +207,19 @@ export default {
         x: (d)=>(d.x),
         y: (d)=>(d.y+15),
         }).text((d)=> ( (parseInt(d.value)>2)?((parseFloat(d.value) ).toFixed(1)+"%"):"") )
+    }
+
+    var ss = new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%BB%91%E9%BC%A0%E7%A7%BB%E9%80%B2%E7%90%83.mp3");
+    ss.volume=0.3;
+    function handleMouseOver(d, i) {  
+      // console.log("over");
+      d.r+=5;
+      ss.currentTime=0;
+      ss.play();
+      
+    }
+    function handleMouseOut(d, i) { 
+      // console.log("out");
     }
   },
   computed: {...mapState(['device_result'])},

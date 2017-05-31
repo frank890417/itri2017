@@ -10,14 +10,16 @@
           svg.graph_new_old
       .row
         .col-sm-7
-          h1 泡泡圖
+          graph_bubble
         .col-sm-5.text-left
           h2 電用在哪？
-          p 家庭用電採用累進分段的六級電費，用電量越多單價越高<br>夏季冷氣用電激增，電力公司無法供應用戶瞬間尖峰用電，為降低用電。<br>因此每年夏月(6/1-9/30)用電，電價比其他月份高。<br>夏月空調占總用電量的43%，非夏月則是電冰箱占26%，究竟是哪些電器默默吃掉你的用電呢？
+          p 家庭用電採用累進分段的六級電費，用電量越多單價越高<br>夏季冷氣用電激增，電力公司無法供應用戶瞬間尖峰用電，為降低用電。<br><br>因此每年夏月(6/1-9/30)用電，電價比其他月份高。<br>夏月空調占總用電量的43%，非夏月則是電冰箱占26%，究竟是哪些電器默默吃掉你的用電呢？
 
 </template>
 
 <script>
+
+import graph_bubble from './graph_bubble'
 import {mapState,mapMutations} from 'vuex' 
 var d3 = require("d3")
 
@@ -27,6 +29,9 @@ export default {
     return {
 
     }
+  },
+  components: {
+    graph_bubble
   },
   mounted (){
     // console.log("index mounted");
