@@ -17,7 +17,9 @@
               .device_info
                 .eng Speaker
                 h1 {{now_device.name}}
-              img.device_pic
+
+              img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
+              //- img
           .form_block
             .form-group
               ul.room_device_list

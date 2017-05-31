@@ -13,7 +13,7 @@ import rooms from '../rooms';
 
 export default {
   name: 'page_solution',
-  props: ["datas"],
+  props: ["datas","size"],
   data(){
     return {
       nodes: [{name: "電冰箱", value: 26.2},
@@ -34,6 +34,10 @@ export default {
 
   },
   mounted () {
+    this.width=this.size?this.size.width:600;
+    this.height=this.size?this.size.height:500;
+
+
     var nodes = this.datas?this.datas:this.nodes;
     var last=nodes.map(a=>a.value).reduce((a,b)=>(a+b));
     //推一些無用的小球進去
