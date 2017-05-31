@@ -26,12 +26,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   </head>
   <body>
-    <div id="app" :class="big_font?'big_font':''">
-      <navbar></navbar>
+    <div id="app">
+      {{-- <navbar></navbar> --}}
       <transition name="fade" mode="out-in">
         <router-view :key="$route.path"></router-view>
       </transition>
-      <section_footer></section_footer>
+      {{-- <section_footer></section_footer> --}}
     </div>
     <!-- @yield('content') -->
     @yield('blade_pass_variables')
