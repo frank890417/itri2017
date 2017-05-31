@@ -37,12 +37,9 @@
                 label 近期用電度數({{(summer=="true")?"夏月":"非夏月"}})：
               .col-sm-8
                 .form-group
-                  label 夏月
-                    input(v-model="summer" type="radio" value="true")
-                  span &nbsp; &nbsp; &nbsp;
-                  label 非夏月
-                    input(v-model="summer" type="radio" value="false")
-                  
+                  button.btn(:class="{active:summer=='true'}",@click="summer='true'") 夏月
+                  button.btn(:class="{active:summer=='false'}",@click="summer='false'") 非夏月
+                 
                 .form-group
                   label 度數：
                   input.form-control(v-model="degree")

@@ -40,6 +40,7 @@ input
   border: solid 1px $color_grey
   background-color: transparent
   margin-left: $gutter_width
+  padding: 5px 10px
 
 
 .container
@@ -103,6 +104,23 @@ section
       font-size: 26px
       margin-left: 10px
       font-weight: 400
+
+//--------------
+.section_diagnose
+  .btn
+    border: solid 1px white
+    background-color: transparent
+    outline: none
+    user-select: none
+    padding: 5px 15px
+    box-shadow: none
+
+    &:focus
+      outline: none
+
+    &.active
+      background-color: #fff
+
 //--------------
 
 .section_about
@@ -130,16 +148,34 @@ section
         border-bottom: solid 4px $color_yellow
       &.empty
         opacity: 0.5
+
   .input_side_btn
     border: solid 1px 
     display: inline-block
-    padding: 0px 10px
+    padding: 5px 10px
     cursor: pointer
+    transition: 0.5s
+    &:hover
+      background-color: #ddd
     & + input
       margin: 0
   label
     width: 100px
 
+  button,.btn
+    border: solid 1px $color_grey
+    background-color: transparent
+    outline: none
+    user-select: none
+    padding: 5px 15px
+    box-shadow: none
+
+    &:focus
+      outline: none
+
+    &.active
+      background-color: $color_grey
+      color: white
 
 //---------------
 

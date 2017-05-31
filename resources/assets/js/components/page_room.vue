@@ -6,8 +6,10 @@
           h4 / {{rooms[now_place_id].eng}}
           h1 {{rooms[now_place_id].name}}
           h5 全家休閒吃飯的空間，常常會忘記關冷氣
-          select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
+          //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
+
+          button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
         .col-sm-5
 
           .form_block(v-if="now_device")
@@ -28,7 +30,7 @@
               input(type="number",v-model="now_device.consumption")
             .form-group(v-if="now_device.type=='light'")
               
-              button.btn(:class="now_device.light_option==lid?'btn-primary':'btn-secondary'",@click="now_device.light_option=lid",v-for="(light,lid) in light_list") {{light.name}}
+              button.btn(:class="{active:now_device.light_option==lid}",@click="now_device.light_option=lid",v-for="(light,lid) in light_list") {{light.name}}
             .form-group
               label 數量
               span.input_side_btn(@click="now_device.count--") -
@@ -37,19 +39,19 @@
             .form-group
               label 平均使用
               br
-              .btn-group(v-if="now_device")
-                button.btn(:class="now_device.option==0?'btn-primary':'btn-secondary'",@click="now_device.option=0") 很少 (0-{{now_device.rarely}}hr)
-                button.btn(:class="now_device.option==1?'btn-primary':'btn-secondary'",@click="now_device.option=1") 偶爾 ({{now_device.rarely}}-{{now_device.occaionally}}hr)
-                button.btn(:class="now_device.option==2?'btn-primary':'btn-secondary'",@click="now_device.option=2") 經常 ({{now_device.occaionally}}-{{now_device.often}}hr)
-                button.btn(:class="now_device.option==3?'btn-primary':'btn-secondary'",@click="now_device.option=3") 頻繁 ({{now_device.often}}-{{now_device.frequently}}hr)
+              div(v-if="now_device")
+                button.btn(:class="{active:now_device.option==0}",@click="now_device.option=0") 很少 (0-{{now_device.rarely}}hr)
+                button.btn(:class="{active:now_device.option==1}",@click="now_device.option=1") 偶爾 ({{now_device.rarely}}-{{now_device.occaionally}}hr)
+                button.btn(:class="{active:now_device.option==2}",@click="now_device.option=2") 經常 ({{now_device.occaionally}}-{{now_device.often}}hr)
+                button.btn(:class="{active:now_device.option==3}",@click="now_device.option=3") 頻繁 ({{now_device.often}}-{{now_device.frequently}}hr)
             .form-group
               label 購買年份
               br
-              .btn-group(v-if="now_device")
-                button.btn(:class="now_device.buy_time_option==0?'btn-primary':'btn-secondary'",@click="now_device.buy_time_option=0") 0-3年
-                button.btn(:class="now_device.buy_time_option==1?'btn-primary':'btn-secondary'",@click="now_device.buy_time_option=1") 3-5年
-                button.btn(:class="now_device.buy_time_option==2?'btn-primary':'btn-secondary'",@click="now_device.buy_time_option=2") 5-10年
-                button.btn(:class="now_device.buy_time_option==3?'btn-primary':'btn-secondary'",@click="now_device.buy_time_option=3") 10年以上
+              div(v-if="now_device")
+                button.btn(:class="{active:now_device.buy_time_option==0}",@click="now_device.buy_time_option=0") 0-3年
+                button.btn(:class="{active:now_device.buy_time_option==1}",@click="now_device.buy_time_option=1") 3-5年
+                button.btn(:class="{active:now_device.buy_time_option==2}",@click="now_device.buy_time_option=2") 5-10年
+                button.btn(:class="{active:now_device.buy_time_option==3}",@click="now_device.buy_time_option=3") 10年以上
             .form_group
               h2 年：{{total.value}}度 (月平均 {{ parseInt(total.value/12) }} 度)
               h4 計算清單(測試用)
