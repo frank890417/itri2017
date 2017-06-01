@@ -54,30 +54,5 @@ section
   justify-content: center
 
 
-.info
-  display: inline-block
-
-h4
-  font-size: 16px
-  &:after
-    content: ""
-    display: inline-block
-    border-bottom: solid 1px $color_grey
-    width: 130px
-    margin-left: 15px
-h1
-  font-size: 38px
-  margin-top: 10px
-
-.graduation
-  list-style: none
-  padding-left: 0
-  li
-    display: inline-block
-    height: 6px
-    border-left: solid 2px $color_grey
-    margin-right: 12px
-    &.longer
-      height: 10px
 
 </style>

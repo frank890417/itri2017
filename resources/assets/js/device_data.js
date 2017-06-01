@@ -11,8 +11,6 @@ var data = [
     "default_consumption": 2200,
     "consumption_mul": 0.65,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -27,8 +25,6 @@ var data = [
     "default_consumption": "!",
     "consumption_mul": 1,
     "type": "light",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -43,8 +39,6 @@ var data = [
     "default_consumption": 200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -59,8 +53,6 @@ var data = [
     "default_consumption": 10,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -75,8 +67,6 @@ var data = [
     "default_consumption": 10,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -91,8 +81,6 @@ var data = [
     "default_consumption": 1100,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -107,8 +95,6 @@ var data = [
     "default_consumption": 55,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -123,8 +109,6 @@ var data = [
     "default_consumption": 200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -139,8 +123,6 @@ var data = [
     "default_consumption": 30,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -155,8 +137,6 @@ var data = [
     "default_consumption": 2200,
     "consumption_mul": 0.65,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -171,8 +151,6 @@ var data = [
     "default_consumption": "!",
     "consumption_mul": 1,
     "type": "light",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -187,8 +165,6 @@ var data = [
     "default_consumption": 1250,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -203,8 +179,6 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -219,8 +193,6 @@ var data = [
     "default_consumption": 100,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -235,8 +207,6 @@ var data = [
     "default_consumption": 0,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -251,8 +221,6 @@ var data = [
     "default_consumption": 30,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -267,8 +235,6 @@ var data = [
     "default_consumption": 30,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -283,8 +249,6 @@ var data = [
     "default_consumption": 200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -299,8 +263,6 @@ var data = [
     "default_consumption": "!",
     "consumption_mul": 1,
     "type": "light",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -315,8 +277,6 @@ var data = [
     "default_consumption": 200,
     "consumption_mul": 0.55,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -331,8 +291,6 @@ var data = [
     "default_consumption": 100,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -347,8 +305,6 @@ var data = [
     "default_consumption": 1000,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -363,8 +319,6 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -379,8 +333,6 @@ var data = [
     "default_consumption": 300,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -395,8 +347,6 @@ var data = [
     "default_consumption": 200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -411,8 +361,6 @@ var data = [
     "default_consumption": 1200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -427,8 +375,6 @@ var data = [
     "default_consumption": 1250,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -443,8 +389,6 @@ var data = [
     "default_consumption": 1000,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -459,8 +403,6 @@ var data = [
     "default_consumption": 350,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -475,8 +417,6 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -491,8 +431,6 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -507,8 +445,6 @@ var data = [
     "default_consumption": "!",
     "consumption_mul": 1,
     "type": "light",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -523,8 +459,6 @@ var data = [
     "default_consumption": 500,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -539,8 +473,6 @@ var data = [
     "default_consumption": 1200,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -555,8 +487,6 @@ var data = [
     "default_consumption": "!",
     "consumption_mul": 1,
     "type": "hotwater",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
   {
@@ -571,8 +501,6 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal",
-    "option": 0,
-    "light_option": 0,
     "consumption": 0
   },
 ];

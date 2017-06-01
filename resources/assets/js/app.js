@@ -29,7 +29,9 @@ const store = new Vuex.Store({
   state: {
     loading: false,
     house_area_size: 15,
-    device_result: {}
+    device_result: {},
+    full_nav_open: false
+
   },
   mutations: {
     set_loading(state,mode){
@@ -40,6 +42,9 @@ const store = new Vuex.Store({
     },
     set_device_result(state,result){
       state.device_result = result;
+    },
+    toggle_nav(state){
+      state.full_nav_open=!state.full_nav_open;
     }
   }
 });

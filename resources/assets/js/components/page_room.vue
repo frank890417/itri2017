@@ -2,23 +2,25 @@
   section.section_room
     .container
       .row
-        .col-sm-7
+        .col-sm-8
           h4 / {{rooms[now_place_id].eng}}
           h1 {{rooms[now_place_id].name}}
           h5 全家休閒吃飯的空間，常常會忘記關冷氣
+          img.scene(src="/img/場景/livingRoom.png" style="width: 100%")
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
-
-          button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
-        .col-sm-5
+          .btn_group
+            button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
+        .col-sm-4
 
           .form_block(v-if="now_device")
             .form-group
               .device_info
                 .eng Speaker
-                h1 {{now_device.name}}
+                h3 {{now_device.name}}
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
+              .device_watt(v-if="!isNaN(now_device.default_consumption)") {{now_device.default_consumption}}
               //- img
           .form_block
             .form-group
@@ -32,8 +34,8 @@
               label 電器瓦數
               input(type="number",v-model="now_device.consumption")
             .form-group(v-if="now_device.type=='light'")
-              
-              button.btn(:class="{active:now_device.light_option==lid}",@click="now_device.light_option=lid",v-for="(light,lid) in light_list") {{light.name}}
+              ul.room_device_list
+                li(:class="{active:now_device.light_option==lid}",@click="now_device.light_option=lid",v-for="(light,lid) in light_list") {{light.name}}
             .form-group
               label 數量
               span.input_side_btn(@click="now_device.count--") -
@@ -42,29 +44,45 @@
             .form-group
               label 平均使用
               br
-              div(v-if="now_device")
-                button.btn(:class="{active:now_device.option==0}",@click="now_device.option=0") 很少 (0-{{now_device.rarely}}hr)
-                button.btn(:class="{active:now_device.option==1}",@click="now_device.option=1") 偶爾 ({{now_device.rarely}}-{{now_device.occaionally}}hr)
-                button.btn(:class="{active:now_device.option==2}",@click="now_device.option=2") 經常 ({{now_device.occaionally}}-{{now_device.often}}hr)
-                button.btn(:class="{active:now_device.option==3}",@click="now_device.option=3") 頻繁 ({{now_device.often}}-{{now_device.frequently}}hr)
+              .btn_group(v-if="now_device")
+                button.btn(:class="{active:now_device.option==0}",@click="now_device.option=0")
+                  span 很少
+                  span.degree {{now_device.rarely}}hr
+                button.btn(:class="{active:now_device.option==1}",@click="now_device.option=1")
+                  span 偶爾
+                  span.degree {{now_device.occaionally}}hr
+                button.btn(:class="{active:now_device.option==2}",@click="now_device.option=2")
+                  span 經常
+                  span.degree {{now_device.often}}hr
+                button.btn(:class="{active:now_device.option==3}",@click="now_device.option=3")
+                  span 頻繁
+                  span.degree {{now_device.frequently}}hr
             .form-group
               label 購買年份
               br
-              div(v-if="now_device")
-                button.btn(:class="{active:now_device.buy_time_option==0}",@click="now_device.buy_time_option=0") 0-3年
-                button.btn(:class="{active:now_device.buy_time_option==1}",@click="now_device.buy_time_option=1") 3-5年
-                button.btn(:class="{active:now_device.buy_time_option==2}",@click="now_device.buy_time_option=2") 5-10年
-                button.btn(:class="{active:now_device.buy_time_option==3}",@click="now_device.buy_time_option=3") 10年以上
+              .btn_group(v-if="now_device")
+                button.btn(:class="{active:now_device.buy_time_option==0}",@click="now_device.buy_time_option=0")
+                  span 新
+                  span.degree 3年
+                button.btn(:class="{active:now_device.buy_time_option==1}",@click="now_device.buy_time_option=1")
+                  span 一般
+                  span.degree 5年
+                button.btn(:class="{active:now_device.buy_time_option==2}",@click="now_device.buy_time_option=2")
+                  span 久
+                  span.degree 10年
+                button.btn(:class="{active:now_device.buy_time_option==3}",@click="now_device.buy_time_option=3")
+                  span 老舊
+                  span.degree 以上
 
-            .form_group
+            .form_group.test_info
               hr
-              h2 年：{{total.value}}度 (月平均 {{ parseInt(total.value/12) }} 度)
-              h4 計算清單(測試用)
+              h4 一年 {{total.value}} 度 (平均 {{ parseInt(total.value/12) }} 度)
+              //h4 計算清單(測試用)
               ul
                 li(v-for="log in total.log") {{log}}
-              hr
+              //hr
               ul
-                li(v-for="(r,id) in total.room_sum") {{rooms[id].name}}: {{r}}度 ({{parseInt(100*r/total.value)}}%)
+                li(v-for="(r,id) in total.room_sum") {{rooms[id].name}}: {{r.value}}度 ({{r.percentage}}%)
 </template>
 
 <script>
@@ -74,6 +92,7 @@ import {mapState,mapMutations} from 'vuex'
 
 device_data.forEach(obj=>{obj.option=0;});
 
+device_data.forEach(obj=>{obj.light_option=0;});
 device_data.forEach(obj=>{obj.buy_time_option=0;});
 
 device_data.forEach(obj=>{obj.consumption=obj.default_consumption;});
@@ -94,6 +113,8 @@ export default {
       var log_list=[];
       var light_total=0;
       var room_sum=[0,0,0,0];
+
+      //加總電器
       this.devices.forEach((d,i)=>{
         var cump=0;
         if (d.type=="normal"){
@@ -104,7 +125,6 @@ export default {
           
         }if (d.type=="hotwater"){
           cump=1070;
-          
         }
         var hour=[d.rarely,d.occaionally,d.often,d.frequently][d.option];
         var device_c= parseInt(cump*d.count*d.consumption_mul*d.day
@@ -117,10 +137,19 @@ export default {
 
         room_sum[this.get_place_id(d.place)]+=device_c;
       });
+
+      //處理預設照明
       if (light_total==0){
-       log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh"); 
+       log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh");
        total_c+=this.house_area_size*12;
+       room_sum=room_sum.map(value=>value+this.house_area_size*12/4);
       }
+      console.log(room_sum)
+
+      //後處理房間百分比與包資料
+      room_sum=room_sum.map(value=>({value,percentage: parseInt(100*value/total_c)}));
+
+      //回傳與設定vuex全域變數
       this.set_device_result({value: total_c,log: log_list,room_sum: room_sum});
       return {value: total_c,log: log_list,room_sum: room_sum};
     },

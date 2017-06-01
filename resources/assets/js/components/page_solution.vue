@@ -7,8 +7,10 @@
             span.chinese 節能處方箋
         .card.col-sm-4
           .card_inner
-            h2 房間圖案
+            h2 {{rooms[now_place_id].name}}
             button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
+            img(src="/img/場景/kitchen.png", style="width: 100%")
+            h4 耗電：{{device_result.room_sum[now_place_id].value}}度
             h4 {{rooms[now_place_id].name}}裡吃電怪獸排名：
             h4 1.電冰箱 2.烤麵包機 3.電磁爐
         .card.col-sm-8
@@ -16,7 +18,7 @@
             h2 用電比例視覺化
             graph_bubble
             ul.room_part_value
-              li(v-for="(r,id) in device_result.room_sum" , :style="room_part(r)") {{rooms[id].name}}  {{get_room_percentage(r)}}%
+              li(v-for="(r,id) in device_result.room_sum" , :style="{width: (r.percentage+6)+'%'}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12
           .card_inner
             h2 節能處方

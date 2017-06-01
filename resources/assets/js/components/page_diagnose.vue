@@ -3,12 +3,13 @@
     .container
       .row
         .col-sm-12
+          h4 「 讓我們一起抓出家裡的吃電怪獸吧！ 」
           h1.title DIAGNOSE
             span.chinese 電器診斷
       .row
         .col-sm-12
           h2 基本資料
-        .col-sm-4
+        .col-sm-6
           ul.nav.nav-tabs
             li.active 
               a 北區
@@ -18,23 +19,29 @@
               a 東區
             li 
               a 南區
-          .panel
-            div 臺北市
-        .col-sm-8
+          ul.panel
+            li 臺北市
+            li 新北市
+            li 基隆市
+            li 宜蘭縣
+            li 桃園市
+            li 新竹縣
+            li 新竹市
+        .col-sm-6
           .form-group
-            .row
+            .row.form-group
               .col-sm-4
                 label 家庭成員：
               .col-sm-8
                 input.form-control(type="number",v-model="member_count")
-            .row
+            .row.form-group
               .col-sm-4
                 label 坪數({{area_size}})：
               .col-sm-8
-                input.form-control(type="range",v-model="area_size")
+                input.form-control(type="number",v-model="area_size")
             .row
               .col-sm-4
-                label 近期用電度數({{(summer=="true")?"夏月":"非夏月"}})：
+                label 近期用電度數：
               .col-sm-8
                 .form-group
                   button.btn(:class="{active:summer=='true'}",@click="summer='true'") 夏月
@@ -46,7 +53,7 @@
                 .form-group
                   label 電費：
                   input.form-control(v-model="money")
-            .row
+            //.row
               .col-sm-4
                 label 換算年用電
               .col-sm-8

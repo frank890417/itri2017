@@ -42,6 +42,9 @@ input
   margin-left: $gutter_width
   padding: 5px 10px
 
+svg
+  circle
+    cursor: pointer
 
 .container
   // min-height: 100vh
@@ -59,7 +62,7 @@ input
   position: fixed
   left: $gutter_width
   top: $gutter_width
-  z-index: 100
+  z-index: 200
   cursor: pointer
   .bar
     width: 100%
@@ -71,7 +74,7 @@ input
       top: 22%
     &:nth-child(3)
       top: 78%
-  &:hover
+  &.active
     .bar
       &:nth-child(1)
         top: 50%
@@ -87,8 +90,8 @@ input
     
 
 .page
-  padding-top: 100px
-  padding-bottom: 100px
+  // padding-top: 100px
+  // padding-bottom: 100px
 
 section
   border: solid 2px
@@ -108,8 +111,122 @@ section
       margin-left: 10px
       font-weight: 400
 
+
+//---------------
+.full_nav
+  position: fixed
+  +size(100%)
+  left: 0
+  top: 0
+  z-index: 100
+  font-size: 80px
+  color: white
+  font-weight: 500
+  cursor: pointer
+  li
+    list-style: none
+    &:hover
+      color: $color_grey
+
+//------------
+.section_loading
+
+  .info
+    display: inline-block
+
+  h4
+    font-size: 16px
+    &:after
+      content: ""
+      display: inline-block
+      border-bottom: solid 1px $color_grey
+      width: 130px
+      margin-left: 15px
+  h1
+    font-size: 38px
+    margin-top: 10px
+
+  .graduation
+    list-style: none
+    padding-left: 0
+    li
+      display: inline-block
+      height: 6px
+      border-left: solid 2px $color_grey
+      margin-right: 12px
+      &.longer
+        height: 10px
+
+//-------------
+.section_index
+  height: 100vh
+  .col-sm-4
+    padding-top: 50vh
+  .col-sm-8
+
+  .scene
+    position: absolute
+    width: 100vw
+    right: -50vw
+    top: -10vw
+    mix-blend-mode: multiply
+    pointer-events: none
+
+  .info
+    display: inline-block
+
+  h4
+    font-size: 16px
+    &:after
+      content: ""
+      display: inline-block
+      border-bottom: solid 1px $color_grey
+      width: 130px
+      margin-left: 15px
+  h1
+    font-size: 38px
+    margin-top: 10px
+
+  .graduation
+    list-style: none
+    padding-left: 0
+    li
+      display: inline-block
+      height: 6px
+      border-left: solid 2px $color_grey
+      margin-right: 12px
+      &.longer
+        height: 10px
+  
+  .consumption_pointer
+    
+    border: solid 1px black
+    padding: 10px
+    display: inline-block
+    
+    @keyframes rolling
+      0%
+        background-position: 0 0
+      100%
+        background-position: 150px 0
+
+
+    &:before
+      content: ""
+      display: block
+      width: 150px
+      height: 3px
+      background: linear-gradient(90deg,$color_grey 0%,$color_grey 25%,white 25%,white 35%,$color_grey 35%)
+      animation: rolling 2s infinite linear
+
+
+
 //--------------
 .section_diagnose
+  .form-group
+    margin-bottom: 10px
+    vertical-align: middle
+
   .btn
     border: solid 1px white
     background-color: transparent
@@ -124,6 +241,11 @@ section
     &.active
       background-color: #fff
 
+  input
+    border: none
+    border: solid 1px $color_grey
+    border-radius: 0
+
 //--------------
 
 .section_about
@@ -132,14 +254,17 @@ section
     color: $color_yellow_dark
     font-size: 50px
     font-weight: 400
+    margin-bottom: 40px
 
 //---------------
 .section_room
+  .test_info ul
+    padding-left: 20px
   .room_device_list
-    padding-left: 0
+    padding: 0
     li
       display: inline-block
-      padding: 5px 10px
+      padding: 4px 8px
       cursor: pointer
       border-bottom: solid 4px transparent
       transition: 0.5s
@@ -152,6 +277,17 @@ section
       &.empty
         opacity: 0.5
 
+  
+  input
+    width: 40%
+    margin-left: 0
+    &:focus
+      outline: none
+  label
+    margin-right: 0px
+    width: 100px
+
+
   .input_side_btn
     border: solid 1px 
     display: inline-block
@@ -162,9 +298,7 @@ section
       background-color: #ddd
     & + input
       margin: 0
-  label
-    width: 100px
-
+  
   .form_block
     border: solid 2px
     margin: 5px
@@ -174,34 +308,62 @@ section
     position: relative
     overflow: hidden
 
+  
+
   .device_info
     position: absolute
     left: 10px
     top: 10px
-    h1
-      font-size: 30px
-      margin-top: 8px
+    .eng
+      margin-bottom: 5px
+    h3
+      margin: 0
 
   .device_pic
     // background-color: #f3f3f3
     width: 100%
     height: 200px
-    float: left
+    margin-bottom: -20px
+    // float: left
+
+  .device_watt
+    position: absolute
+    left: 10px
+    bottom: 10px
+    &:before
+      content: "平均耗電: "
+    &:after
+      content: "瓦/小時"
+  
+  .btn_group
+    display: flex
+    width: 100%
+
 
   button,.btn
     border: solid 1px $color_grey
     background-color: transparent
     outline: none
     user-select: none
-    padding: 5px 15px
+    padding: 5px 25px
+    width: 100%
     box-shadow: none
+    position: relative
+
+    .degree
+      position: absolute
+      right: -10px
+      top: -20px
+      font-size: 12px
 
     &:focus
       outline: none
 
     &.active
-      background-color: $color_grey
-      color: white
+      background-color: $color_yellow
+      color: $color_grey
+      .degree
+        color: $color_grey
 
 //---------------
 
@@ -216,7 +378,7 @@ section
     padding: $gutter_width
     border: solid 1px
     position: relative
-    min-height: 500px
+    min-height: 550px
     svg
       position: absolute
       left: 0
@@ -225,20 +387,23 @@ section
       width: 100%
       height: 500px
   .room_part_value
-    margin-top: 400px
-    height: 30px
-    padding-left: 0
     display: flex
     border: solid 1px black
-    
+    position: absolute
+    padding-left: 0
+    bottom: -15px
+    left: 0px
+    width: 100%
     list-style: none
+    display: flex
 
     li
-      display: inline-block
       border: solid 1px black
+      padding: 10px 0px
       height: 100%
       background-color: $color_yellow
       text-align: center
+
   .recommend_list
     list-style: none
     padding-left: 0

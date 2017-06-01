@@ -1,17 +1,10 @@
 <template lang="pug">
   div.page
-    .hambergur
+    .hambergur(@click="toggle_nav",:class="{active: full_nav_open}")
       .bar
       .bar
       .bar
-    section.navbar.yellow
-      ul
-        li INDEX
-        li FACT
-        li PLAYGROUND
-        li DIAGNOSE
-        li SOLUTION
-
+    full_nav
     transition(name="fade")
       page_load(v-if="loading")
 
@@ -23,9 +16,11 @@
             h1 家庭電器用電家計簿
             h5 尋找家裡的吃電怪獸
             .btn.btn-primary 前往探索
-            .lang 中文     ENG
+            //.lang 中文     ENG
           .col-sm-8
+            .consumption_pointer
             h1 Consumption<br>of Daily <br>Electricity
+            img.scene(src="/img/場景/kitchen.png")
     page_about
     page_diagnose
     page_room
@@ -57,7 +52,7 @@ import page_about from './page_about'
 import page_room from './page_room'
 import page_solution from './page_solution'
 import page_share from './page_share'
-
+import full_nav from './full_nav'
 import {mapState,mapMutations} from 'vuex' 
 
 export default {
@@ -73,7 +68,8 @@ export default {
     page_about,
     page_room,
     page_solution,
-    page_share
+    page_share,
+    full_nav
   },
   mounted (){
     // console.log("index mounted");
@@ -81,8 +77,8 @@ export default {
       this.set_loading(false);
     },2000)
   },
-  computed: {...mapState(['loading'])},
-  methods: {...mapMutations(['set_loading'])}
+  computed: {...mapState(['loading','full_nav_open'])},
+  methods: {...mapMutations(['set_loading','toggle_nav'])}
 }
 </script>
 

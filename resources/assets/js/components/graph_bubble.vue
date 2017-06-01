@@ -42,7 +42,7 @@ export default {
     var last=nodes.map(a=>a.value).reduce((a,b)=>(a+b));
     //推一些無用的小球進去
     for(var i=0;i<25;i++){
-      nodes.push({name: "", value: Math.random()*2+0.001});
+      nodes.push({name: "hash"+i, value: Math.random()*2+0.001});
     }
 
     //利用資料產生半徑，指數大小，亂數指定初始位置
@@ -82,7 +82,7 @@ export default {
 
     //填色圓形
     var cir=svg.selectAll("circle.fill")
-      .data(nodes).enter().append("circle");
+      .data(nodes,(d,i)=>d.name).enter().append("circle");
     //線框圓形
     var cir_stroke=svg.selectAll("circle.stroke")
       .data(nodes).enter().append("circle");
@@ -143,7 +143,7 @@ export default {
     ;
 
     //設定文字樣式
-    text.text((d)=>d.name)
+    text.text((d)=>d.name.indexOf("hash")!=-1?"":d.name)
         .attrs({
       x: (d)=>(d.x),
       y: (d)=>(d.y),
@@ -199,7 +199,7 @@ export default {
       })
       
       text 
-        .text((d)=>d.name)
+        .text((d)=>d.name.indexOf("hash")!=-1?"":d.name)
         .attrs({
         x: (d)=>(d.x),
         y: (d)=>(d.y-4),
@@ -235,6 +235,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass?indentedSyntax">
-
+circle
+  cursor: pointer
 
 </style>
