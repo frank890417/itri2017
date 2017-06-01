@@ -93,8 +93,11 @@ svg
   // padding-top: 100px
   // padding-bottom: 100px
 
+
+
+
 section
-  border: solid 2px
+  // border: solid 2px
   padding: 50px 10px
 
   &.yellow
@@ -111,6 +114,23 @@ section
       margin-left: 10px
       font-weight: 400
 
+
+.bar_list
+  padding: 0
+  li
+    display: inline-block
+    padding: 4px 8px
+    cursor: pointer
+    border-bottom: solid 4px transparent
+    transition: 0.5s
+    
+
+    &:hover
+      border-bottom: solid 4px #eee
+    &.active
+      border-bottom: solid 4px $color_yellow
+    &.empty
+      opacity: 0.5
 
 //---------------
 .full_nav
@@ -198,31 +218,39 @@ section
       &.longer
         height: 10px
   
-  .consumption_pointer
-    
-    border: solid 1px black
-    padding: 10px
-    display: inline-block
-    
-    @keyframes rolling
-      0%
-        background-position: 0 0
-      100%
-        background-position: 150px 0
+.consumption_pointer
+  
+  border: solid 1px black
+  padding: 10px
+  display: inline-block
+  
+  @keyframes rolling
+    0%
+      background-position: 0 0
+    100%
+      background-position: 150px 0
 
 
-    &:before
-      content: ""
-      display: block
-      width: 150px
-      height: 3px
-      background: linear-gradient(90deg,$color_grey 0%,$color_grey 25%,white 25%,white 35%,$color_grey 35%)
-      animation: rolling 2s infinite linear
+  &:before
+    content: ""
+    display: block
+    width: 150px
+    height: 3px
+    background: linear-gradient(90deg,$color_grey 0%,$color_grey 25%,white 25%,white 35%,$color_grey 35%)
+    animation: rolling 3s infinite linear
 
 
 
 //--------------
 .section_diagnose
+
+
+  .bar_list
+    padding: 10px
+    li
+      margin: 5px
+
+
   .form-group
     margin-bottom: 10px
     vertical-align: middle
@@ -255,6 +283,22 @@ section
     font-size: 50px
     font-weight: 400
     margin-bottom: 40px
+
+  .explain_block
+    vertical-align: middle
+    padding: 5px 0px
+    &:before
+      content: ""
+
+      width: 45px
+      height: 20px
+      border: solid 2px $color_grey
+      display: inline-block
+      margin-right: 10px
+    &.white:before
+      background-color: white
+    &.yellow:before
+      background-color: $color_yellow
 
 //---------------
 .section_room

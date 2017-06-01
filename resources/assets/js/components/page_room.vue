@@ -9,6 +9,8 @@
           img.scene(src="/img/場景/livingRoom.png" style="width: 100%")
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
+          .consumption_pointer
+            h4 {{total.value}} 度/年
           .btn_group
             button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
         .col-sm-4
@@ -76,7 +78,7 @@
 
             .form_group.test_info
               hr
-              h4 一年 {{total.value}} 度 (平均 {{ parseInt(total.value/12) }} 度)
+              //h4 一年 {{total.value}} 度 (平均 {{ parseInt(total.value/12) }} 度)
               //h4 計算清單(測試用)
               ul
                 li(v-for="log in total.log") {{log}}

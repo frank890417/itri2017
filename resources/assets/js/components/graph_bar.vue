@@ -12,7 +12,7 @@ import rooms from '../rooms';
 
 export default {
   name: 'graph_bar',
-  props: ["datas","size","init"],
+  props: ["datas","size","init","highlight"],
   data(){
     return {
       nodes: {summer_old:[56.251,54.284,64.618,72.400,91.070,102.100,107.110,112.320,109.910,105.570,102.510,85.538],summer_new:[24.311,23.213,27.275,33.678,34.558,36.672,38.695,38.877,37.703,37.243,34.554,32.246]},
@@ -27,6 +27,13 @@ export default {
     init(){
       if (this.init){
         this.init_graph()
+      }
+    },
+    highlight(){
+      if (this.highlight="summer"){
+
+      }else if(this.highlight="nsummer"){
+
       }
     }
   },
@@ -95,7 +102,7 @@ export default {
         .attr("height",(d,i)=>d*mul);
         
       mul_text.attr("fill","#333")
-        .text((d,i)=>d.toFixed(2))
+        .text((d,i)=>(i+1)+'月')
         .attr("x",(d,i)=>(i*split_width+1.5*span_width/2))
         .attr("y",graph_height+30)
         .attr("text-anchor","middle")

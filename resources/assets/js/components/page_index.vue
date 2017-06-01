@@ -12,9 +12,11 @@
       .container
         .row
           .col-sm-4.text-right
+            img(src="/img/thunder.svg" width=45)
             h4 Comsumption of daily life
             h1 家庭電器用電家計簿
             h5 尋找家裡的吃電怪獸
+            br
             .btn.btn-primary 前往探索
             //.lang 中文     ENG
           .col-sm-8
@@ -29,17 +31,32 @@
     footer
       .container
         .col-sm-4
-          h2 家庭電器用電家計簿
+          img(src="/img/thunder.svg" width=45)
+          h4 Comsumption of daily life
+          h1 家庭電器用電家計簿
+          h5 尋找家裡的吃電怪獸
         .col-sm-8
+          br
+          br
+          br
+
           .row
+            
             .col-sm-4
               label 指導單位
+              br
+              img(src='http://wp.shu.edu.tw/wp-ctt/uploads/sites/23/2015/10/311.png' height=90 style="margin-top: -10px")
             .col-sm-4
               label 主辦單位
+              br
+              img(src="https://hvcs.gigaenergy.com.tw/ESK/Content/Image/Login/%E7%B6%93%E6%BF%9F%E9%83%A8%E8%83%BD%E6%BA%90%E5%B1%80.png" height=60)
             .col-sm-4
               label 執行單位
+              br
+              img(src="https://college.itri.org.tw/Images/logo_itri.png" height=40)
           .row
             .col-sm-12 智權政策   |   法律聲明   |   聯絡我們
+          br
           .row
             .col-sm-12 © 工業技術研究院 ITRI All Rights Reserved.    
 
