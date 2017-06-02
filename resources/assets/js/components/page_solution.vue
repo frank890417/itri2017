@@ -9,7 +9,7 @@
           .card_inner
             h2 {{rooms[now_place_id].name}}
             button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
-            img(src="/img/場景/kitchen.png", style="width: 100%")
+            img(:src="'/img/場景/'+rooms[now_place_id].eng+'2.png'", style="width: 100%")
             h4 耗電：{{device_result.room_sum[now_place_id].value}}度
             h4 {{rooms[now_place_id].name}}裡吃電怪獸排名：
             h4 1.電冰箱 2.烤麵包機 3.電磁爐
