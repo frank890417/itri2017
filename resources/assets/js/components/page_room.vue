@@ -6,7 +6,7 @@
           h4 / {{rooms[now_place_id].eng}}
           h1 {{rooms[now_place_id].name}}
           h5 全家休閒吃飯的空間，常常會忘記關冷氣
-          img.scene(src="/img/場景/livingRoom.png" style="width: 100%")
+          img.scene(:src="'/img/場景/'+rooms[now_place_id].eng+'2.png'" style="width: 100%")
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
           .consumption_pointer

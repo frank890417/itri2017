@@ -22,7 +22,7 @@
           .col-sm-8
             .consumption_pointer
             h1 Consumption<br>of Daily <br>Electricity
-            img.scene(src="/img/場景/kitchen.png")
+            img.scene(src="/img/場景/kitchen2.png")
     page_about
     page_diagnose
     page_room
