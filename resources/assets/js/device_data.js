@@ -10,8 +10,7 @@ var data = [
     "day": 180,
     "default_consumption": 2200,
     "consumption_mul": 0.65,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "照明",
@@ -24,8 +23,7 @@ var data = [
     "day": 365,
     "default_consumption": "!",
     "consumption_mul": 1,
-    "type": "light",
-    "consumption": 0
+    "type": "light"
   },
   {
     "name": "電視機",
@@ -38,8 +36,7 @@ var data = [
     "day": 365,
     "default_consumption": 200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "機上盒",
@@ -52,8 +49,7 @@ var data = [
     "day": 365,
     "default_consumption": 10,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "Wifi分享器",
@@ -66,22 +62,20 @@ var data = [
     "day": 365,
     "default_consumption": 10,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "吸塵器",
     "place": "客廳",
     "count": 0,
-    "rarely": 2,
-    "occaionally": 6,
-    "often": 10,
-    "frequently": 12,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 1100,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電風扇",
@@ -94,36 +88,33 @@ var data = [
     "day": 180,
     "default_consumption": 55,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "音響",
     "place": "客廳",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "DVD光碟機",
     "place": "客廳",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 30,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "冷氣機",
@@ -136,8 +127,7 @@ var data = [
     "day": 180,
     "default_consumption": 2200,
     "consumption_mul": 0.65,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "照明",
@@ -150,8 +140,7 @@ var data = [
     "day": 365,
     "default_consumption": "!",
     "consumption_mul": 1,
-    "type": "light",
-    "consumption": 0
+    "type": "light"
   },
   {
     "name": "電暖器",
@@ -164,22 +153,20 @@ var data = [
     "day": 120,
     "default_consumption": 1250,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電熨斗",
     "place": "臥室",
     "count": 0,
-    "rarely": 2,
-    "occaionally": 6,
-    "often": 10,
-    "frequently": 12,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 800,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電腦(桌上型)",
@@ -190,10 +177,9 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": 100,
+    "default_consumption": 150,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電腦(筆記型)",
@@ -204,10 +190,9 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": 0,
+    "default_consumption": 100,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "印表機",
@@ -220,22 +205,20 @@ var data = [
     "day": 365,
     "default_consumption": 30,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "收音機",
     "place": "臥室",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 30,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "除濕機",
@@ -248,8 +231,7 @@ var data = [
     "day": 365,
     "default_consumption": 200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "照明",
@@ -262,8 +244,7 @@ var data = [
     "day": 365,
     "default_consumption": "!",
     "consumption_mul": 1,
-    "type": "light",
-    "consumption": 0
+    "type": "light"
   },
   {
     "name": "冰箱",
@@ -276,8 +257,7 @@ var data = [
     "day": 365,
     "default_consumption": 200,
     "consumption_mul": 0.55,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電熱水瓶",
@@ -290,36 +270,33 @@ var data = [
     "day": 365,
     "default_consumption": 100,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電子鍋",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 1000,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電鍋",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 800,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "飲水機",
@@ -332,106 +309,98 @@ var data = [
     "day": 365,
     "default_consumption": 300,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "烘碗機",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "微波爐",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
-    "occaionally": 5,
-    "often": 12,
-    "frequently": 18,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 1200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電磁爐",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
-    "occaionally": 5,
-    "often": 12,
-    "frequently": 18,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 1250,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "洗碗機",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 3,
+    "often": 5,
+    "frequently": 8,
     "day": 365,
     "default_consumption": 1000,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "抽油煙機",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 350,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "烤麵包機",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 800,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電烤箱",
     "place": "廚房",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 800,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "照明",
@@ -444,36 +413,33 @@ var data = [
     "day": 365,
     "default_consumption": "!",
     "consumption_mul": 1,
-    "type": "light",
-    "consumption": 0
+    "type": "light"
   },
   {
     "name": "洗衣機",
     "place": "浴室",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 500,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "乾衣機",
     "place": "浴室",
     "count": 0,
-    "rarely": 3,
-    "occaionally": 6,
-    "often": 18,
-    "frequently": 24,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 1200,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
+    "type": "normal"
   },
   {
     "name": "電熱水器",
@@ -486,23 +452,21 @@ var data = [
     "day": 365,
     "default_consumption": "!",
     "consumption_mul": 1,
-    "type": "hotwater",
-    "consumption": 0
+    "type": "hotwater"
   },
   {
     "name": "吹風機",
     "place": "浴室",
     "count": 0,
-    "rarely": 2,
-    "occaionally": 6,
-    "often": 10,
-    "frequently": 12,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
     "day": 365,
     "default_consumption": 800,
     "consumption_mul": 1,
-    "type": "normal",
-    "consumption": 0
-  },
+    "type": "normal"
+  }
 ];
 
 export default data
