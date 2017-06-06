@@ -23,6 +23,13 @@ export default {
                {name: "照明設備", value: 7.8},
                {name: "洗衣機", value: 5.2},
                {name: "電腦", value: 5.1}],
+      nodes_summer:  [{name: "冷氣機", value: 43.1},
+                     {name: "電冰箱", value: 16.9},
+                     {name: "飲水機", value: 8.8},
+                     {name: "電熱水瓶", value: 6.7},
+                     {name: "照明設備", value: 5.0},
+                     {name: "洗衣機", value: 5.2},
+                     {name: "電腦", value: 5.1}],
       hash: parseInt(Math.random()*100000),
       width: 600,
       height: 500
@@ -31,14 +38,20 @@ export default {
   components: {
   },
   watch: {
-
+    datas(){
+       console.log(this.datas.map((obj)=>obj.value));
+       this.datas.forEach((obj)=>{
+          this.nodes.forEach((obj2)=>{if (obj.name==obj2.name && obj.name!="") obj2.value=obj.value});
+        });
+    }
   },
   mounted () {
     this.width=this.size?this.size.width:600;
     this.height=this.size?this.size.height:500;
 
-
-    var nodes = this.datas?this.datas:this.nodes;
+    if (this.datas) this.nodes=JSON.parse(JSON.stringify(this.datas));
+    var nodes = this.nodes;
+    // console.log(this.datas);
     var last=nodes.map(a=>a.value).reduce((a,b)=>(a+b));
     //推一些無用的小球進去
     for(var i=0;i<25;i++){
@@ -170,7 +183,9 @@ export default {
 
     //維持計算 並不斷重新更新collide
     setInterval(function(){
-      simulation.force("collide", d3.forceCollide().radius(function(d) { return d.r + 3; }).iterations(5))
+      simulation
+        .force("collide", d3.forceCollide()
+        .radius(function(d) { return d.r + 3; }).iterations(5))
         .alphaTarget(0.3).restart();
     },100);
 
@@ -179,7 +194,8 @@ export default {
       //根據比例更新半徑
       nodes.forEach((d,i)=>{
         var target_r=Math.pow(d.value,0.6)*15;
-        d.r+=(target_r-d.r)*0.02;
+        d.r+=(target_r-d.r)*0.025;
+        if (d.r<=0) d.r=0.01;
       });
       
       cir.attrs({

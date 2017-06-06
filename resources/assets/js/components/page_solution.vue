@@ -8,17 +8,21 @@
         .card.col-sm-4
           .card_inner
             h2 {{rooms[now_place_id].name}}
-            button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
+            .btn_group_inline
+              button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
             img(:src="'/img/場景/'+rooms[now_place_id].eng+'2.png'", style="width: 100%")
             h4 耗電：{{device_result.room_sum[now_place_id].value}}度
-            h4 {{rooms[now_place_id].name}}裡吃電怪獸排名：
-            h4 1.電冰箱 2.烤麵包機 3.電磁爐
+            h4 {{rooms[now_place_id].name}} 吃電怪獸排名：
+            p(v-if="sorted_devices.length>0")
+              span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} 
+            p(v-else)
+              span (資料填寫不足！無法計算)
         .card.col-sm-8
           .card_inner
             h2 用電比例視覺化
-            graph_bubble
+            graph_bubble(:datas="device_value")
             ul.room_part_value
-              li(v-for="(r,id) in device_result.room_sum" , :style="{width: (r.percentage+6)+'%'}") {{rooms[id].name}} {{r.percentage}}%
+              li(v-for="(r,id) in device_result.room_sum" , :style="{width: (r.percentage+12)+'%'}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12
           .card_inner
             h2 節能處方
@@ -56,7 +60,33 @@ export default {
     console.log("solution mounted");
     
   },
-  computed: {...mapState(['device_result'])},
+  watch: {
+
+  },
+  computed: {
+    ...mapState(['device_result','devices']),
+    sorted_devices(){
+      // console.log( this.devices);
+      return this.devices
+                 .filter((obj)=>obj.place==this.rooms[this.now_place_id].name)
+                 .filter((obj)=>obj.device_consumption>0)
+                 .sort((a,b)=>(b.device_consumption-a.device_consumption))
+                 .slice(0,3);
+
+    },
+    device_value(){
+      var room_total=this.device_result.room_sum[this.now_place_id].value;
+      return this.devices
+                 // .filter((obj)=>obj.place==this.rooms[this.now_place_id].name)
+                 // .filter((obj)=>obj.device_consumption>0)
+                 .map((obj)=>({
+                    name: obj.name,
+                    value: (obj.place==this.rooms[this.now_place_id].name)?100*obj.device_consumption/room_total:0
+                 }));
+                 
+
+    }
+  },
   methods: {...mapMutations([]),
     room_part(room_value){
       var percent = this.get_room_percentage(room_value);

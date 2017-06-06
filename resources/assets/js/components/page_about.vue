@@ -16,10 +16,13 @@
           graph_bar.about_bar(:init="scrl_control_bar")
       .row
         .col-sm-7
-          graph_bubble(:size="{width: 800,height: 500}")
+          graph_bubble(:size="{width: 800,height: 500}",:datas="bubble_data")
         .col-sm-5.text-left
           h2 電用在哪？
           p 家庭用電採用累進分段的六級電費，用電量越多單價越高<br>由於夏季冷氣用電激增，導致電力公司無法供應用戶瞬間尖峰用電。因此為了降低用電，每年夏月(6/1-9/30)，電價比其他月份高。<br><br>夏月空調占總用電量的43%，非夏月則是電冰箱占26%，究竟是哪些電器默默吃掉你的用電呢？
+          .btn_group_inline
+            button.btn(@click="mode='summer'", :class="{active: mode=='summer'}") 夏月
+            button.btn(@click="mode='nsummer'", :class="{active: mode=='nsummer'}") 非夏月 
 
 </template>
 
@@ -29,13 +32,12 @@ import graph_bubble from './graph_bubble'
 import graph_bar from './graph_bar'
 import {mapState,mapMutations} from 'vuex' 
 
-var d3 = require("d3")
-
 export default {
   name: 'page_about',
   data () {
     return {
-      scrl_control_bar: false
+      scrl_control_bar: false,
+      mode: "summer"
     }
   },
   components: {
@@ -50,6 +52,28 @@ export default {
       }
     });
   },
+  computed: {
+    bubble_data(){
+      if (this.mode=="summer"){
+        return [{name: "電冰箱", value: 26.2},
+               {name: "飲水機", value: 14.2},
+               {name: "電熱水瓶", value: 12.4},
+               {name: "冷氣機", value: 7.8},
+               {name: "照明設備", value: 7.8},
+               {name: "洗衣機", value: 5.2},
+               {name: "電腦", value: 5.1}];
+      }else{
+        return [{name: "冷氣機", value: 43.1},
+               {name: "電冰箱", value: 16.9},
+               {name: "飲水機", value: 8.8},
+               {name: "電熱水瓶", value: 6.7},
+               {name: "照明設備", value: 5.0},
+               {name: "洗衣機", value: 5.2},
+               {name: "電腦", value: 5.1}];
+      }
+
+    }
+  }
 }
 </script>
 

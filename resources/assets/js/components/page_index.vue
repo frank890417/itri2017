@@ -53,7 +53,7 @@
             .col-sm-4
               label 執行單位
               br
-              img(src="https://college.itri.org.tw/Images/logo_itri.png" height=40)
+              img(src="/img/itri_logo.png" height=70)
           .row
             .col-sm-12 智權政策   |   法律聲明   |   聯絡我們
           br

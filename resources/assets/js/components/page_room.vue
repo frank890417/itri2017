@@ -101,10 +101,14 @@ device_data.forEach(obj=>{obj.consumption=obj.default_consumption;});
 
 export default {
   name: 'page_room',
+  mounted (){
+    console.log("page room mounted.");
+  },
   computed: {
     filter_device(){
+      console.log(this.devices.map(o=>o.place));
       return this.devices
-            .filter( device=>(device.place==this.rooms[this.now_place_id].name) );
+            .filter( device => (device.place==this.rooms[this.now_place_id].name) );
     },
     now_device(){
       if (this.now_device_id==-1) return null;
@@ -129,15 +133,16 @@ export default {
           cump=1070;
         }
         var hour=[d.rarely,d.occaionally,d.often,d.frequently][d.option];
-        var device_c= parseInt(cump*d.count*d.consumption_mul*d.day
+        var device_consumption= parseInt(cump*d.count*d.consumption_mul*d.day
                 *hour/1000 );
         
-        if (d.type=="light") light_total +=device_c;
-        total_c+=device_c;
-        if (d.count>0)
-        log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_c);
-
-        room_sum[this.get_place_id(d.place)]+=device_c;
+        if (d.type=="light") light_total +=device_consumption;
+        total_c+=device_consumption;
+        if (d.count>0){
+        log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_consumption);
+        }
+        d.device_consumption = device_consumption;
+        room_sum[this.get_place_id(d.place)]+=device_consumption;
       });
 
       //處理預設照明
@@ -146,14 +151,20 @@ export default {
        total_c+=this.house_area_size*12;
        room_sum=room_sum.map(value=>value+this.house_area_size*12/4);
       }
-      console.log(room_sum)
+      // console.log(room_sum)
 
       //後處理房間百分比與包資料
       room_sum=room_sum.map(value=>({value,percentage: parseInt(100*value/total_c)}));
 
+      var result={
+        value: total_c,
+        log: log_list,
+        room_sum: room_sum
+      };
       //回傳與設定vuex全域變數
-      this.set_device_result({value: total_c,log: log_list,room_sum: room_sum});
-      return {value: total_c,log: log_list,room_sum: room_sum};
+      this.set_devices(this.devices.slice());
+      this.set_device_result(result);
+      return result;
     },
     ...mapState(['house_area_size'])
   },
@@ -174,7 +185,7 @@ export default {
       });
       return result;
     },
-    ...mapMutations(['set_device_result'])
+    ...mapMutations(['set_device_result','set_devices'])
   },
   data(){
     return {

@@ -23,6 +23,8 @@ $gutter_width: 20px
   top: 50%
   transform: translate(-50%, -50%)
 
+@mixin trans($d: 0.5s,$dl: 0s)
+  transition: $d $dl
 
 body
   color: $color_grey
@@ -41,6 +43,42 @@ input
   background-color: transparent
   margin-left: $gutter_width
   padding: 5px 10px
+
+.btn_group_inline
+  display: flex
+
+button,.btn
+  border: solid 1px $color_grey
+  background-color: transparent
+  outline: none !important
+  user-select: none
+  padding: 5px 25px
+  width: 100%
+  box-shadow: none !important
+  position: relative
+  cursor: pointer
+  +trans
+
+  .degree
+    position: absolute
+    right: -10px
+    top: -20px
+    font-size: 12px
+
+  &:focus
+    outline: none !important
+
+  &:hover
+    background-color: rgba(#ddd,0.3)
+
+  &.active
+    background-color: $color_yellow
+    color: $color_grey
+    &:hover
+      background-color: lighten($color_yellow,10)
+
+    .degree
+      color: $color_grey
 
 svg
   circle
@@ -384,30 +422,7 @@ section
     width: 100%
 
 
-  button,.btn
-    border: solid 1px $color_grey
-    background-color: transparent
-    outline: none
-    user-select: none
-    padding: 5px 25px
-    width: 100%
-    box-shadow: none
-    position: relative
-
-    .degree
-      position: absolute
-      right: -10px
-      top: -20px
-      font-size: 12px
-
-    &:focus
-      outline: none
-
-    &.active
-      background-color: $color_yellow
-      color: $color_grey
-      .degree
-        color: $color_grey
+  
 
 //---------------
 
