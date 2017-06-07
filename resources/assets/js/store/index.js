@@ -8,7 +8,8 @@ const store = new Vuex.Store({
     house_area_size: 15,
     device_result: {},
     full_nav_open: false,
-    devices: []
+    devices: [],
+    show_result: false
 
   },
   mutations: {
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
     },
     toggle_nav(state){
       state.full_nav_open=!state.full_nav_open;
+    },
+    toggle_result(state){
+      state.show_result=!state.show_result
     }
   }
 });

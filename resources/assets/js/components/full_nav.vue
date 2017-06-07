@@ -6,8 +6,8 @@
       li(@click="to_section('.section_about')") FACT
       li(@click="to_section('.section_diagnose')") DIAGNOSE
       li(@click="to_section('.section_room')") PLAYGROUND
-      li(@click="to_section('.section_solution')") SOLUTION
-      li(@click="to_section('.section_share')") RESULT
+      li(@click="to_section('.section_solution')", v-if="show_result") SOLUTION
+      li(@click="to_section('.section_share')", v-if="show_result") RESULT
 
 </template>
 
@@ -26,7 +26,7 @@ import {mapState,mapMutations} from 'vuex'
       this.set_loading(false);
     },2000)
   },
-  computed: {...mapState(['loading','full_nav_open'])},
+  computed: {...mapState(['loading','full_nav_open','show_result'])},
   methods: {
     ...mapMutations(['set_loading','toggle_nav']),
     to_section(target){

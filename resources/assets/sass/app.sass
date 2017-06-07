@@ -26,6 +26,11 @@ $gutter_width: 20px
 @mixin trans($d: 0.5s,$dl: 0s)
   transition: $d $dl
 
+@mixin flex_center
+  display: flex
+  align-items: center
+  justify-content: center
+
 body
   color: $color_grey
 .btn
@@ -89,7 +94,7 @@ svg
   
 .fade-enter-active,.fade-leave-active
   transition: 0.5s
-.fade-enter-to,.fade-leave-to
+.fade-enter,.fade-leave-to
   opacity: 0
 
 .card_inner
@@ -348,7 +353,25 @@ section
     &.yellow:before
       background-color: $color_yellow
 
-   
+//---------------
+
+.section_show_result
+  background-color: #333
+  +flex_center
+  button.btn
+    display: inline-block
+    color: $color_grey
+    width: auto
+    background-color: white
+    border: none
+    span
+      margin-left: 10px
+    &:hover
+      background-color: $color_yellow
+      color: $color_grey
+      transform: scale(1.05)
+
+
 
 //---------------
 .section_room

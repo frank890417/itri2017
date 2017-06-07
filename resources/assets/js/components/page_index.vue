@@ -4,7 +4,8 @@
       .bar
       .bar
       .bar
-    full_nav(v-if="full_nav_open")
+    transition(name="fade")    
+      full_nav(v-if="full_nav_open")
     transition(name="fade")
       page_load(v-if="loading")
 
@@ -26,8 +27,14 @@
     page_about
     page_diagnose
     page_room
-    page_solution
-    page_share
+    section.section_show_result(v-if="!show_result")
+      button.btn(@click="toggle_result") 
+        img(src="http://itri2017.dev/img/thunder.svg" height=50)
+        span 計算吃電怪獸診斷結果！     
+    transition(name="fade")
+      page_solution(v-if="show_result")
+    transition(name="fade")
+      page_share(v-if="show_result")
     footer
       .container
         .col-sm-4
@@ -94,9 +101,9 @@ export default {
       this.set_loading(false);
     },2000)
   },
-  computed: {...mapState(['loading','full_nav_open'])},
+  computed: {...mapState(['loading','full_nav_open','show_result'])},
   methods: {
-    ...mapMutations(['set_loading','toggle_nav']),
+    ...mapMutations(['set_loading','toggle_nav','toggle_result']),
     scroll_to_about(){
       $("html,body").animate({scrollTop: $(".section_about").offset().top },"slow");
     }
