@@ -8,21 +8,27 @@
         .card.col-sm-4
           .card_inner
             h2 {{rooms[now_place_id].name}}
-            .btn_group_inline
+            //.btn_group_inline
               button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
             img(:src="'/img/場景/'+rooms[now_place_id].eng+'2.png'", style="width: 100%")
             h4 耗電：{{device_result.room_sum[now_place_id].value}}度
             h4 {{rooms[now_place_id].name}} 吃電怪獸排名：
             p(v-if="sorted_devices.length>0")
-              span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} 
+              span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)
             p(v-else)
               span (資料填寫不足！無法計算)
         .card.col-sm-8
           .card_inner
             h2 用電比例視覺化
-            graph_bubble(:datas="device_value")
+            graph_bubble(:datas="device_value"
+                         :use_power="0.4"
+                         :use_unit="kwh"
+                        )
             ul.room_part_value
-              li(v-for="(r,id) in device_result.room_sum" , :style="{width: (r.percentage+12)+'%'}") {{rooms[id].name}} {{r.percentage}}%
+              li(v-for="(r,id) in device_result.room_sum" ,
+                 :style="{width: (r.percentage+12)+'%'}",
+                 @click="now_place_id=id" , 
+                 :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12
           .card_inner
             h2 節能處方
@@ -81,7 +87,8 @@ export default {
                  // .filter((obj)=>obj.device_consumption>0)
                  .map((obj)=>({
                     name: obj.name,
-                    value: (obj.place==this.rooms[this.now_place_id].name)?100*obj.device_consumption/room_total:0
+                    place: obj.place,
+                    value: (obj.place==this.rooms[this.now_place_id].name)?100*obj.device_consumption/room_total:0,
                  }));
                  
 

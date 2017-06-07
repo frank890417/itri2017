@@ -17,7 +17,7 @@
             h1 家庭電器用電家計簿
             h5 尋找家裡的吃電怪獸
             br
-            .btn.btn-primary 前往探索
+            button.btn(@click="scroll_to_about") 前往探索
             //.lang 中文     ENG
           .col-sm-8
             .consumption_pointer
@@ -95,7 +95,12 @@ export default {
     },2000)
   },
   computed: {...mapState(['loading','full_nav_open'])},
-  methods: {...mapMutations(['set_loading','toggle_nav'])}
+  methods: {
+    ...mapMutations(['set_loading','toggle_nav']),
+    scroll_to_about(){
+      $("html,body").animate({scrollTop: $(".section_about").offset().top },"slow");
+    }
+  }
 }
 </script>
 

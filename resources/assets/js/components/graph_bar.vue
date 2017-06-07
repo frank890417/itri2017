@@ -30,10 +30,24 @@ export default {
       }
     },
     highlight(){
-      if (this.highlight="summer"){
-
-      }else if(this.highlight="nsummer"){
-
+      var svg=d3.select("svg.graph_bar[data-hash='"+this.hash+"']");
+      var summer_old=svg.selectAll("rect.tem_summer")
+      var summer_new=svg.selectAll("rect.tem_summer_new")
+      if (this.highlight=="summer"){
+        summer_new.transition().duration(500)
+          .style("opacity",0.2);
+        summer_old.transition().duration(500)
+          .style("opacity",1);
+      }else if(this.highlight=="nsummer"){
+        summer_new.transition().duration(500)
+          .style("opacity",1);
+        summer_old.transition().duration(500)
+          .style("opacity",0.2);
+      }else{
+        summer_new.transition().duration(500)
+          .style("opacity",1);
+        summer_old.transition().duration(500)
+          .style("opacity",1);
       }
     }
   },
@@ -108,25 +122,6 @@ export default {
         .attr("text-anchor","middle")
         .style("font-size","14px")
         
-
-
-
-      // summer_old.transition().duration(500).attr("fill","transparent");
-      // summer_new.transition().delay(500).duration(500).attr("fill","transparent");
-
-      function show_summer(){
-        console.log("show old");
-        summer_new.transition().duration(500)
-        .style("opacity",0.2);
-        summer_old.transition().duration(500)
-        .style("opacity",1);
-      }
-      function show_summer_new(){
-        summer_new.transition().duration(500)
-        .style("opacity",1);
-        summer_old.transition().duration(500)
-        .style("opacity",0.2);
-      }
     }
   }
 }

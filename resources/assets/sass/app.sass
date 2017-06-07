@@ -255,6 +255,15 @@ section
       margin-right: 12px
       &.longer
         height: 10px
+
+  button.btn
+    display: inline-block
+    background-color: #4d4d4d
+    color: white
+    width: auto
+    +trans
+    &:hover
+      background-color: #666
   
 .consumption_pointer
   
@@ -325,6 +334,7 @@ section
   .explain_block
     vertical-align: middle
     padding: 5px 0px
+    cursor: pointer
     &:before
       content: ""
 
@@ -337,6 +347,8 @@ section
       background-color: white
     &.yellow:before
       background-color: $color_yellow
+
+   
 
 //---------------
 .section_room
@@ -455,13 +467,22 @@ section
     width: 100%
     list-style: none
     display: flex
+    cursor: pointer
 
     li
       border: solid 1px black
       padding: 10px 0px
       height: 100%
-      background-color: $color_yellow
+      background-color: #FFF 
       text-align: center
+      +trans
+
+      &:hover
+        background-color: #dedede 
+      &.active
+        background-color: $color_yellow
+        &:hover
+          background-color: lighten($color_yellow,10)
 
   .recommend_list
     list-style: none

@@ -13,7 +13,7 @@ import rooms from '../rooms';
 
 export default {
   name: 'page_solution',
-  props: ["datas","size"],
+  props: ["datas","size" ,"use_unit","use_power"],
   data(){
     return {
       nodes: [{name: "電冰箱", value: 26.2},
@@ -32,7 +32,9 @@ export default {
                      {name: "電腦", value: 5.1}],
       hash: parseInt(Math.random()*100000),
       width: 600,
-      height: 500
+      height: 500,
+      unit: "%",
+      power: 0.5
     }; 
   },
   components: {
@@ -41,11 +43,19 @@ export default {
     datas(){
        console.log(this.datas.map((obj)=>obj.value));
        this.datas.forEach((obj)=>{
-          this.nodes.forEach((obj2)=>{if (obj.name==obj2.name && obj.name!="") obj2.value=obj.value});
+          this.nodes.forEach((obj2)=>{if (obj.name==obj2.name && obj.place==obj2.place && obj.name!="") obj2.value=obj.value});
         });
+    },
+    use_unit(){
+      this.unit=this.use_unit;
+    },
+    use_power(){
+      this.power=this.use_power;
+
     }
   },
   mounted () {
+    var vobj=this;
     this.width=this.size?this.size.width:600;
     this.height=this.size?this.size.height:500;
 
@@ -60,7 +70,7 @@ export default {
 
     //利用資料產生半徑，指數大小，亂數指定初始位置
     nodes.map((d,i)=>{
-      d.r=Math.pow(d.value,0.6)*18;
+      d.r=Math.pow(d.value,vobj.power)*15;
       d.x=Math.random()*200;
       d.y=Math.random()*200;
       return d;
@@ -95,7 +105,7 @@ export default {
 
     //填色圓形
     var cir=svg.selectAll("circle.fill")
-      .data(nodes,(d,i)=>d.name).enter().append("circle");
+      .data(nodes,(d,i)=>d.name+d.place).enter().append("circle");
     //線框圓形
     var cir_stroke=svg.selectAll("circle.stroke")
       .data(nodes).enter().append("circle");
@@ -129,55 +139,32 @@ export default {
                  // nodes[d3.select(this).attr("dataid")].value+=5;   
               });
 
-    //預先設定位置跟填色，還有select用的dataid
-    cir.attrs({
-        cx: function(d){return d.x},
-        cy: function(d){return d.y},
-        r: function(d){return d.r},
-        fill: (d)=>{
-          return color(d.r);
-        },
-        class: "fill",
-        dataid: (d,i)=>(i)
-      })
-      .call(drag)
-      .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut);
+      //一些固定的屬性
 
-    //預設線框，透明度動態控制
-    cir_stroke.attrs({
-        cx: function(d){return d.x+5},
-        cy: function(d){return d.y+5},
-        r: function(d){return d.r},
-        stroke: "#515050",
-        fill: "none",
-        opacity: (d)=>(d.value>5?1:0)
-      })
-    ;
-
-    //設定文字樣式
-    text.text((d)=>d.name.indexOf("hash")!=-1?"":d.name)
-        .attrs({
-      x: (d)=>(d.x),
-      y: (d)=>(d.y),
-      })
+      text
       .attr("text-anchor", "middle")
       .attr("alignment-baseline","middle")
       .attr("fill","#515050")
       .style("font-size","14px")
       .style("letter-spacing","2px");
 
-    //設定百分比
-    text_percent
-      .text((d)=> ( (parseInt(d.value)>2)?(d.value.toFixed(1)+"%"):"") )
-        .attrs({
-      x: (d)=>(d.x),
-      y: (d)=>(d.y),
-      })
+      text_percent
       .attr("text-anchor", "middle")
       .attr("alignment-baseline","middle")
       .style("font-size","16px")
       .style("letter-spacing","2px");
+
+      cir
+      .attr("class","fill")
+      .call(drag)
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut);
+
+      cir_stroke
+      .attrs({
+        stroke: "#515050",
+        fill: "none",
+      });
 
     // cir.exit().remove();
 
@@ -193,40 +180,49 @@ export default {
     function ticked(){
       //根據比例更新半徑
       nodes.forEach((d,i)=>{
-        var target_r=Math.pow(d.value,0.6)*15;
+        var target_r=Math.pow(d.value,vobj.power)*15;
         d.r+=(target_r-d.r)*0.025;
         if (d.r<=0) d.r=0.01;
       });
       
+        //預先設定位置跟填色，還有select用的dataid
       cir.attrs({
-          cx: (d)=>d.x,
-          cy: (d)=>d.y,
-          r: (d)=>d.r,
-        })
+        cx: function(d){return d.x},
+        cy: function(d){return d.y},
+        r: function(d){return d.r},
+        fill: (d)=>{
+          return color(d.r);
+        },
+        dataid: (d,i)=>(i)
+      })
+
       cir.transition().duration(100)
         .attr("fill", (d,i)=>(color(d.r))
-        );
+      );
       
-      cir_stroke
-        .attrs({
-        cx: function(d){return d.x+3},
-        cy: function(d){return d.y+3},
-        r: function(d){return d.r}
-      })
-      
-      text 
-        .text((d)=>d.name.indexOf("hash")!=-1?"":d.name)
-        .attrs({
-        x: (d)=>(d.x),
-        y: (d)=>(d.y-4),
+      //預設線框，透明度動態控制
+      cir_stroke.attrs({
+        cx: function(d){return d.x+5},
+        cy: function(d){return d.y+5},
+        r: function(d){return d.r},
+        opacity: (d)=>(d.value>5?1:0)
       });
+      
+      //設定文字樣式
+      text.text((d)=>d.name.indexOf("hash")!=-1?"":d.name)
+          .attrs({
+            x: (d)=>(d.x),
+            y: (d)=>(d.y),
+          })
+      .style("opacity",(d)=>d.value==0?0:1)
 
       
       text_percent  
         .attrs({
-        x: (d)=>(d.x),
-        y: (d)=>(d.y+15),
-        }).text((d)=> ( (parseInt(d.value)>2)?((parseFloat(d.value) ).toFixed(1)+"%"):"") )
+          x: (d)=>(d.x),
+          y: (d)=>(d.y+15),
+        })
+        .text((d)=> ( (parseInt(d.value)>2)?((parseFloat(d.value) ).toFixed(1)+vobj.unit):"") )
     }
 
     var ss = new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%BB%91%E9%BC%A0%E7%A7%BB%E9%80%B2%E7%90%83.mp3");
