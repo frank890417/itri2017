@@ -135,13 +135,15 @@ export default {
               .on("start",function(){
                 //重新開始模擬
                 simulation.alphaTarget(0.3).restart();
+                console.log(d3.select(this).attr("data-name"));
+                vobj.$emit("set_device",d3.select(this).attr("data-name"));
                 
               })
               .on("drag",function(){
                 //更新位置
                   nodes[d3.select(this).attr("dataid")].x=d3.event.x;
                   nodes[d3.select(this).attr("dataid")].y=d3.event.y;
-                
+
               }).on("end",function(){
                 //結束
                  // nodes[d3.select(this).attr("dataid")].value+=5;   
@@ -167,6 +169,7 @@ export default {
       cir
       .attr("class","fill")
       .call(drag)
+      .attr("data-name",(d)=>d.name)
       .on("mouseover", handleMouseOver)
       .on("mouseout", handleMouseOut);
 

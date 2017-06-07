@@ -24,7 +24,8 @@
             graph_bubble(:datas="device_value",
                          :use_power="0.33",
                          :use_unit="'kwh'",
-                         :use_mul="8"
+                         :use_mul="8",
+                         @set_device="set_advice_device"
                         )
             h5 1kwh = 1度 (約4元)
             ul.room_part_value
@@ -34,12 +35,14 @@
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12
           .card_inner
-            h2 節能處方
+            h2 節能處方 ({{advice_device}})
             hr
             p 你的 「冷氣」、「電風扇」、 「電暖器」已經老舊囉！<br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
             br
             h3 行動處方
-            p 採用高能源效率比值 EER 的冷氣機，EER 值每提高0.1可節省約4% 冷氣機用電。<br>正確安裝在通風良好，避免日光直射，裝設離地面至少75公分以上。<br>冷氣設定以26～28℃為宜，設定溫度每提高1℃可省電6%，配合電風扇使用，可使室內冷氣分佈均勻並增加舒適感。<br>選購「能源效率分級標示」級數小、效率高之冷氣機，聰明買聰明省。
+            ul(v-if="get_advices(advice_device)")
+              li(v-for="(adv,id) in get_advices(advice_device).content") {{id+1}}. {{adv}}
+
 
             br
             h3 節能標章電器推薦
@@ -57,12 +60,15 @@
 import {mapState,mapMutations} from 'vuex' 
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
+import advices from '../advices'
 export default {
   name: 'page_solution',
   data(){
     return {
       now_place_id: 0,
-      rooms
+      rooms,
+      advices,
+      advice_device: '冷氣機'
     }; 
   },
   components: {
@@ -96,8 +102,7 @@ export default {
                     place: obj.place,
                     value: (obj.place==this.rooms[this.now_place_id].name)?obj.device_consumption:0,
                  }));
-                 
-
+                
     }
   },
   methods: {...mapMutations([]),
@@ -110,6 +115,15 @@ export default {
     },
     get_room_percentage(room_value){
       return parseInt(100*room_value/this.device_result.value);
+    },
+    get_advices(device_name){
+      var result = advices.filter((obj)=>obj.name==device_name)
+      if (result.length==0) return null
+      return result[0];
+    },
+    set_advice_device(name){
+      this.advice_device=name;
+      console.log("trigger emit: "+name);
     }
   }
 }
