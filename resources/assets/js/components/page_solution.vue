@@ -7,6 +7,7 @@
             span.chinese 節能處方箋
         .card.col-sm-4
           .card_inner
+            h5 {{rooms[now_place_id].eng}}
             h2 {{rooms[now_place_id].name}}
             //.btn_group_inline
               button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
@@ -20,10 +21,12 @@
         .card.col-sm-8
           .card_inner
             h2 用電比例視覺化
-            graph_bubble(:datas="device_value"
-                         :use_power="0.4"
-                         :use_unit="kwh"
+            graph_bubble(:datas="device_value",
+                         :use_power="0.33",
+                         :use_unit="'kwh'",
+                         :use_mul="8"
                         )
+            h5 1kwh = 1度 (約4元)
             ul.room_part_value
               li(v-for="(r,id) in device_result.room_sum" ,
                  :style="{width: (r.percentage+12)+'%'}",
@@ -32,11 +35,14 @@
         .card.col-sm-12
           .card_inner
             h2 節能處方
+            hr
             p 你的 「冷氣」、「電風扇」、 「電暖器」已經老舊囉！<br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
-            h4 行動處方
+            br
+            h3 行動處方
             p 採用高能源效率比值 EER 的冷氣機，EER 值每提高0.1可節省約4% 冷氣機用電。<br>正確安裝在通風良好，避免日光直射，裝設離地面至少75公分以上。<br>冷氣設定以26～28℃為宜，設定溫度每提高1℃可省電6%，配合電風扇使用，可使室內冷氣分佈均勻並增加舒適感。<br>選購「能源效率分級標示」級數小、效率高之冷氣機，聰明買聰明省。
 
-            h4 節能標章電器推薦
+            br
+            h3 節能標章電器推薦
             ul.recommend_list
               li(v-for="i in 5")
                 img(:src="'/img/電器/icon_'+['冰箱','冷氣','吹風機','音響','微波爐'][i-1]+'.svg'", width=200)
@@ -88,7 +94,7 @@ export default {
                  .map((obj)=>({
                     name: obj.name,
                     place: obj.place,
-                    value: (obj.place==this.rooms[this.now_place_id].name)?100*obj.device_consumption/room_total:0,
+                    value: (obj.place==this.rooms[this.now_place_id].name)?obj.device_consumption:0,
                  }));
                  
 

@@ -1,11 +1,13 @@
 <template lang="pug">
-  section.full_nav.yellow(v-show="full_nav_open")
+  
+  section.full_nav.yellow
     ul
-      li INDEX
-      li FACT
-      li PLAYGROUND
-      li DIAGNOSE
-      li SOLUTION
+      li(@click="to_section('.section_index')") INDEX
+      li(@click="to_section('.section_about')") FACT
+      li(@click="to_section('.section_diagnose')") DIAGNOSE
+      li(@click="to_section('.section_room')") PLAYGROUND
+      li(@click="to_section('.section_solution')") SOLUTION
+      li(@click="to_section('.section_share')") RESULT
 
 </template>
 
@@ -25,7 +27,13 @@ import {mapState,mapMutations} from 'vuex'
     },2000)
   },
   computed: {...mapState(['loading','full_nav_open'])},
-  methods: {...mapMutations(['set_loading','toggle_nav'])}
+  methods: {
+    ...mapMutations(['set_loading','toggle_nav']),
+    to_section(target){
+      $("html,body").animate({scrollTop: $(target).offset().top });
+      this.toggle_nav();
+    }
+  }
 }
 </script>
 

@@ -7,8 +7,8 @@
           h1 {{ (device_result.value/4800).toFixed(1) }}倍
         .card.col-sm-8.text-left
           .card_inner
-            h2 我家的吃電怪獸是….老舊的冰箱
-            img(width=300,src="/img/電器/icon_冰箱.svg")
+            h2 我家的吃電怪獸是….{{monster.name}}
+            img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
             h3 處方箋小語：
             p 處方箋小語：<br>冰箱老了，看到帳單的你就哭了。<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
             .btn_group_inline
@@ -30,7 +30,15 @@ export default {
   mounted (){
    
   },
-  computed: {...mapState(['loading','device_result'])},
+  computed: {...mapState(['loading','device_result','devices']),
+    monster(){
+      var result=this.devices
+                    .sort((a,b)=>(b.device_consumption-a.device_consumption))
+                    .slice(0,1)[0];
+      console.log(result);
+      return result
+    }
+  },
   methods: {...mapMutations(['set_loading'])}
 }
 </script>

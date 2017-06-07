@@ -4,7 +4,7 @@
       .bar
       .bar
       .bar
-    full_nav
+    full_nav(v-if="full_nav_open")
     transition(name="fade")
       page_load(v-if="loading")
 

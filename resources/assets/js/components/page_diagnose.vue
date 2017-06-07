@@ -19,6 +19,8 @@
               a 東區
             li 
               a 南區
+            li 
+              a 離島
           ul.panel.bar_list
             li 臺北市
             li 新北市

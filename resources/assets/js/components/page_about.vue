@@ -38,7 +38,8 @@ export default {
     return {
       scrl_control_bar: false,
       mode: "summer",
-      highlight: 'summer'
+      highlight: 'summer',
+      sound_expand: null
     }
   },
   components: {
@@ -52,11 +53,12 @@ export default {
         vobj.scrl_control_bar=true;
       }
     });
+    this.sound_expand=new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
   },
   watch:{
     mode(){
-      var sound = new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
-          sound.play();
+      this.sound_expand.currentTime=0;
+      this.sound_expand.play();
     }
   },
   computed: {

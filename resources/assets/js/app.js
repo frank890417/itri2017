@@ -1,8 +1,3 @@
-
-
-// window.Vue = require('vue')
-// window.Vuex = require('vuex')
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -11,9 +6,9 @@
 
 require('./bootstrap');
 import router from './router'
-
+import store from './store'
 import Vue from 'vue'
-import Vuex from 'vuex'
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -22,36 +17,6 @@ import Vuex from 'vuex'
  */
 
 // Vue.component('example', require('./components/Example.vue'));
-
-
-Vue.use(Vuex)
-const store = new Vuex.Store({
-  state: {
-    loading: false,
-    house_area_size: 15,
-    device_result: {},
-    full_nav_open: false,
-    devices: []
-
-  },
-  mutations: {
-    set_loading(state,mode){
-      state.loading = mode;
-    },
-    set_area_size(state,size){
-      state.house_area_size = size;
-    },
-    set_device_result(state,result){
-      state.device_result = result;
-    },
-    set_devices(state,devices){
-      state.devices = devices;
-    },
-    toggle_nav(state){
-      state.full_nav_open=!state.full_nav_open;
-    }
-  }
-});
 
 new Vue({
   el: '#app',
