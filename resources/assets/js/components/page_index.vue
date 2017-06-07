@@ -29,7 +29,7 @@
     page_room
     section.section_show_result(v-if="!show_result")
       button.btn(@click="toggle_result") 
-        img(src="http://itri2017.dev/img/thunder.svg" height=50)
+        img(src="/img/thunder.svg" height=50)
         span 計算吃電怪獸診斷結果！     
     transition(name="fade")
       page_solution(v-if="show_result")
