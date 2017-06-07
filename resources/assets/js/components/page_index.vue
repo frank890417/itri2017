@@ -22,6 +22,7 @@
             //.lang 中文     ENG
           .col-sm-8
             .consumption_pointer
+              .pointer_el
             h1 Consumption<br>of Daily <br>Electricity
             img.scene(src="/img/場景/kitchen2.png")
     page_about

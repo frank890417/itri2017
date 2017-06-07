@@ -68,7 +68,8 @@ export default {
       now_place_id: 0,
       rooms,
       advices,
-      advice_device: '冷氣機'
+      advice_device: '冷氣機',
+      sound_expand: null
     }; 
   },
   components: {
@@ -76,10 +77,12 @@ export default {
   },
   mounted (){
     console.log("solution mounted");
-    
+    this.sound_expand=new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
   },
   watch: {
-
+    now_place_id(){
+      this.sound_expand.play();
+    }
   },
   computed: {
     ...mapState(['device_result','devices']),

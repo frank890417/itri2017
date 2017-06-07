@@ -1,16 +1,26 @@
 <template lang="pug">
   section.section_room
+    SoundPanel(:now_room="rooms[now_place_id]")
     .container
       .row
         .col-sm-8
           h4 / {{rooms[now_place_id].eng}}
           h1 {{rooms[now_place_id].name}}
           h5 全家休閒吃飯的空間，常常會忘記關冷氣
-          img.scene(:src="'/img/場景/'+rooms[now_place_id].eng+'2.png'" style="width: 100%")
+          .room_img(style="min-height: 600px")
+            transition-group(name="fade",mode="out-in")
+              img.scene(
+                :src="'/img/場景/'+room.eng+'2.png'" 
+                style="width: 100%",
+                v-for="room in rooms",
+                v-if="rooms[now_place_id].eng==room.eng",
+                :key="room")
+
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
           .consumption_pointer
-            h4 {{total.value}} 度/年
+            .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
+            h4 {{total.room_sum[now_place_id].value}} 度/年
           .btn_group
             button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
         .col-sm-4
@@ -90,7 +100,8 @@
 <script>
 import device_data from '../device_data'
 import rooms from '../rooms'
-import {mapState,mapMutations} from 'vuex' 
+import {mapState,mapMutations} from 'vuex'
+import SoundPanel from './SoundPanel'
 
 device_data.forEach(obj=>{obj.option=0;});
 
@@ -103,6 +114,9 @@ export default {
   name: 'page_room',
   mounted (){
     console.log("page room mounted.");
+  },
+  components: {
+    SoundPanel
   },
   computed: {
     filter_device(){
@@ -185,6 +199,9 @@ export default {
       });
       return result;
     },
+    get_duration(val){
+      return 3* (Math.pow( Math.E, - val/2000 ) )+0.6;
+    },
     ...mapMutations(['set_device_result','set_devices'])
   },
   data(){
@@ -223,6 +240,7 @@ export default {
   },
   created(){
   },
+
 
 }
 </script>

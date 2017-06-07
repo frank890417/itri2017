@@ -4,7 +4,7 @@
       .row
         .col-sm-4
           h4 我的用電是平均的...
-          h1 {{ (device_result.value/4800).toFixed(1) }}倍
+          h1 {{ (device_result.value / total_avg_year ).toFixed(1) }}倍
         .card.col-sm-8.text-left
           .card_inner
             h2 我家的吃電怪獸是….{{monster.name}}
@@ -21,7 +21,7 @@ export default {
   name: 'page_share',
   data () {
     return {
-
+      avg_month: 460
     }
   },
   components: {
@@ -37,6 +37,10 @@ export default {
                     .slice(0,1)[0];
       console.log(result);
       return result
+    },
+    total_avg_year (){
+      console.log(this.avg_month*(12));
+      return (this.avg_month*(12));
     }
   },
   methods: {...mapMutations(['set_loading'])}
