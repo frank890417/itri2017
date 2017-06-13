@@ -121,6 +121,7 @@ export default {
                               .reduce((a,b)=>(a+b))
                   }))
                  .sort((a,b)=>(b.device_consumption-a.device_consumption))
+                 .filter((obj)=>obj.device_consumption>0)
                  .slice(0,3);
       }else{
         return this.devices
