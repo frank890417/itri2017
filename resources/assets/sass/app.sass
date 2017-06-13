@@ -46,7 +46,7 @@ p
 input
   border: solid 1px $color_grey
   background-color: transparent
-  margin-left: $gutter_width
+  // margin-left: $gutter_width
   padding: 5px 10px
 
 .btn_group_inline
@@ -91,6 +91,10 @@ svg
 
 .container
   // min-height: 100vh
+  max-width: 1500px
+  @media (min-width: 1600px)
+    width: 1400px
+
   
 .fade-enter-active,.fade-leave-active
   transition: 0.5s
@@ -99,6 +103,12 @@ svg
 
 .card_inner
   box-shadow: 0px 0px 20px rgba(0,0,0,0.2)
+  
+  .card_title
+    position: absolute
+    left: $gutter_width
+    top: $gutter_width
+    z-index: 1
 
 .hambergur
   +size(34px)
@@ -190,6 +200,9 @@ section
     list-style: none
     &:hover
       color: $color_grey
+  .chinese 
+    font-size: 40px
+    margin-left: 10px
 
 //------------
 .section_loading
@@ -294,6 +307,22 @@ section
 
 //--------------
 .section_diagnose
+  position: relative
+  &:before
+    content: ""
+    display: block
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    background-image: url("/img/場景/Livingroom2.png")
+    background-size: 60% auto
+    mix-blend-mode: color-burn
+    opacity: 0.3
+    background-position: right center
+    background-repeat: no-repeat
+    background-attachment: fixed
 
 
   .bar_list

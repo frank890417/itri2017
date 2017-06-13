@@ -60,8 +60,8 @@ export default {
   },
   mounted () {
     var vobj=this;
-    this.width=this.size ? this.size.width:600;
-    this.height=this.size ? this.size.height:500;
+    this.width=this.size ? this.size.width: $("svg.graph_bubble[data-hash='"+this.hash+"']").outerWidth();
+    this.height=this.size ? this.size.height:$("svg.graph_bubble[data-hash='"+this.hash+"']").outerHeight();
     this.mul=this.use_mul ? this.use_mul:this.mul;
     this.unit=this.use_unit ? this.use_unit:this.unit;
     this.power=this.use_power ? this.use_power:this.power;
