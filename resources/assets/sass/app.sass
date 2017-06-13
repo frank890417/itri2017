@@ -1,7 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 // Variables
 @import "variables";
 
@@ -9,7 +8,7 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 *
-  font-family: 微軟正黑體
+  font-family: "Roboto",微軟正黑體
 
 $gutter_width: 20px
 
@@ -160,8 +159,8 @@ section
     color: white
 
   .title
-    font-size: 60px
-    font-weight: 600
+    font-size: 70px
+    font-weight: 500
     .chinese
       font-size: 26px
       margin-left: 10px
@@ -405,6 +404,17 @@ section
 .section_room
   .test_info ul
     padding-left: 20px
+  .btn_group
+    h1
+      margin-top: 10px
+      margin-right: 20px
+      opacity: 0.25
+      transition: 0.5s
+      cursor: pointer
+      &:hover
+        opacity: 0.5
+      &.active
+        opacity: 1
   .room_device_list
     padding: 0
     li
@@ -413,6 +423,7 @@ section
       cursor: pointer
       border-bottom: solid 4px transparent
       transition: 0.5s
+      font-size: 16px
       
 
       &:hover
@@ -420,7 +431,7 @@ section
       &.active
         border-bottom: solid 4px $color_yellow
       &.empty
-        opacity: 0.5
+        opacity: 0.45
 
   
   input
@@ -447,6 +458,7 @@ section
   .form_block
     border: solid 2px
     margin: 5px
+    margin-bottom: 10px
     color: $color_grey
     padding: $gutter_width
     border: solid 1px

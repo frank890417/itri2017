@@ -5,9 +5,17 @@
       .row
         .col-sm-8
           h4 / {{rooms[now_place_id].eng}}
-          h1 {{rooms[now_place_id].name}}
-          h5 全家休閒吃飯的空間，常常會忘記關冷氣
-          .room_img(style="min-height: 600px")
+          //h1 {{rooms[now_place_id].name}}
+          .btn_group
+            h1(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
+               
+          h4 {{rooms[now_place_id].slogan}}
+
+          .consumption_pointer
+            .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
+            h4 {{total.room_sum[now_place_id].value}} 度/年
+          
+          .room_img(style="min-height: 500px;margin-top: -40px;mix-blend-mode: multiply")
             transition-group(name="fade",mode="out-in")
               img.scene(
                 :src="'/img/場景/'+room.eng+'2.png'" 
@@ -15,17 +23,14 @@
                 v-for="room in rooms",
                 v-if="rooms[now_place_id].eng==room.eng",
                 :key="room")
+          
 
           //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
             option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
-          .consumption_pointer
-            .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
-            h4 {{total.room_sum[now_place_id].value}} 度/年
-          .btn_group
-            button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
+          
         .col-sm-4
 
-          .form_block(v-if="now_device")
+          .form_block(v-if="now_device", style="margin-top: 15%")
             .form-group
               .device_info
                 .eng Speaker
@@ -93,7 +98,7 @@
               ul
                 li(v-for="log in total.log") {{log}}
               //hr
-              ul
+              //ul
                 li(v-for="(r,id) in total.room_sum") {{rooms[id].name}}: {{r.value}}度 ({{r.percentage}}%)
 </template>
 

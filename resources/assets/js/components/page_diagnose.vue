@@ -56,7 +56,9 @@
               .col-sm-4
                 label 家庭成員：
               .col-sm-8
+                span.input_side_btn(@click="member_count--") -
                 input.form-control(type="number",v-model="member_count")
+                span.input_side_btn(@click="member_count++") +
             .row.form-group
               .col-sm-4
                 label 坪數({{area_size}})：
