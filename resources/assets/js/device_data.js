@@ -169,7 +169,7 @@ var data = [
     "type": "normal"
   },
   {
-    "name": "電腦(桌上型)",
+    "name": "電腦（桌上型）",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -182,7 +182,7 @@ var data = [
     "type": "normal"
   },
   {
-    "name": "電腦(筆記型)",
+    "name": "電腦（筆記型）",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
