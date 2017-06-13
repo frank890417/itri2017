@@ -11,7 +11,7 @@
             h2 {{now_room.name}}
             //.btn_group_inline
               button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
-            img(:src="'/img/場景/'+now_room.eng+'2.png'", style="width: 100%")
+            img(:src="'/img/場景/'+now_room.pic+'2.png'", style="width: 100%")
             h4 耗電：{{now_consumption}}度
             h4 {{now_room.name}} 吃電怪獸排名：
             p(v-if="sorted_devices.length>0")
@@ -40,18 +40,29 @@
           .card_inner
             h2 節能處方箋
             hr
-            p 你的 「冷氣」、「電風扇」、 「電暖器」已經老舊囉！<br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
+            p(v-if="old_devices.length>0")
+              span 你的 
+              span(v-for="odev in old_devices") 「{{odev.name}}」
+              span 已經老舊囉！
+              span <br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
             br
-            .btn_group_inline
-              button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}  
-              
+
+            .btn_group_inline.advice_device_list
+              button.btn(v-for="(dev,did) in advice_device_list",:class="{active:dev==advice_device}",@click="set_advice_device(dev)") 
+                img(:src="'/img/電器/icon_'+dev+'.svg'", style="width: 100%")
+                div {{dev}}  
+
             h3 行動處方
-            ul(v-if="get_advices(advice_device)")
-              li(v-for="(adv,id) in get_advices(advice_device).content") {{id+1}}. {{adv}}
+            hr
+            p
+              ul(v-if="get_advices(advice_device)")
+                li(v-for="(adv,id) in get_advices(advice_device).content") 
+                  span {{id+1}}. {{adv}}
             
 
             br
             h3 節能電器推薦
+            hr
             ul.recommend_list
               li(v-for="i in 5")
                 img(:src="'/img/電器/icon_'+['冰箱','冷氣','吹風機','音響','微波爐'][i-1]+'.svg'", width=200)
@@ -92,6 +103,9 @@ export default {
   },
   computed: {
     ...mapState(['device_result','devices']),
+    advice_device_list(){
+      return this.advices.map(o=>o.name);
+    },
     sorted_devices(){
       //取的排序好的電器(前三名)
       // console.log( this.devices);
@@ -121,7 +135,7 @@ export default {
     now_room(){
       //取得現在房間(-1為全屋子)
       if (this.now_place_id==-1){
-        return {name: "整體用電",eng: "Total Consumption"};
+        return {name: "整體用電",eng: "Total Consumption",pic: "all"};
       }else{
         return this.rooms[this.now_place_id];
       }
@@ -160,7 +174,7 @@ export default {
             })));
       }else{
         //假設一個"all"房間
-        console.log(this.uni_name_list);
+        // console.log(this.uni_name_list);
         var result= this.uni_name_list.map(dev_name=>({
           name: dev_name,
           place: "all",
@@ -179,10 +193,13 @@ export default {
            }))
 
         )
-        console.log("result",result)
+        // console.log("result",result)
         return result
       }
                 
+    },
+    old_devices(){
+      return this.devices.filter(dev=>dev.buy_time_option==3)
     }
   },
   methods: {...mapMutations([]),

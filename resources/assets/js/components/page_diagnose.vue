@@ -9,46 +9,19 @@
       .row
         .col-sm-12
           h2 基本資料
-        .col-sm-6
 
+        //地區選單
+        .col-sm-6
           .btn_group_inline
             button.btn(:class="{active:sel_area=='北區'}",@click="sel_area='北區'") 北區
             button.btn(:class="{active:sel_area=='中區'}",@click="sel_area='中區'") 中區
             button.btn(:class="{active:sel_area=='東區'}",@click="sel_area='東區'") 東區
             button.btn(:class="{active:sel_area=='南區'}",@click="sel_area='南區'") 南區
             button.btn(:class="{active:sel_area=='離島'}",@click="sel_area='離島'") 離島
-
-          ul.panel.bar_list(v-if="sel_area=='北區'")
-            li 臺北市
-            li 新北市
-            li 基隆市
-            li 宜蘭縣
-            li 桃園市
-            li 新竹縣
-            li 新竹市
-          ul.panel.bar_list(v-if="sel_area=='中區'")
-            li 台中縣
-            li 台中市
-            li 苗栗縣
-            li 彰化縣
-            li 雲林縣
-            li 南投縣
-          ul.panel.bar_list(v-if="sel_area=='東區'")
-            li 嘉義縣
-            li 嘉義市
-            li 台南縣
-            li 台南市
-            li 高雄縣
-            li 高雄市
-            li 屏東縣
-          ul.panel.bar_list(v-if="sel_area=='南區'")
-            li 花蓮縣
-            li 台東縣
-          ul.panel.bar_list(v-if="sel_area=='離島'")
-            li 澎湖縣
-            li 金門縣
-            li 連江縣
-
+          ul.panel.bar_list
+            li(v-for = "county in get_area(sel_area)",
+               :class = "{active: county.name == sel_county}",
+               @click = "sel_county = county.name") {{county.name}}
 
         .col-sm-6
           .form-group
@@ -67,7 +40,7 @@
                 input.form-control(type="number",v-model="area_size")
             .row
               .col-sm-4
-                label 近期用電度數({{summer=='true'?"夏月":"非夏月"}})：
+                label 近期用電 ({{summer=='true'?"夏月":"非夏月"}})：
               .col-sm-8
                 .form-group
                   .btn_group_inline
@@ -96,6 +69,7 @@
 
 <script>
 import {mapState,mapMutations} from 'vuex' 
+import region_data from '../region_data'
 export default {
   name: 'page_index',
   data(){
@@ -115,7 +89,8 @@ export default {
       member_count: 3,
       area_size: 15,
       sel_area: "北區",
-      sel_county: -1
+      sel_county: -1,
+      region_data
     }; 
   },
   watch:{
@@ -216,8 +191,16 @@ export default {
     console.log("diagnose mounted");
     
   },
-  computed: {...mapState(['loading','house_area_size'])},
-  methods: {...mapMutations(['set_loading','set_area_size'])}
+  computed: {
+    ...mapState(['loading','house_area_size']),
+    
+  },
+  methods: {
+    ...mapMutations(['set_loading','set_area_size']),
+    get_area(area){
+      return this.region_data.filter(o=>o.area==area)
+    }
+  }
 }
 </script>
 

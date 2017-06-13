@@ -466,6 +466,19 @@ var data = [
     "default_consumption": 800,
     "consumption_mul": 1,
     "type": "normal"
+  },
+  {
+    "name": "電熨斗",
+    "place": "浴室",
+    "count": 0,
+    "rarely": 1,
+    "occaionally": 2,
+    "often": 3,
+    "frequently": 5,
+    "day": 365,
+    "default_consumption": 800,
+    "consumption_mul": 1,
+    "type": "normal"
   }
 ];
 
