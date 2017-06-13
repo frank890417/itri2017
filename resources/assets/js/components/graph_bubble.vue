@@ -35,7 +35,7 @@ export default {
       height: 500,
       unit: "%",
       power: 0.5,
-      mul: 15,
+      mul: 16,
     }; 
   },
   components: {
@@ -214,12 +214,14 @@ export default {
       );
       
       //預設線框，透明度動態控制
-      cir_stroke.attrs({
-        cx: function(d){return d.x+5},
-        cy: function(d){return d.y+5},
-        r: function(d){return d.r},
-        opacity: (d)=>(d.value>5?1:0)
-      });
+      cir_stroke
+        .transition().duration(20)
+        .attrs({
+          cx: function(d){return d.x+5},
+          cy: function(d){return d.y+5},
+          r: function(d){return d.r},
+          opacity: (d)=>(d.r>40?1:0)
+        });
       
       //設定文字樣式
       text.text((d)=>d.name.indexOf("hash")!=-1?"":d.name)

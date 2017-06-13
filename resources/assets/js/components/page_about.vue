@@ -16,7 +16,7 @@
           graph_bar.about_bar(:init="scrl_control_bar",:highlight="highlight")
       .row
         .col-sm-7
-          graph_bubble(:size="{width: 800,height: 550}",:datas="bubble_data")
+          graph_bubble(:size="{width: 800, height: 550, use_mul: 20}",:datas="bubble_data")
         .col-sm-5.text-left
           h2 電用在哪？
           p 家庭用電採用累進分段的六級電費，用電量越多單價越高<br>由於夏季冷氣用電激增，導致電力公司無法供應用戶瞬間尖峰用電。因此為了降低用電，每年夏月(6/1-9/30)，電價比其他月份高。<br><br>夏月空調占總用電量的43%，非夏月則是電冰箱占26%，究竟是哪些電器默默吃掉你的用電呢？

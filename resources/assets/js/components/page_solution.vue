@@ -5,6 +5,9 @@
         .col-sm-12
           h1.title SOLUTION
             span.chinese 節能處方箋
+    .full_width_bar.yellow
+    .container
+      .row.text-left
         .card.col-sm-4
           .card_inner
             h5 {{now_room.eng}}
@@ -38,8 +41,9 @@
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12
           .card_inner
+            h5 Saving Prescription
             h2 節能處方箋
-            hr
+            //- hr
             p(v-if="old_devices.length>0")
               span 你的 
               span(v-for="odev in old_devices") 「{{odev.name}}」

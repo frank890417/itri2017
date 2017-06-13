@@ -38,6 +38,15 @@ body
   background-color: $color_grey
   color: white
 
+h1
+h2
+  font-size: 32px
+h3
+h4
+h5
+h6
+
+
 p
   font-size: 16px
   line-height: 30px
@@ -88,17 +97,36 @@ svg
   circle
     cursor: pointer
 
+
+
+ul
+  list-style: none
+  padding: 0
+
 .container
   // min-height: 100vh
   max-width: 1500px
   @media (min-width: 1600px)
     width: 1400px
 
-  
+.full_width_bar
+  width: 100vw
+  margin-top: 10px
+  margin-bottom: 10px
+
+  &.yellow
+    background-color: $color_yellow
+    height: 10px
+
+
+
+//---
 .fade-enter-active,.fade-leave-active
   transition: 0.5s
 .fade-enter,.fade-leave-to
   opacity: 0
+
+//---
 
 .card_inner
   box-shadow: 0px 0px 20px rgba(0,0,0,0.2)
@@ -185,6 +213,36 @@ section
       opacity: 0.5
 
 //---------------
+
+.nav_line
+  position: fixed
+  display: flex
+  flex-direction: column
+  white-space: nowrap
+  top: 50%
+  transform: translateY(-50%)
+  z-index: 20
+  color: transparent
+    
+  transition: color 0.5s
+
+  // &:hover
+  //   color: $color_grey
+    
+  li
+    width: 8px
+    height: 20px
+    display: flex
+    align-items: center
+    background-color: $color_grey
+    margin-top: 10px
+    padding-left: 5px
+    box-sizing: border-box
+
+    &.active
+      background-color: $color_yellow
+
+
 .full_nav
   position: fixed
   +size(100%)
@@ -195,6 +253,7 @@ section
   color: white
   font-weight: 500
   cursor: pointer
+  padding: 100px
   li
     list-style: none
     &:hover
@@ -202,6 +261,8 @@ section
   .chinese 
     font-size: 40px
     margin-left: 10px
+
+
 
 //------------
 .section_loading
@@ -515,7 +576,7 @@ section
     min-height: 550px
     h2,h5
       margin:
-        top: 5px
+        top: 10px
         bottom: 5px
     svg
       position: absolute

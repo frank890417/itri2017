@@ -1,5 +1,12 @@
 <template lang="pug">
   div.page
+    ul.nav_line()
+      li(:class="{active: get_navl_active('.section_index')}") 首頁
+      li(:class="{active: get_navl_active('.section_about')}") 節能簡介
+      li(:class="{active: get_navl_active('.section_diagnose')}") 節能診斷
+      li(:class="{active: get_navl_active('.section_room')}") 電器選取
+      li(:class="{active: get_navl_active('.section_solution')}") 結能處方箋
+      li(:class="{active: get_navl_active('.section_share')}") 診斷結果
     .hambergur(@click="toggle_nav",:class="{active: full_nav_open}")
       .bar
       .bar
@@ -102,11 +109,21 @@ export default {
       this.set_loading(false);
     },2000)
   },
-  computed: {...mapState(['loading','full_nav_open','show_result'])},
+  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop'])},
   methods: {
     ...mapMutations(['set_loading','toggle_nav','toggle_result']),
     scroll_to_about(){
       $("html,body").animate({scrollTop: $(".section_about").offset().top },"slow");
+    },
+    get_navl_active(section){
+      if ($(section).length>0){
+        var top = $(section).position().top;
+        var wh = $(window).outerHeight();
+        return (top+ wh /2 < this.scrollTop) 
+      }
+      else{
+        return false
+      }
     }
   }
 }

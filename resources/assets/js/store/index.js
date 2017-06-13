@@ -9,7 +9,8 @@ const store = new Vuex.Store({
     device_result: {},
     full_nav_open: false,
     devices: [],
-    show_result: false
+    show_result: false,
+    scrollTop: 0
 
   },
   mutations: {
@@ -26,12 +27,20 @@ const store = new Vuex.Store({
       state.devices = devices;
     },
     toggle_nav(state){
-      state.full_nav_open=!state.full_nav_open;
+      state.full_nav_open = !state.full_nav_open;
     },
     toggle_result(state){
-      state.show_result=!state.show_result
+      state.show_result = !state.show_result
+    },
+    set_scrollTop(state,value){
+      state.scrollTop = value;
+  // console.log(state.scrollTop);
     }
   }
 });
+
+window.onscroll= (evt) => {
+  store.commit("set_scrollTop",window.pageYOffset);
+}
 
 export default store
