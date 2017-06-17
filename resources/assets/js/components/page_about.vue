@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     bubble_data(){
-      if (this.mode=="summer"){
+      if (this.mode=="nsummer"){
         return [{name: "電冰箱", value: 26.2},
                {name: "飲水機", value: 14.2},
                {name: "電熱水瓶", value: 12.4},

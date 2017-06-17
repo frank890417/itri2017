@@ -9,6 +9,30 @@ import router from './router'
 import store from './store'
 import Vue from 'vue'
 
+import ed from "./energylabel/cata_冷氣機.js"
+// console.log("test電扇",ed)
+
+var if_value = (o)=>((typeof o[0]!="undefined")?o[0].content:null)
+var get_by_tag = (arr,tag) => (arr.infos.filter((info)=>(info.label.indexOf(tag)!=-1)))
+
+console.log(
+  ed.filter(o=>o.infos.map(t=>t.label).indexOf("效率分級")!=-1)
+    // .filter(o=>(get_by_tag("效率分級").content=="1" ) )
+    .map((o)=>({
+      brand: if_value(get_by_tag(o,"廠牌")),
+      name: o.title,
+      size: if_value(get_by_tag(o,"尺寸")), 
+      comsumption: [if_value(get_by_tag(o,"年耗電量")),
+                   if_value(get_by_tag(o,"消耗")),null].filter(o=>o)[0],
+      type: ["年耗電量","消耗功率"][if_value(get_by_tag(o,"年耗電量"))?0:1]
+    }))
+)
+  
+
+// 1.      品牌
+// 2.      型號
+// 3.      尺寸(大小)
+// 4.      年耗電量(若無則第二順位為功率)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

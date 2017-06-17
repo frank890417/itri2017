@@ -23,7 +23,7 @@
             img(src="/img/thunder.svg" width=45)
             h4 Comsumption of daily life
             h1 家庭電器用電家計簿
-            h5 尋找家裡的吃電怪獸
+            h5 尋找家中的吃電怪獸
             br
             button.btn(@click="scroll_to_about") 前往探索
             //.lang 中文     ENG

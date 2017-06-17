@@ -142,6 +142,7 @@ export default {
       //加總電器
       this.devices.forEach((d,i)=>{
         var cump=0;
+        //不同計算消耗電的方式
         if (d.type=="normal"){
           cump=d.consumption;
         }
@@ -151,14 +152,18 @@ export default {
         }if (d.type=="hotwater"){
           cump=1070;
         }
+
         var hour=[d.rarely,d.occaionally,d.often,d.frequently][d.option];
         var device_consumption= parseInt(cump*d.count*d.consumption_mul*d.day
                 *hour/1000 );
         
-        if (d.type=="light") light_total +=device_consumption;
+        if (d.type=="light"){
+          light_total +=device_consumption;
+        } 
         total_c+=device_consumption;
+
         if (d.count>0){
-        log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_consumption);
+          log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_consumption);
         }
         d.device_consumption = device_consumption;
         room_sum[this.get_place_id(d.place)]+=device_consumption;
@@ -168,7 +173,7 @@ export default {
       if (light_total==0){
        log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh");
        total_c+=this.house_area_size*12;
-       room_sum=room_sum.map(value=>value+this.house_area_size*12/4);
+       room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
       }
       // console.log(room_sum)
 

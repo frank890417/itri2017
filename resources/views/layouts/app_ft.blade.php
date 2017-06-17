@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ITRI 工研院綠能所</title>
+    <title>家庭電器用電家計簿 - 工研院綠能所</title>
     <!-- Styles -->
     
     <link rel="icon" type="image/png" href="img/favicon.png" />

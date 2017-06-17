@@ -156,6 +156,7 @@ export default {
       .attr("alignment-baseline","middle")
       .attr("fill","#515050")
       .style("user-select","none")
+      .style("-webkit-user-select","none")
       .style("font-size","14px")
       .style("letter-spacing","2px");
 
@@ -261,8 +262,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="sass?indentedSyntax">
-circle
-  cursor: pointer
+<style lang="sass?indentedSyntax">
+svg.graph_bubble
+  circle
+    cursor: pointer
+  text
+    user-select: none
 
 </style>
