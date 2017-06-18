@@ -8,8 +8,8 @@
             span.chinese 電器診斷
       .row
         .col-sm-12
-          h2 基本資料
-
+          h2 第一階段 / 基本資料
+          
         //地區選單
         .col-sm-6
           .btn_group_inline
@@ -71,7 +71,7 @@
 import {mapState,mapMutations} from 'vuex' 
 import region_data from '../region_data'
 export default {
-  name: 'page_index',
+  name: 'page_diagnose',
   data(){
     return {
       degree: 0,
@@ -101,6 +101,7 @@ export default {
       this.degree=0;
     },
     degree(){
+      this.set_user_degree(this.degree)
       if (this.debounce) {
         this.debounce=false;
         return ;
@@ -139,6 +140,7 @@ export default {
         });
       this.debounce=true;
       this.money = result.toFixed(3);
+
       
     },
     money(){
@@ -196,7 +198,7 @@ export default {
     
   },
   methods: {
-    ...mapMutations(['set_loading','set_area_size']),
+    ...mapMutations(['set_loading','set_area_size','set_user_degree']),
     get_area(area){
       return this.region_data.filter(o=>o.area==area)
     }

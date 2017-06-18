@@ -3,6 +3,10 @@
     SoundPanel(:now_room="rooms[now_place_id]")
     .container
       .row
+        .col-sm-12
+          h2 第二階段 / 電器填寫
+          br
+          br
         .col-sm-8
           h4 / {{rooms[now_place_id].eng}}
           //h1 {{rooms[now_place_id].name}}
@@ -23,12 +27,8 @@
                 v-for="room in rooms",
                 v-if="rooms[now_place_id].eng==room.eng",
                 :key="room")
-          
-
-          //select(name="room",v-model="now_place_id", v-on:change="now_device_id=0")
-            option(v-for="(room,rid) in rooms",:value="rid") {{room.name}}
-          
-        .col-sm-4
+       
+        .col-sm-4(v-if="now_device")
 
           .form_block(v-if="now_device", style="margin-top: 15%")
             .form-group
@@ -67,7 +67,7 @@
                   span.degree {{now_device.rarely}}hr
                 button.btn(:class="{active:now_device.option==1}",@click="now_device.option=1")
                   span 偶爾
-                  span.degree {{now_device.occaionally}}hr
+                  span.degree {{now_device.occasionally}}hr
                 button.btn(:class="{active:now_device.option==2}",@click="now_device.option=2")
                   span 經常
                   span.degree {{now_device.often}}hr
@@ -103,22 +103,25 @@
 </template>
 
 <script>
-import device_data from '../device_data'
+// import device_data from '../device_data'
 import rooms from '../rooms'
 import {mapState,mapMutations} from 'vuex'
 import SoundPanel from './SoundPanel'
-
-device_data.forEach(obj=>{obj.option=0;});
-
-device_data.forEach(obj=>{obj.light_option=0;});
-device_data.forEach(obj=>{obj.buy_time_option=0;});
-
-device_data.forEach(obj=>{obj.consumption=obj.default_consumption;});
 
 export default {
   name: 'page_room',
   mounted (){
     console.log("page room mounted.");
+    axios.get("/api/devices").then(res=>{
+      var device_data = res.data
+      device_data.forEach(obj=>{obj.option=0})
+      device_data.forEach(obj=>{obj.light_option=0})
+      device_data.forEach(obj=>{obj.buy_time_option=0})
+      device_data.forEach(obj=>{obj.consumption=obj.default_consumption})
+      this.devices=device_data
+      console.log(device_data)
+
+    })
   },
   components: {
     SoundPanel
@@ -153,7 +156,7 @@ export default {
           cump=1070;
         }
 
-        var hour=[d.rarely,d.occaionally,d.often,d.frequently][d.option];
+        var hour=[d.rarely,d.occasionally,d.often,d.frequently][d.option];
         var device_consumption= parseInt(cump*d.count*d.consumption_mul*d.day
                 *hour/1000 );
         
@@ -217,7 +220,7 @@ export default {
   data(){
     return {
       now_place_id: 0,
-      devices: device_data,
+      devices: [],
       now_device_id: 0,
       rooms,
       light_list: [

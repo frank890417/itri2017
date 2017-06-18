@@ -8,8 +8,10 @@
       .row
         .col-sm-4
           h4 我的用電是平均的...
-          h1 {{ (device_result.value / total_avg_year ).toFixed(1) }}倍
+          h1 {{ ( (user_degree?user_degree*12:device_result.value) / total_avg_year ).toFixed(1) }}倍
+          span {{user_degree?"根據所填寫的用電度數估算":"根據電器加總度數估算"}}
           img(src="/img/watch.svg")
+
         .card.col-sm-8.text-left
           .card_inner
             h2 我家的吃電怪獸是….{{monster.name}}
@@ -35,7 +37,7 @@ export default {
   mounted (){
    
   },
-  computed: {...mapState(['loading','device_result','devices']),
+  computed: {...mapState(['loading','device_result','devices','user_degree']),
     monster(){
       var result=this.devices
                     .sort((a,b)=>(b.device_consumption-a.device_consumption))

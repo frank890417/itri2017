@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     full_nav_open: false,
     devices: [],
     show_result: false,
-    scrollTop: 0
+    scrollTop: 0,
+    user_degree: 0
 
   },
   mutations: {
@@ -34,6 +35,10 @@ const store = new Vuex.Store({
     },
     set_scrollTop(state,value){
       state.scrollTop = value;
+  // console.log(state.scrollTop);
+    },
+    set_user_degree(state,value){
+      state.user_degree = value;
   // console.log(state.scrollTop);
     }
   }

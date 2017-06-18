@@ -21,7 +21,7 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": "!",
+    "default_consumption": -1,
     "consumption_mul": 1,
     "type": "light"
   },
@@ -138,7 +138,7 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": "!",
+    "default_consumption": -1,
     "consumption_mul": 1,
     "type": "light"
   },
@@ -242,7 +242,7 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": "!",
+    "default_consumption": -1,
     "consumption_mul": 1,
     "type": "light"
   },
@@ -411,7 +411,7 @@ var data = [
     "often": 18,
     "frequently": 24,
     "day": 365,
-    "default_consumption": "!",
+    "default_consumption": -1,
     "consumption_mul": 1,
     "type": "light"
   },
@@ -450,7 +450,7 @@ var data = [
     "often": 10,
     "frequently": 12,
     "day": 365,
-    "default_consumption": "!",
+    "default_consumption": -1,
     "consumption_mul": 1,
     "type": "hotwater"
   },
@@ -482,4 +482,23 @@ var data = [
   }
 ];
 
-export default data
+//載入MySQL模組
+var mysql = require('mysql');
+//建立連線
+var connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '@##434frt))',
+    database: 'itri2017'
+});
+//開始連接
+connection.connect();
+data.forEach(d=>{
+    connection.query('INSERT INTO `devices` SET ?', d, function(error){
+        if(error){
+            console.log('寫入資料失敗！');
+            throw error;
+        }
+    });
+})
+connection.end();

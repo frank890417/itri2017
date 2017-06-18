@@ -68,10 +68,12 @@
             h3 節能電器推薦
             hr
             ul.recommend_list
-              li(v-for="i in 5")
-                img(:src="'/img/電器/icon_'+['冰箱','冷氣','吹風機','音響','微波爐'][i-1]+'.svg'", width=200)
-                .device_title xx電器
-                .device_com 功率: 300W
+              li(v-for="ad_dev in advice_devices[advice_device].slice(0,5)")
+                img(:src="'/img/電器/icon_'+advice_device+'.svg'", width=200)
+                .device_title 品牌: {{ad_dev.brand}}
+                .device_com 型號: {{ad_dev.name}}
+                .device_com 尺寸: {{ad_dev.size}}
+                .device_com 年耗電量: {{ad_dev.comsumption}}
 
 </template>
 
@@ -82,6 +84,7 @@ import {mapState,mapMutations} from 'vuex'
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
 import advices from '../advices'
+import advice_devices from '../advice_devices'
 export default {
   name: 'page_solution',
   data(){
@@ -90,7 +93,8 @@ export default {
       rooms,
       advices,
       advice_device: '冷氣機',
-      sound_expand: null
+      sound_expand: null,
+      advice_devices
     }; 
   },
   components: {
