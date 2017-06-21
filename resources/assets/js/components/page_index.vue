@@ -38,7 +38,8 @@
     section.section_show_result(v-if="!show_result")
       button.btn(@click="toggle_result") 
         img(src="/img/thunder.svg" height=50)
-        span 計算吃電怪獸診斷結果！     
+        span 計算吃電怪獸診斷結果！
+      span.default(v-if="!device_result.user_filled") 您沒有填寫電器，將顯示預設數值     
     transition(name="fade")
       page_solution(v-if="show_result")
     transition(name="fade")
@@ -51,11 +52,21 @@
           h1 家庭電器用電家計簿
           h5 尋找家裡的吃電怪獸
         .col-sm-8
-          br
-          br
-          br
-
           .row
+            .col-sm-12.col_legal_statement
+              br
+              p 
+                a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466257000546" , target="_blank") 智權政策
+                a(href="ttps://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466251104462" , target="_blank") 法律聲明
+                a(href="http://web3.moeaboe.gov.tw/ECW/populace/content/ContentFoot.aspx?menu_id=2900" , target="_blank") 政府網站資料開放宣告
+              br
+          .row
+            .col-sm-12
+              p 聯絡我們：energypark@itri.org.tw<br>
+                | 建議使用： Chrome、Edge、Safari 或 Firefox 瀏覽器<br>
+                | 最佳解析度： 1920 x 1080
+
+          //.row
             
             .col-sm-4
               label 指導單位
@@ -69,11 +80,12 @@
               label 執行單位
               br
               img(src="/img/itri_logo.png" height=70)
-          .row
-            .col-sm-12 智權政策   |   法律聲明   |   聯絡我們
+          
           br
           .row
-            .col-sm-12 © 工業技術研究院 ITRI All Rights Reserved.    
+            .col-sm-12 
+              img(src="/img/itri_logo.png",height=50)
+              div © Industrial Technology Research Institute of Taiwan, R.O.C 工業技術研究院 版權所有
 
 </template>
 
@@ -109,7 +121,7 @@ export default {
       this.set_loading(false);
     },2000)
   },
-  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop'])},
+  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop','device_result'])},
   methods: {
     ...mapMutations(['set_loading','toggle_nav','toggle_result']),
     scroll_to_about(){

@@ -9,6 +9,7 @@ import router from './router'
 import store from './store'
 import Vue from 'vue'
 import axios from 'axios'
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -17,12 +18,15 @@ import axios from 'axios'
 
 // Vue.component('example', require('./components/Example.vue'));
 
+window.store=store
+
 new Vue({
   el: '#app',
   router,
   store
 })
 
+console.log("User uuid(Random)",store.state.user_uuid)
 
 if (document.domain=="saving.energypark.org.tw"){
 

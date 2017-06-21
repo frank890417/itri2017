@@ -1,7 +1,9 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
+const uuidv4 = require('uuid/v4');
 Vue.use(Vuex)
+
 const store = new Vuex.Store({
   state: {
     loading: false,
@@ -11,8 +13,8 @@ const store = new Vuex.Store({
     devices: [],
     show_result: false,
     scrollTop: 0,
-    user_degree: 0
-
+    user_degree: 0,
+    user_uuid: uuidv4()
   },
   mutations: {
     set_loading(state,mode){

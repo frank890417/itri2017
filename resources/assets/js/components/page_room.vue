@@ -15,10 +15,12 @@
                
           h4 {{rooms[now_place_id].slogan}}
 
+          //電表跟數字
           .consumption_pointer
             .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
             h4 {{total.room_sum[now_place_id].value}} 度/年
           
+          //場景圖片
           .room_img(style="min-height: 500px;margin-top: -40px;mix-blend-mode: multiply")
             transition-group(name="fade",mode="out-in")
               img.scene(
@@ -30,6 +32,7 @@
        
         .col-sm-4(v-if="now_device")
 
+          //現在在編輯的電器表單
           .form_block(v-if="now_device", style="margin-top: 15%")
             .form-group
               .device_info
@@ -37,8 +40,12 @@
                 h3 {{now_device.name}}
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
-              .device_watt(v-if="!isNaN(now_device.default_consumption)") {{now_device.default_consumption}}
+              
+              .device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
+              .device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
               //- img
+
+          //電器選取清單
           .form_block
             .form-group
               ul.room_device_list
@@ -46,13 +53,17 @@
                   span(v-if="now_device_id==did")
                   span {{device.name}}
                   // div (數量:{{device.count}} {{["很少","偶爾","經常","頻繁"][device.option]}}使用 {{ ["0-3年","3-5年","5-10年","10年以上"][device.buy_time_option] }})
+
+          //電器消耗
           .form_block
             .form-group(v-if="now_device.type=='normal'")
               label 電器瓦數
               input(type="number",v-model="now_device.consumption")
             .form-group(v-if="now_device.type=='light'")
               ul.room_device_list
-                li(:class="{active:now_device.light_option==lid}",@click="now_device.light_option=lid",v-for="(light,lid) in light_list") {{light.name}}
+                li(:class="{active:now_device.light_option==lid}",
+                   @click="now_device.light_option=lid",
+                   v-for="(light,lid) in light_list") {{light.name}}
             .form-group
               label 數量
               span.input_side_btn(@click="now_device.count--") -
@@ -94,12 +105,12 @@
             .form_group.test_info
               hr
               //h4 一年 {{total.value}} 度 (平均 {{ parseInt(total.value/12) }} 度)
-              //h4 計算清單(測試用)
+              h4 計算清單 ({{rooms[now_place_id].name}}):
               ul
-                li(v-for="log in total.log") {{log}}
+                li(v-for="log in filterlog(total.log)") {{log.content}}
               //hr
               //ul
-                li(v-for="(r,id) in total.room_sum") {{rooms[id].name}}: {{r.value}}度 ({{r.percentage}}%)
+                li(v-for="(r,id) in total.room_sum") {{r.value}}度 ({{r.percentage}}%)
 </template>
 
 <script>
@@ -166,7 +177,10 @@ export default {
         total_c+=device_consumption;
 
         if (d.count>0){
-          log_list.push(d.count+" x "+d.name+" ("+d.place+"): "+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "+device_consumption);
+          log_list.push({content: d.count+" x "+d.name + " ("+["很少","偶爾","經常","頻繁"][d.option]+")" + " : "
+            //+" ("+d.place+"):  "
+            //+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "
+            +device_consumption+" (度 / 年)",place: d.place});
         }
         d.device_consumption = device_consumption;
         room_sum[this.get_place_id(d.place)]+=device_consumption;
@@ -174,9 +188,16 @@ export default {
 
       //處理預設照明
       if (light_total==0){
-       log_list.push("預設無填寫照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"kwh");
+       log_list.push(
+        {content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+         place: "all"});
        total_c+=this.house_area_size*12;
        room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
+       room_sum.forEach((value,i)=>{
+          log_list.push(
+          {content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+           place: this.rooms[i].name});
+       })
       }
       // console.log(room_sum)
 
@@ -186,7 +207,8 @@ export default {
       var result={
         value: total_c,
         log: log_list,
-        room_sum: room_sum
+        room_sum: room_sum,
+        user_filled: this.devices.map(dev=>dev.count).reduce((a,b)=>(a+b),0)
       };
       //回傳與設定vuex全域變數
       this.set_devices(this.devices.slice());
@@ -215,6 +237,10 @@ export default {
     get_duration(val){
       return 3* (Math.pow( Math.E, - val/2000 ) )+0.6;
     },
+    filterlog(log){
+      console.log("log",log)
+      return log.filter(o=>o.place==this.rooms[this.now_place_id].name ) 
+    },
     ...mapMutations(['set_device_result','set_devices'])
   },
   data(){
@@ -223,6 +249,7 @@ export default {
       devices: [],
       now_device_id: 0,
       rooms,
+      user_filled: false,
       light_list: [
         {
           name: "省電燈泡",
