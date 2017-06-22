@@ -125,6 +125,7 @@ export default {
     console.log("page room mounted.");
     axios.get("/api/devices").then(res=>{
       var device_data = res.data
+      device_data.forEach(obj=>{obj.place_id=this.rooms.map(o=>o.name).indexOf(obj.place) })
       device_data.forEach(obj=>{obj.option=0})
       device_data.forEach(obj=>{obj.light_option=0})
       device_data.forEach(obj=>{obj.buy_time_option=0})
@@ -182,6 +183,8 @@ export default {
             //+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "
             +device_consumption+" (度 / 年)",place: d.place});
         }
+        //設定設備清單上的單電器消耗量
+        d.hour_consumption = cump;
         d.device_consumption = device_consumption;
         room_sum[this.get_place_id(d.place)]+=device_consumption;
       });

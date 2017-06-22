@@ -14,17 +14,19 @@ class Devicelogs extends Migration
     public function up()
     {
         //
-        Schema::create('posts',function($table){
+        Schema::create('devicelogs',function($table){
 
-          $table->increments('id')->nullable();
-          $table->string('uuid')->nullable();
-          $table->integer('device_id',1000)->nullable();
+          $table->increments('id');
+          $table->string('uuid');
+          $table->integer('device_id')->nullable();
           $table->integer('count')->nullable();
           $table->integer('device_consumption')->nullable();
+          $table->integer('hour_consumption')->nullable();
           $table->integer('buy_time_option')->nullable();
           $table->integer('light_option')->nullable();
           $table->integer('option')->nullable();
           $table->integer('place_id')->nullable();
+          $table->timestamps(); 
 
         });
     }
@@ -37,6 +39,6 @@ class Devicelogs extends Migration
     public function down()
     {
         //
-        Schema::drop('posts');
+        Schema::drop('devicelogs');
     }
 }

@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('layouts/app_ft');
 });
 
+Route::resource("/devicelog","DevicelogController");
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

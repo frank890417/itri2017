@@ -15,7 +15,7 @@ class Devices extends Migration
     {
         Schema::create('devices',function($table){
 
-          $table->increments('id');
+          $table->increments('id')->key();
           $table->string('name')->nullable();
           $table->string('place')->nullable();
           $table->integer('count')->nullable();

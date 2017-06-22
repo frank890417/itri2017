@@ -97,6 +97,7 @@ import page_room from './page_room'
 import page_solution from './page_solution'
 import page_share from './page_share'
 import full_nav from './full_nav'
+import axios from 'axios'
 import {mapState,mapMutations} from 'vuex' 
 
 export default {
@@ -120,8 +121,9 @@ export default {
     setTimeout(()=>{
       this.set_loading(false);
     },2000)
+    window.send_user_data=this.send_user_data
   },
-  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop','device_result'])},
+  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop','device_result','user_uuid','devices'])},
   methods: {
     ...mapMutations(['set_loading','toggle_nav','toggle_result']),
     scroll_to_about(){
@@ -136,6 +138,31 @@ export default {
       else{
         return false
       }
+    },
+    send_user_data(){
+      var user_data = this.devices
+        .filter(o=>o.device_consumption!=0)
+        .map( (o)=>{
+          return {
+            uuid: this.user_uuid,
+            device_id: o.id,
+            count: o.count,
+            consumption: o.consumption,
+            device_consumption: o.device_consumption,
+            hour_consumption: o.hour_consumption,
+            buy_time_option: o.buy_time_option,
+            light_option: o.light_option,
+            option: o.option,
+            place_id: o.place_id
+          }
+        })
+      var return_data = {
+        uuid: this.user_uuid,
+        user_data,
+      };
+      console.log('user_data:',return_data);
+      axios.post("/devicelog",return_data);
+
     }
   }
 }
