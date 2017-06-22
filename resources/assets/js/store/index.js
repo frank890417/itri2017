@@ -33,7 +33,8 @@ const store = new Vuex.Store({
       state.full_nav_open = !state.full_nav_open;
     },
     toggle_result(state){
-      state.show_result = !state.show_result
+      state.show_result = !state.show_result;
+      store.dispatch("send_user_data");
     },
     set_scrollTop(state,value){
       state.scrollTop = value;
@@ -42,6 +43,34 @@ const store = new Vuex.Store({
     set_user_degree(state,value){
       state.user_degree = value;
   // console.log(state.scrollTop);
+    }
+  },
+  actions: {
+
+    send_user_data(context){
+      var user_data = context.state.devices
+        .filter(o=>o.device_consumption!=0)
+        .map( (o)=>{
+          return {
+            uuid: context.state.user_uuid,
+            device_id: o.id,
+            count: o.count,
+            consumption: o.consumption,
+            device_consumption: o.device_consumption,
+            hour_consumption: o.hour_consumption,
+            buy_time_option: o.buy_time_option,
+            light_option: o.light_option,
+            option: o.option,
+            place_id: o.place_id
+          }
+        })
+      var return_data = {
+        uuid: context.state.user_uuid,
+        user_data,
+      };
+      console.log('user_data:',return_data);
+      axios.post("/devicelog",return_data);
+
     }
   }
 });

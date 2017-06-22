@@ -40,7 +40,11 @@
                 input.form-control(type="number",v-model="area_size")
             .row
               .col-sm-4
-                label 近期用電 ({{summer=='true'?"夏月":"非夏月"}})：
+                label(title="帳單電費為兩個月一期")
+                  span 近期用電
+                  i.fa.fa-info-circle
+                  span  ({{summer=='true'?"夏月":"非夏月"}})：
+
               .col-sm-8
                 .form-group
                   .btn_group_inline

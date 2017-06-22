@@ -139,31 +139,6 @@ export default {
         return false
       }
     },
-    send_user_data(){
-      var user_data = this.devices
-        .filter(o=>o.device_consumption!=0)
-        .map( (o)=>{
-          return {
-            uuid: this.user_uuid,
-            device_id: o.id,
-            count: o.count,
-            consumption: o.consumption,
-            device_consumption: o.device_consumption,
-            hour_consumption: o.hour_consumption,
-            buy_time_option: o.buy_time_option,
-            light_option: o.light_option,
-            option: o.option,
-            place_id: o.place_id
-          }
-        })
-      var return_data = {
-        uuid: this.user_uuid,
-        user_data,
-      };
-      console.log('user_data:',return_data);
-      axios.post("/devicelog",return_data);
-
-    }
   }
 }
 </script>
