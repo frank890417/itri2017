@@ -32,7 +32,7 @@ export default {
                      {name: "電腦", value: 5.1}],
       hash: parseInt(Math.random()*100000),
       width: 600,
-      height: 500,
+      height: 550,
       unit: "%",
       power: 0.5,
       mul: 16,

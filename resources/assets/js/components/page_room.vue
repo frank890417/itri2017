@@ -27,7 +27,7 @@
                 :src="'/img/場景/'+room.eng+'2.png'" 
                 style="width: 100%",
                 v-for="room in rooms",
-                v-if="rooms[now_place_id].eng==room.eng",
+                v-show="rooms[now_place_id].eng==room.eng",
                 :key="room")
        
         .col-sm-4(v-if="now_device")

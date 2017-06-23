@@ -20,7 +20,7 @@
             p(v-if="sorted_devices.length>0")
               span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)<br>
             p(v-else)
-              span (資料填寫不足！無法計算)
+              span (資料填寫不足！無法計算)<br><br><br>
         .card.col-sm-8
           .card_inner
             .card_title
@@ -63,13 +63,14 @@
                 li(v-for="(adv,id) in get_advices(advice_device).content") 
                   span {{id+1}}. {{adv}}
             
-
-            br
+        .card.col-sm-12(v-if="advice_devices[advice_device].length>0")
+          .card_inner.nominh
             h3 節能電器推薦
             hr
             ul.recommend_list
               li(v-for="ad_dev in advice_devices[advice_device].slice(0,5)")
-                img(:src="'/img/電器/icon_'+advice_device+'.svg'", width=200)
+                a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
+                  img(:src="'/img/電器/icon_'+advice_device+'.svg'", width=160)
                 .device_title 品牌: {{ad_dev.brand}}
                 .device_com 型號: {{ad_dev.name}}
                 .device_com 尺寸: {{ad_dev.size}}
