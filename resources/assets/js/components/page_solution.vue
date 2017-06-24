@@ -65,7 +65,8 @@
             
         .card.col-sm-12(v-if="advice_devices[advice_device].length>0")
           .card_inner.nominh
-            h3 節能電器推薦
+            h2 節能電器推薦
+              a.small(:href="get_cata_link(advice_device)", target="_blank") (查看更多)
             hr
             ul.recommend_list
               li(v-for="ad_dev in advice_devices[advice_device].slice(0,5)")
@@ -95,7 +96,9 @@ export default {
       advices,
       advice_device: '冷氣機',
       sound_expand: null,
-      advice_devices
+      advice_devices: advice_devices.advice_devices,
+      advice_catas: advice_devices.advice_catas,
+
     }; 
   },
   components: {
@@ -210,7 +213,7 @@ export default {
     },
     old_devices(){
       return this.devices.filter(dev=>dev.buy_time_option==3)
-    }
+    },
   },
   methods: {...mapMutations([]),
     room_part(room_value){
@@ -231,6 +234,14 @@ export default {
     set_advice_device(name){
       this.advice_device=name;
       console.log("trigger emit: "+name);
+    },
+    get_cata_link(devname){
+      var dev = this.advice_catas.find(o=>o.name==devname);
+      if (dev){
+        return "http://www.energylabel.org.tw/purchasing/product/upt.aspx?p0="+dev.value
+      }else{
+        return "#"
+      }
     }
   }
 }
