@@ -24,4 +24,12 @@ class DevicelogController extends Controller
       }
       return ["status"=>"success"];
     }
+
+    public function show_uuid_group(){
+      return Devicelog::select("uuid",DB::raw("SUM(device_consumption) as total_consumption"))
+                      ->groupBy("uuid")
+                      ->get();
+
+
+    }
 }
