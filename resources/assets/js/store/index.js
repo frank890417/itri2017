@@ -58,9 +58,9 @@ const store = new Vuex.Store({
             consumption: o.consumption,
             device_consumption: o.device_consumption,
             hour_consumption: o.hour_consumption,
-            buy_time_option: o.buy_time_option,
+            buy_time: [3,5,10,13][o.buy_time_option],
+            use_time: [o.rarely,o.occasionally,o.often,o.frequently][o.option],
             light_option: o.light_option,
-            option: o.option,
             place_id: o.place_id
           }
         })

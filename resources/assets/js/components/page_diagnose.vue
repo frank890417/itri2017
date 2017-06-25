@@ -42,7 +42,7 @@
               .col-sm-4
                 label(title="帳單電費為兩個月一期")
                   span 近期用電
-                  i.fa.fa-info-circle
+                  button_moreinfo(:msg="'帳單電費為兩個月一期'")
                   span  ({{summer=='true'?"夏月":"非夏月"}})：
 
               .col-sm-8
@@ -74,6 +74,7 @@
 <script>
 import {mapState,mapMutations} from 'vuex' 
 import region_data from '../region_data'
+import button_moreinfo from './button_moreinfo'
 export default {
   name: 'page_diagnose',
   data(){
@@ -192,6 +193,7 @@ export default {
     }
   },
   components: {
+    button_moreinfo
   },
   mounted (){
     console.log("diagnose mounted");

@@ -22,9 +22,9 @@ class Devicelogs extends Migration
           $table->integer('count')->nullable();
           $table->integer('device_consumption')->nullable();
           $table->integer('hour_consumption')->nullable();
-          $table->integer('buy_time_option')->nullable();
+          $table->integer('use_time')->nullable();
+          $table->integer('buy_time')->nullable();
           $table->integer('light_option')->nullable();
-          $table->integer('option')->nullable();
           $table->integer('place_id')->nullable();
           $table->timestamps(); 
 

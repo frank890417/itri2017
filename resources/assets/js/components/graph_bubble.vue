@@ -114,9 +114,7 @@ export default {
     //填色圓形
     var cir=svg.selectAll("circle.fill")
       .data(nodes,(d,i)=>d.name+d.place).enter().append("circle");
-    //線框圓形
-    var cir_stroke=svg.selectAll("circle.stroke")
-      .data(nodes).enter().append("circle");
+
     //文字
     var text=svg.selectAll("text")
       .data(nodes).enter().append("text");
@@ -128,6 +126,10 @@ export default {
     var color= d3.scaleLinear()
                   .domain([0,60])
                   .range(["#EEC545","#F5DA4E"]);
+
+    //線框圓形
+    var cir_stroke=svg.selectAll("circle.stroke")
+      .data(nodes).enter().append("circle");
 
     //拖曳事件與更新
     var drag = d3
@@ -155,15 +157,15 @@ export default {
       .attr("text-anchor", "middle")
       .attr("alignment-baseline","middle")
       .attr("fill","#515050")
-      .style("user-select","none")
-      .style("-webkit-user-select","none")
       .style("font-size","14px")
+      .attr("data-name",(d)=>d.name)
       .style("letter-spacing","2px");
 
       text_percent
       .attr("text-anchor", "middle")
       .attr("alignment-baseline","middle")
       .style("font-size","16px")
+      .attr("data-name",(d)=>d.name)
       .style("user-select","none")
       .style("letter-spacing","2px");
 
