@@ -9,10 +9,12 @@
       .row
         .col-sm-4
           h4 我的用電是平均的...
-          h1 {{ ( (user_degree?user_degree*12:device_result.value) / total_avg_year ).toFixed(1) }}倍
+          h1.mul_text {{ ( (user_degree?user_degree*12:device_result.value) / total_avg_year ).toFixed(1) }}倍
             button_moreinfo(:msg="'依據您目前填寫的資料與全國日均用電量相較結果'")
           span {{user_degree?"根據所填寫的用電度數估算":"根據電器加總度數估算"}}
-          img(src="/img/watch.svg")
+          svg_inline_watch.elec_watch(src="/img/elec_watch-01.svg",
+                     :degree="(user_degree?user_degree*12:device_result.value)",
+                     :init="scrl_start_watch")
 
         .card.col-sm-8.text-left
           .card_inner
@@ -27,22 +29,25 @@
 <script>
 import {mapState,mapMutations} from 'vuex' 
 import button_moreinfo from "./button_moreinfo"
+import svg_inline_watch from "./svg_inline_watch"
 export default {
   name: 'page_share',
   data () {
     return {
-      avg_month: 460
+      avg_month: 460,
+      scrl_start_watch: false
     }
   },
   components: {
-    button_moreinfo
+    button_moreinfo,
+    svg_inline_watch
   },
   mounted (){
    
   },
-  computed: {...mapState(['loading','device_result','devices','user_degree']),
+  computed: {...mapState(['loading','device_result','devices','user_degree','scrollTop']),
     monster(){
-      var result=this.devices
+      var result=this.devices.slice()
                     .sort((a,b)=>(b.device_consumption-a.device_consumption))
                     .slice(0,1)[0];
       console.log(result);
@@ -53,12 +58,21 @@ export default {
       return (this.avg_month*(12));
     }
   },
-  methods: {...mapMutations(['set_loading','toggle_result'])}
+  methods: {...mapMutations(['set_loading','toggle_result'])},
+  watch:{
+    scrollTop(){
+      if (this.scrollTop+$(window).height()>$(".elec_watch").offset().top+$(".elec_watch").outerWidth()-100){
+        this.scrl_start_watch=true;
+      }else{
+        this.scrl_start_watch=false;
+      }
+    }
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass?indentedSyntax">
-
+  
 
 </style>

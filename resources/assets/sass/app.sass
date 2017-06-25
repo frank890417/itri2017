@@ -61,6 +61,21 @@ input
 .btn_group_inline
   display: flex
 
+.btn_with_side
+  display: flex
+  background-color: #fff
+  .input_side_btn
+    padding: 0px 10px
+    border: solid 1px $color_grey
+    cursor: pointer
+    user-select: none
+    +trans
+    +flex_center
+
+    &:hover
+      background-color: #eee
+
+
 button,.btn
   border: solid 1px $color_grey
   background-color: transparent
@@ -72,6 +87,8 @@ button,.btn
   position: relative
   cursor: pointer
   +trans
+
+  
 
   .degree
     position: absolute
@@ -649,11 +666,35 @@ section
     background-position: right center
     background-repeat: no-repeat
     background-attachment: fixed
+
+  .mul_text
+    font-size: 70px
   .card_inner
     margin-top: 10%
     background-color: #FFF
     padding: $gutter_width
 
+
+  @keyframes running_b
+    0%
+      transform: translateX(-150px)
+    100%
+      transform: translateX(500px)
+
+  .svg_inline
+    [data-name^="pointer"]
+      transform-origin: center 75%
+
+    [data-name=running_block]
+      animation: running_b 3s infinite linear
+      transform: translateX(-150px)
+
+
+
+    
+      // transform: rotate(160deg)
+  .elec_watch
+    transform: translateX(50px)
 //-----------
 footer
   padding-top: 50px

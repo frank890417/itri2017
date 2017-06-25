@@ -48,20 +48,22 @@ export default {
   },
   mounted (){
     var vobj=this;
-    $(window).scroll(function(){
-      if ($(window).scrollTop()+$(window).height()>$(".about_bar").offset().top+$(".about_bar").outerWidth()){
-        vobj.scrl_control_bar=true;
-      }
-    });
     this.sound_expand=new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
   },
   watch:{
     mode(){
       this.sound_expand.currentTime=0;
       this.sound_expand.play();
+    },
+    scrollTop(){
+      var vobj=this;
+      if (this.scrollTop+$(window).height()>$(".about_bar").offset().top+$(".about_bar").outerWidth()){
+        vobj.scrl_control_bar=true;
+      }
     }
   },
   computed: {
+    ...mapState(['scrollTop']),
     bubble_data(){
       if (this.mode=="nsummer"){
         return [{name: "電冰箱", value: 26.2},

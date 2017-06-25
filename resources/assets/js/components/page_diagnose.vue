@@ -9,6 +9,7 @@
       .row
         .col-sm-12
           h2 第一階段 / 基本資料
+          br
           
         //地區選單
         .col-sm-6
@@ -29,15 +30,19 @@
               .col-sm-4
                 label 家庭成員：
               .col-sm-8
-                span.input_side_btn(@click="member_count--") -
-                input.form-control(type="number",v-model="member_count")
-                span.input_side_btn(@click="member_count++") +
+                .btn_with_side
+                  span.input_side_btn(@click="member_count--") -
+                  input.form-control(type="number",v-model="member_count")
+                  span.input_side_btn(@click="member_count++") +
             .row.form-group
               .col-sm-4
                 label 坪數({{area_size}})：
-              .col-sm-8
+              .col-sm-8                
+                .btn_with_side
+                  span.input_side_btn(@click="area_size--") -
+                  input.form-control(type="number",v-model="area_size")
+                  span.input_side_btn(@click="area_size++") +
 
-                input.form-control(type="number",v-model="area_size")
             .row
               .col-sm-4
                 label(title="帳單電費為兩個月一期")
