@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('layouts/app_ft');
 });
+Route::get('/manage', function () {
+    return view('layouts/app_bd');
+});
 
 Route::resource("/devicelog","DevicelogController");
 Auth::routes();

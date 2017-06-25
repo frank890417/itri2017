@@ -26,7 +26,7 @@ class DevicelogController extends Controller
     }
 
     public function show_uuid_group(){
-      return Devicelog::select("uuid",DB::raw("SUM(device_consumption) as total_consumption"))
+      return Devicelog::select("uuid",DB::raw("SUM(device_consumption) as total_consumption"),DB::raw("MAX(updated_at) as created_time"))
                       ->groupBy("uuid")
                       ->get();
 

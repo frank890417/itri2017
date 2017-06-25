@@ -20,6 +20,10 @@ elixir((mix) => {
           './node_modules/babel-polyfill/dist/polyfill.js',
           'app.js'
         ],'public/js/app.js')
+       .webpack([
+          './node_modules/babel-polyfill/dist/polyfill.js',
+          'backend.js'],
+        'public/js/backend.js')
        .jade({
         baseDir: './resources',
         blade: true,
