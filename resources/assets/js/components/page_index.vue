@@ -1,6 +1,6 @@
 <template lang="pug">
   div.page
-    ul.nav_line()
+    //ul.nav_line()
       li(:class="{active: get_navl_active('.section_index')}") 首頁
       li(:class="{active: get_navl_active('.section_about')}") 節能簡介
       li(:class="{active: get_navl_active('.section_diagnose')}") 節能診斷

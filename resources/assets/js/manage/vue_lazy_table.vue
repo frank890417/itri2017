@@ -1,8 +1,9 @@
 <template lang="pug">
   .power_table
     div(v-if="conf.show_search")
-      label Search: 
-      input(v-model="search_keyword")
+      .form-group-inline
+        label Search: 
+        input(v-model="search_keyword")
     table.table.table-hover
       thead
         th(v-for = "row_key in (row_keys || default_row_keys)",
@@ -17,6 +18,9 @@
           td(v-for = "row_key in (row_keys || default_row_keys)",
              v-if = "row_name_alias(row_key)!='__hide'")
             | {{ row[row_key] }}
+          td
+            .btn.btn-default 編輯
+            .btn.btn-danger 刪除
     .page_nav
       .btn.btn-default(v-if="pages.length>1",
                        v-for="p in pages",
@@ -25,10 +29,10 @@
 </template>
 
 <script>
-
+import Vue from 'vue'
 // sorted -> sliced
 export default {
-  name: 'power_table',
+  name: 'vue_lazy_table',
   props: ["table_data","row_keys","rows","configs"],
   data () {
     return {
@@ -44,11 +48,6 @@ export default {
     }
   },
   watch:{
-    table_data(){
-      
-
-
-    }
   },
   mounted(){
     this.conf = Object.assign(this.conf,this.configs)
@@ -72,6 +71,18 @@ export default {
     sorted_data(){
       let data_clone = JSON.parse(JSON.stringify(this.table_data))
 
+      let handlers = this.default_row_keys.map(key=>({key,handler: this.get_key_handler(key)}) )
+      console.log(handlers)
+      //if handler of key exist , compute handled value
+      data_clone.forEach( (obj)=>{
+        this.default_row_keys.forEach( (key)=>{
+          let computed_handler= handlers.find(o=>o.key==key).handler
+          if (computed_handler){
+            obj[key]=computed_handler(obj[key])
+          }
+        })
+      })
+
       if (data_clone){
         //add id col
         if (this.conf.show_id){data_clone.forEach( (o,id)=> {
@@ -85,9 +96,9 @@ export default {
           (a,b)=>{
             var [var_a,var_b]= [a[this.sort_key],b[this.sort_key]]
             if (!isNaN(var_a))
-              return parseFloat(var_a)< parseFloat(var_b)
+              return parseFloat(var_a)< parseFloat(var_b)?1:-1
             else
-              return var_a<var_b
+              return var_a<var_b?1:-1
           }
         ):data_clone
         //search by content
@@ -108,15 +119,11 @@ export default {
     },
     pages(){
       return Array.from( {length: Math.ceil(1.0*this.sorted_data.length / this.page_split_num) } , (d,i)=>i+1)
-    }
-  },
-  methods: { 
-    //取得表格欄位的暱稱
-    row_name_alias(row_name){
-
-      var list = this.rows?Array.from(this.rows):[];
+    },
+    parse_items_list(){
+      let list = this.rows?Array.from(this.rows):[];
       //可以用string "name | as" 也可以 {name: "name..",as: "as.."}
-      var parse_items_list = 
+      let parse_items_list = 
         list.slice().map(o=>{
           if (typeof o == "string"){
             return {
@@ -125,17 +132,19 @@ export default {
               arg: (o.split(" -> ")[1].split(' | ')[1]||"").split(",")
             }
           }else if  (typeof o == "object"){
-            return o
+            return Object.assign({
+              as: null,
+              arg: []
+            },o)
           }
         })
-
-        // //套寫預設值
-        // list.map().map(o=>{
-        //   o=Object.assign({
-        //     // arg: []
-        //   },o)
-        // })
-
+      return parse_items_list
+    }
+  },
+  methods: { 
+    //取得表格欄位的暱稱
+    row_name_alias(row_name){
+      let parse_items_list = this.parse_items_list
       //尋找每一行的別名
       var find_row = parse_items_list.find(o=>o.name==row_name)
       // console.log(list,find_row)
@@ -146,11 +155,15 @@ export default {
     },
     set_sort_key(key){
       if (this.sort_key!=key){
-        this.sort_key=key
       }else{
         this.sort_direction=!this.sort_direction
-        this.sort_key=key
+        
       }
+      this.sort_key=key
+    },
+    get_key_handler(key){
+      let key_obj = this.parse_items_list.find(o=>o.name==key)
+      return key_obj?key_obj.handler:null
     }
   }
 }

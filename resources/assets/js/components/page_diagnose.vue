@@ -45,7 +45,7 @@
 
             .row
               .col-sm-4
-                label(title="帳單電費為兩個月一期")
+                label(title="請填寫最近一期-兩個月之帳單電費")
                   span 近期用電
                   button_moreinfo(:msg="'帳單電費為兩個月一期'")
                   span  ({{summer=='true'?"夏月":"非夏月"}})：
@@ -104,14 +104,23 @@ export default {
     }; 
   },
   watch:{
+    sel_county(){
+      this.update_general_infos();
+    },
+    member_count(){
+      this.update_general_infos();
+    },
     area_size (){
       this.set_area_size(this.area_size);
+            
     },
     summer(){
       this.degree=0;
+      this.update_general_infos();
     },
     degree(){
       this.set_user_degree(this.degree)
+      this.update_general_infos();
       if (this.debounce) {
         this.debounce=false;
         return ;
@@ -205,13 +214,24 @@ export default {
     
   },
   computed: {
-    ...mapState(['loading','house_area_size']),
+    ...mapState(['loading','house_area_size','general_infos']),
     
   },
   methods: {
-    ...mapMutations(['set_loading','set_area_size','set_user_degree']),
+    ...mapMutations(['set_loading','set_area_size','set_user_degree','set_general_infos']),
     get_area(area){
       return this.region_data.filter(o=>o.area==area)
+    },
+    update_general_infos(){
+      console.log("update_general_infos");
+      this.set_general_infos({
+        county: this.sel_county,
+        member_count: this.member_count,
+        area_size: this.area_size,
+        summer: this.summer,
+        degree: this.degree,
+        money: this.money
+      });
     }
   }
 }

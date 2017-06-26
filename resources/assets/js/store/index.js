@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     house_area_size: 15,
     device_result: {},
     full_nav_open: false,
+    general_infos: {},
     devices: [],
     show_result: false,
     scrollTop: 0,
@@ -21,10 +22,13 @@ const store = new Vuex.Store({
       state.loading = mode;
     },
     set_area_size(state,size){
-      state.house_area_size = size;
+      state.house_area_size = size
     },
     set_device_result(state,result){
-      state.device_result = result;
+      state.device_result = result
+    },
+    set_general_infos(state,result){
+      state.general_infos = result
     },
     set_devices(state,devices){
       state.devices = devices;

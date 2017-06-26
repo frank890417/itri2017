@@ -4,7 +4,7 @@ var rooms = [
     name: "客廳" , 
     default_percentage: 0.4,
     eng: "Livingroom", 
-    slogan: "全家休閒吃飯的空間，常常會忘記關冷氣", 
+    slogan: "全家休閒玩耍的空間，陪伴家人看看電視聽音樂", 
     pic: "Livingroom"
   },
   { 
@@ -12,7 +12,7 @@ var rooms = [
     name: "臥室", 
     default_percentage: 0.45, 
     eng: "Bedroom", 
-    slogan: "睡覺 用電腦 吃飯，可以整天待著不出來", 
+    slogan: "屬於自己認真時的天地，工作與看書的靜謐空間", 
     pic: "Bedroom"
   },
   { 
@@ -28,7 +28,7 @@ var rooms = [
     name: "浴室", 
     default_percentage: 0.05,  
     eng: "Bathroom", 
-    slogan: "累的時候熱水撫慰心靈，把自己打理的乾乾淨淨", 
+    slogan: "累時以熱水撫慰心靈，把自己打理的乾乾淨淨", 
     pic: "Bathroom"
   },
 

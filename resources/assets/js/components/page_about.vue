@@ -3,11 +3,11 @@
     .container
       .row
         .col-sm-4.text-left
-          h2 
+          h2(v-html="$t('page_about.section_1.title')")
             img(src="/img/thunder.svg" width=45)
             br
-            span 家電該換了嗎？
-          p 老舊家電耗電量平均是節能家電的2.5倍，<br>在夏季用電尖峰時期影響更大。<br>
+            span 
+          p(v-html="$t('page_about.section_1.content')")
           p 
             .explain_block.white(@mouseover="highlight='summer'" ,@mouseleave="highlight=''") 十年以上老電器
             .explain_block.yellow(@mouseover="highlight='nsummer'" ,@mouseleave="highlight=''") 節能新電器 
@@ -18,8 +18,8 @@
         .col-sm-7
           graph_bubble(:size="{width: 800, height: 550, use_mul: 20}",:datas="bubble_data")
         .col-sm-5.text-left
-          h2 電用在哪？
-          p 家庭用電採用累進分段的六級電費，用電量越多單價越高<br>由於夏季冷氣用電激增，導致電力公司無法供應用戶瞬間尖峰用電。因此為了降低用電，每年夏月(6/1-9/30)，電價比其他月份高。<br><br>夏月空調占總用電量的43%，非夏月則是電冰箱占26%，究竟是哪些電器默默吃掉你的用電呢？
+          h2(v-html="$t('page_about.section_2.title')") 
+          p(v-html="$t('page_about.section_2.content')") 
           .btn_group_inline
             button.btn(@click="mode='summer'", :class="{active: mode=='summer'}") 夏月
             button.btn(@click="mode='nsummer'", :class="{active: mode=='nsummer'}") 非夏月 
@@ -65,22 +65,11 @@ export default {
   computed: {
     ...mapState(['scrollTop']),
     bubble_data(){
+
       if (this.mode=="nsummer"){
-        return [{name: "電冰箱", value: 26.2},
-               {name: "飲水機", value: 14.2},
-               {name: "電熱水瓶", value: 12.4},
-               {name: "冷氣機", value: 7.8},
-               {name: "照明設備", value: 7.8},
-               {name: "洗衣機", value: 5.2},
-               {name: "電腦", value: 5.1}];
+        return this.$t("page_about.section_2.chart.nsummer")
       }else{
-        return [{name: "冷氣機", value: 43.1},
-               {name: "電冰箱", value: 16.9},
-               {name: "飲水機", value: 8.8},
-               {name: "電熱水瓶", value: 6.7},
-               {name: "照明設備", value: 5.0},
-               {name: "洗衣機", value: 5.2},
-               {name: "電腦", value: 5.1}];
+        return this.$t("page_about.section_2.chart.summer")
       }
 
     }

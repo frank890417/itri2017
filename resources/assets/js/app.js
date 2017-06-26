@@ -8,6 +8,8 @@ require('./bootstrap');
 import router from './router'
 import store from './store'
 import Vue from 'vue'
+
+import vue_i18n from './vue_i18n'
 import axios from 'axios'
 
 /**
@@ -22,6 +24,7 @@ window.store=store
 
 new Vue({
   el: '#app',
+  i18n: vue_i18n.i18n,
   router,
   store
 })
