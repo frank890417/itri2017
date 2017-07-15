@@ -39,7 +39,7 @@
                  @mouseenter="now_place_id=id" , 
                  @mouseleave="now_place_id=-1" , 
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
-        .card.col-sm-12
+        .card.col-sm-12.card_prescription
           .card_inner
             h5 Saving Prescription
             h2 節能處方箋
@@ -58,10 +58,18 @@
 
             h3 行動處方
             hr
-            p
-              ul(v-if="get_advices(advice_device)")
-                li(v-for="(adv,id) in get_advices(advice_device).content") 
-                  span {{id+1}}. {{adv}}
+            transition(name="fade",mode="out-in")
+              div(:key="advice_device")
+                .col-sm-12(v-if="get_advices(advice_device,cataname).length",
+                    v-for="cataname in ['聰明省','好選擇','好習慣']")
+                  .row.row_cata
+                    .col-sm-2
+                      img(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'", style='width: 100%')
+                    ul.col-sm-10
+                      li 
+                        h4 {{cataname}}
+                      li(v-for="(adv,id) in get_advices(advice_device,cataname)")
+                        div {{id+1}}. {{adv.content}}                  
             
         .card.col-sm-12(v-if="advice_devices[advice_device].length>0")
           .card_inner.nominh
@@ -116,7 +124,7 @@ export default {
   computed: {
     ...mapState(['device_result','devices']),
     advice_device_list(){
-      return this.advices.map(o=>o.name);
+      return this.advices.map(o=>o.device).filter((d,i,arr)=>arr.indexOf(d)==i);
     },
     sorted_devices(){
       //取的排序好的電器(前三名)
@@ -226,10 +234,13 @@ export default {
     get_room_percentage(room_value){
       return parseInt(100*room_value/this.device_result.value);
     },
-    get_advices(device_name){
-      var result = advices.filter((obj)=>obj.name==device_name)
-      if (result.length==0) return null
-      return result[0];
+    get_advices(device_name,cata){
+      var result = advices
+              .filter((obj)=>obj.device==device_name)
+              .filter((obj)=>obj.cata==cata)
+              .sort((a,b)=>(b.cata > a.cata))
+              console.log(result)
+      return result;
     },
     set_advice_device(name){
       this.advice_device=name;
