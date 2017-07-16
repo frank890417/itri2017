@@ -53,7 +53,7 @@
 
             .btn_group_inline.advice_device_list
               button.btn(v-for="(dev,did) in advice_device_list",:class="{active:dev==advice_device}",@click="set_advice_device(dev)") 
-                img(:src="'/img/電器/icon_'+dev+'.svg'", style="width: 100%")
+                img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  
 
             h3 行動處方
@@ -74,12 +74,12 @@
         .card.col-sm-12(v-if="advice_devices[advice_device].length>0")
           .card_inner.nominh
             h2 節能電器推薦
-              a.small(:href="get_cata_link(advice_device)", target="_blank") (查看更多)
+              a.small(:href="get_cata_link(advice_device)", target="_blank") (查看更多推薦電器)
             hr
             ul.recommend_list
               li(v-for="ad_dev in advice_devices[advice_device].slice(0,5)")
                 a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
-                  img(:src="'/img/電器/icon_'+advice_device+'.svg'", width=160)
+                  img(:src="'/img/電器/icon_'+advice_device+'.svg'")
                 .device_title 品牌: {{ad_dev.brand}}
                 .device_com 型號: {{ad_dev.name}}
                 .device_com 尺寸: {{ad_dev.size}}

@@ -10,7 +10,9 @@
         .col-sm-8
           h4 / {{rooms[now_place_id].eng}}
           //h1 {{rooms[now_place_id].name}}
-          .btn_group
+
+          //房間選擇
+          .btn_group.btn_room_selector(:class="{fixed: site_width<600 && inPageRange}")
             h1(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
                
           h4 {{rooms[now_place_id].slogan}}
@@ -21,7 +23,7 @@
             h4 {{total.room_sum[now_place_id].value}} 度/年
           
           //場景圖片
-          .room_img(style="min-height: 500px;margin-top: -40px;mix-blend-mode: multiply")
+          .room_img
             transition-group(name="fade",mode="out-in")
               img.scene(
                 :src="'/img/場景/'+room.eng+'2.png'" 
@@ -72,7 +74,7 @@
             .form-group
               label 平均使用
               br
-              .btn_group(v-if="now_device")
+              .btn_group_inline(v-if="now_device")
                 button.btn(:class="{active:now_device.option==0}",@click="now_device.option=0")
                   span 很少
                   span.degree {{now_device.rarely}}hr
@@ -88,7 +90,7 @@
             .form-group
               label 購買年份
               br
-              .btn_group(v-if="now_device")
+              .btn_group_inline(v-if="now_device")
                 button.btn(:class="{active:now_device.buy_time_option==0}",@click="now_device.buy_time_option=0")
                   span 新
                   span.degree 3年
@@ -118,6 +120,7 @@
 import rooms from '../rooms'
 import {mapState,mapMutations} from 'vuex'
 import SoundPanel from './SoundPanel'
+import $ from 'jquery'
 
 export default {
   name: 'page_room',
@@ -147,6 +150,19 @@ export default {
     now_device(){
       if (this.now_device_id==-1) return null;
       return this.filter_device[this.now_device_id];
+    },
+    inPageRange(){
+      let sc = this.scrollTop
+      let $section = $(".section_room")
+      if ($(".section_room").length){
+        let page_top = $section.offset().top
+        let page_height = $section.outerHeight()
+        let result = sc> page_top && sc < page_top + page_height
+        // console.log("inRange",result)
+        return result
+      }
+      return false
+      
     },
     total(){
       var total_c = 0;
@@ -218,7 +234,7 @@ export default {
       this.set_device_result(result);
       return result;
     },
-    ...mapState(['house_area_size'])
+    ...mapState(['house_area_size','site_width','scrollTop'])
   },
   methods: {
     switch_device(id){
@@ -244,7 +260,7 @@ export default {
       console.log("log",log)
       return log.filter(o=>o.place==this.rooms[this.now_place_id].name ) 
     },
-    ...mapMutations(['set_device_result','set_devices'])
+    ...mapMutations(['set_device_result','set_devices','scrollTop','site_width'])
   },
   data(){
     return {

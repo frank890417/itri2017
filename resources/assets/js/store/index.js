@@ -15,7 +15,8 @@ const store = new Vuex.Store({
     show_result: false,
     scrollTop: 0,
     user_degree: 0,
-    user_uuid: uuidv4()
+    user_uuid: uuidv4(),
+    site_width: window.outerWidth,
   },
   mutations: {
     set_loading(state,mode){

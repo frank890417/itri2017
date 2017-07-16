@@ -20,7 +20,7 @@ const store = new Vuex.Store({
     },
     set_website_zh(state,data){
       state.website_zh=data
-    }
+    },
   },
   actions: {
     get_uuid_devicelog(context){

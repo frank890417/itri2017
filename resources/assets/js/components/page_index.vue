@@ -46,6 +46,7 @@
       page_share(v-if="show_result")
     footer
       .container
+        .row
         .col-sm-4
           img(src="/img/thunder.svg" width=45)
           h4 Comsumption of daily life

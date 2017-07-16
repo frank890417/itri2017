@@ -12,6 +12,7 @@ import Vue from 'vue'
 import vue_i18n from './vue_i18n'
 import axios from 'axios'
 
+import {mapState,mapMutations} from 'vuex'
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -26,8 +27,18 @@ new Vue({
   el: '#app',
   i18n: vue_i18n.i18n,
   router,
-  store
+  store,
+  mounted(){
+    $(window).scroll((evt)=>{
+      this.set_scrollTop(window.scrollY)
+    })
+  },
+  methods: {
+    ...mapMutations(['set_scrollTop'])
+  }
 })
+
+
 
 console.log("User uuid(Random)",store.state.user_uuid)
 

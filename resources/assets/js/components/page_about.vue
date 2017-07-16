@@ -16,7 +16,7 @@
           graph_bar.about_bar(:init="scrl_control_bar",:highlight="highlight")
       .row
         .col-sm-7
-          graph_bubble(:size="{width: 800, height: 550, use_mul: 20}",:datas="bubble_data")
+          graph_bubble(:size="{width: page_width<800?page_width:800, height: 550, use_mul: 20}",:datas="bubble_data")
         .col-sm-5.text-left
           h2(v-html="$t('page_about.section_2.title')") 
           p(v-html="$t('page_about.section_2.content')") 
@@ -39,7 +39,8 @@ export default {
       scrl_control_bar: false,
       mode: "summer",
       highlight: 'summer',
-      sound_expand: null
+      sound_expand: null,
+      page_width: window.outerWidth
     }
   },
   components: {

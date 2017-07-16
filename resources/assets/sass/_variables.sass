@@ -1,0 +1,284 @@
+
+$color_grey: #4D4D4D;
+$color_yellow: #F5DA4E;
+$color_yellow_dark: #EEC545;
+
+
+// Fonts
+@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
+// @import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css)
+// @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400);
+// @import url(../css/bootstrap/css/bootstrap.min.css);
+
+// color variables
+$color_theme: #3FBFBB
+$color_white: #fff
+$color_grey: #555
+$color_grey_light: #777
+$color_grey_dark: #333
+$color_grey_bg: #f4f5f5
+
+$gutter_width: 24px
+$column_width: 72px
+$nav_height: 80px
+
+//mixins
+=size($w,$h:$w)
+  width: $w
+  height: $h
+
+=pos($x,$y)
+  left: $x
+  top: $y
+
+=ab_pos($x,$y)
+  position: absolute
+  left: $x
+  top: $y
+
+=flex_split($mode)
+  display: flex
+  justify-content: space-between
+
+  @if ($mode=="lr")
+    flex-direction: row
+  @if ($mode=="td")
+    flex-direction: column
+
+  
+=flex_center
+  display: flex
+  justify-content: center
+  align-items: center
+
+=full
+  +size(100%,100%)
+
+.full
+  +full
+
+=ab_full
+  position: absolute
+  left: 0
+  top: 0
+  +size(100%,100%)
+
+=pseudo_ab_full
+  content: ""
+  display: block
+  +ab_full
+
+@function percent_grid($a,$b:0,$c:12,$d:13)
+  @return percent(grid_sz($a,$b),grid_sz($c,$d))
+
+@function percent($a,$b)
+  @return $a/$b*100%
+
+@function grid_sz($c,$g:0,$p:0)
+  @return $c*$column_width+$g*$gutter_width+$p
+
+=paragraph_size_leading($fz,$lh:$fz*1.5,$sp:0)
+  font-size: $fz
+  line-height: $lh
+  letter-spacing: $sp
+
+=ab_center
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%,-50%)
+
+.ab_center
+  +ab_center
+
+=flex_center
+  display: flex
+  align-items: center
+  justify-content: center
+  flex: 1 1 0%
+
+=bg_theme
+  background-color: $color_theme
+
+=colors_bg_text($c1,$c2: false,$c3: false)
+  background-color: $c1
+  @if ($c2)
+    color: $c2
+  @if ($c3)
+    border-color: $c3
+    
+
+.bg_theme
+  +bg_theme
+
+=bg_grey
+  background-color: $color_grey
+
+.bg_grey
+  +bg_grey
+
+=bg_white
+  background-color: $color_white
+
+.bg_white
+  +bg_white 
+
+.border_theme
+  border: solid 1px $color_theme
+
+=box_shadow
+  box-shadow: 0px 0px 20px rgba(0,0,0,.3)
+
+=pos_fixed_bottom
+  position: absolute
+  bottom: 0
+  left: 50%
+  transform: translateX(-50%)
+
+=bg_block($el:'before',$place:'left',$color: $color_theme)
+  &:#{$el} 
+    content: ""
+    display: block
+    width: 50%
+    height: 100%
+    position: absolute
+    @if ($place=='left')
+      left: 0px
+    @else
+      right: 0px
+    
+    top: 0
+    background-color: $color
+    opacity: 0.8
+    +range_width(0px,800px)
+      width: 100%
+      height: 50%
+      left: 0
+
+      @if ($place=='right')
+        top: 0px
+      @else
+        top: initial
+        bottom: 0px
+      
+
+.size_full
+  +size(100%,100%)
+
+//RWD
+
+=range_width($min: 0,$max: $min)
+  @if ($max==$min)
+    @media screen and (min-width: $min)
+      @content
+  @else
+    @media screen and (max-width: $max - 1px) and (min-width: $min) 
+      @content
+  
+
+=range_height($min: 0,$max: $min)
+  @if ($max==$min)
+    @media screen and (min-height: $min)
+      @content
+  @else
+    @media screen and (max-height: $max - 1px) and (min-height: $min) 
+      @content
+  
+
+
+=trans($t: 0.5s,$td: 0s)
+  transition: $t $td,font-size 0.5s,line-height 0.5s
+
+=grid_sz_mx($i,$o)
+  max-width: grid_sz($i,$o)
+  width: 100%
+
+$break_lg: 1600px
+$break_md: 1200px
+$break_sm: 800px
+$break_xs: 500px
+
+$grid_gutter: 24px
+
+=rwd_md
+  +range_width(0px,$break_md)
+    @content
+=rwd_lg
+  +range_width(0px,$break_lg)
+    @content
+=rwd_sm
+  +range_width(0px,$break_sm)
+    @content
+=rwd_xs
+  +range_width(0px,$break_xs)
+    @content
+
+
+
+=cover_opacity($color: black)
+  display: block
+  content: ""
+  position: absolute
+  +size(100%,100%)
+  left: 0
+  top: 0
+  background-color: $color
+
+
+
+
+
+// @for $i from 1 through 20
+//   @for $o from 1 through 20
+//     .grid_sz_mx_#{$i}_#{$o}
+//       +grid_sz_mx($i,$o)
+//     .grid_sz_#{$i}_#{$o}
+//       width: grid_sz($i,$o)
+  
+
+
+
+// @grid-gutter-width: 50px
+
+
+// // Body
+// $body-bg: #fff;
+
+// // Borders
+// $laravel-border-color: darken($body-bg, 10%);
+// $list-group-border: $laravel-border-color;
+// $navbar-default-border: $laravel-border-color;
+// $panel-default-border: $laravel-border-color;
+// $panel-inner-border: $laravel-border-color;
+
+// // Brands
+// $brand-primary: $color_yellow;
+// $brand-info: #8eb4cb;
+// $brand-success: #2ab27b;
+// $brand-warning: #cbb956;
+// $brand-danger: #bf5329;
+
+// // Typography
+// $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+// $font-family-sans-serif: "Raleway", sans-serif;
+// $font-size-base: 14px;
+// $line-height-base: 1.6;
+// $text-color: #636b6f;
+
+// // Navbar
+// $navbar-default-bg: #fff;
+
+// // Buttons
+// $btn-default-color: $text-color;
+
+// // Inputs
+// $input-border: lighten($text-color, 40%);
+// $input-border-focus: lighten($brand-primary, 25%);
+// $input-color-placeholder: lighten($text-color, 30%);
+
+// // Panels
+// $panel-default-heading-bg: #fff;
