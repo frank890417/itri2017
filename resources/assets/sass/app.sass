@@ -31,6 +31,9 @@ $gutter_width: 20px
   align-items: center
   justify-content: center
 
+html,body
+  overflow-x: hidden
+
 body
   color: $color_grey
 .btn
@@ -69,7 +72,10 @@ h6
 
 
 
+a.btn
+  text-decoration: none
 
+  color: inherit
 
 p
   font-size: 16px
@@ -304,14 +310,21 @@ section
   color: white
   font-weight: 500
   cursor: pointer
-  padding: 100px
+  
+  padding: 10vmin
+  padding-left: 80px
   li
     list-style: none
+    font-size: 16px
+    color: $color_grey
+    margin-bottom: 15px
+    
     &:hover
-      color: $color_grey
+      color: white
   .chinese 
-    font-size: 40px
-    margin-left: 10px
+    font-size: 35px
+    // margin-left: 10px
+  
 
 
 
@@ -646,7 +659,6 @@ section
     display: flex
     width: 100%
 
-
   +rwd_sm
     .room_img
       min-height: 200px
@@ -764,9 +776,43 @@ section
       width: 100%
       img 
         width: 100%
+
+    .option
+      .info
+        min-height: 100px
+        margin-bottom: 10px
+        position: relative
+      i.fa-external-link
+        position: absolute
+        right: 0px
+        bottom: 0px
+        color: #333
+        font-size: 20px
+        cursor: pointer
     +rwd_sm
       flex-direction: column
       
+  .nav_btns
+    display: flex
+    justify-content: space-around
+    align-items: center
+    .btn
+      width: 100%
+      max-width: 100px
+      border: none
+      // width: 100px
+    .btn_pre
+      float: left
+    .btn_post
+      float: right
+
+  .brandlist
+    li
+      border: solid 1px black
+      padding: 5px 10px
+      display: inline-block
+      margin-bottom: 5px
+      width: initial
 
 
 //------------

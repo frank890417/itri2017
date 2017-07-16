@@ -3,23 +3,23 @@
   section.full_nav.yellow
     ul
       li(@click="to_section('.section_index')")
-        span INDEX
-        span.chinese 首頁
+        .eng INDEX
+        .chinese 首頁
       li(@click="to_section('.section_about')")
-        span FACT
-        span.chinese 節能簡介
+        .eng FACT
+        .chinese 節能簡介
       li(@click="to_section('.section_diagnose')")
-        span DIAGNOSE
-        span.chinese 節能診斷
+        .eng DIAGNOSE
+        .chinese 節能診斷
       li(@click="to_section('.section_room')")
-        span PLAYGROUND
-        span.chinese 電器選取
+        .eng ROOM
+        .chinese 電器選取
       li(@click="to_section('.section_solution')", v-if="show_result")
-        span SOLUTION
-        span.chinese 結能處方箋
+        .eng SOLUTION
+        .chinese 結能處方箋
       li(@click="to_section('.section_share')", v-if="show_result")
-        span RESULT
-        span.chinese 診斷結果
+        .eng RESULT
+        .chinese 診斷結果
 
 </template>
 
