@@ -272,6 +272,7 @@ export default {
     },
     set_advice_device(name) {
       this.advice_device = name;
+      this.advice_index = 0;
       console.log("trigger emit: " + name);
     },
     get_cata_link(devname) {
