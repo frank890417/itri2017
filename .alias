@@ -1,6 +1,6 @@
 alias pa="php artisan"
 alias commit="sh commit.sh"
 alias cache="sh cache.sh"
-alias watch="gulp watch"
+alias watch="gulp watch  --max_old_space_size=8192"
 alias w="watch"
 alias cm="cache"
