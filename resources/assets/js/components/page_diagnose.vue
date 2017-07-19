@@ -9,7 +9,7 @@
       .row
         .col-sm-12
           h2 第一階段 / 基本資料
-          button_moreinfo(:msg="'來跟全國均用電比較一下吧！'")
+            button_moreinfo(:msg="'來跟全國均用電比較一下吧！'")
           br
           
         //地區選單
