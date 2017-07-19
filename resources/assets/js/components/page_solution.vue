@@ -86,10 +86,18 @@
               .col-sm-9.row
                 .col-sm-6.option(v-for="ad_dev in filter_value(advice_devices[advice_device].slice(advice_index*6,advice_index*6+6),recommend_advice_filter,filter_brand)")
                   .info
-                    .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.brand}}
-                    .device_com 型號 &nbsp;|&nbsp; {{ad_dev.name}}
-                    .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
-                    .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.comsumption}}
+                    //- pre {{ad_dev}}
+                    
+                    div(v-if="ad_dev.infos")
+                      div(v-for="info in ad_dev.infos")
+                        span {{info.label}}： 
+                        span {{info.content}}                        
+                    div(v-else)
+                      .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.brand}}
+                      .device_com 型號 &nbsp;|&nbsp; {{ad_dev.name}}
+                      .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
+                      .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.comsumption}}
+                      
                     a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
                       i.fa.fa-external-link
                   hr

@@ -6,6 +6,9 @@ import cata_washing from "./energylabel/cata_洗衣機.js"
 import cata_cooking from "./energylabel/cata_電鍋_電子鍋.js"
 import cata_hot_water from "./energylabel/cata_貯備型電熱水器.js"
 import cata_computer from "./energylabel/cata_桌上型電腦.js"
+
+import cata_ac_1 from "./savepowercrawl/cata_分離式冷氣機.js"
+import cata_ac_2 from "./savepowercrawl/cata_窗(壁)型及箱型冷氣機.js"
 // console.log("test電扇",ed)
 
 var if_value = (o)=>((o)?o.content:null)
@@ -14,15 +17,27 @@ var get_by_tag = (arr,tag) => (arr.infos.find((info)=>(info.label.indexOf(tag)!=
 var advice_devices ={};
 
 advice_devices["冷氣機"]=
-  ed.map((o)=>({
-        brand: if_value(get_by_tag(o,"廠牌名")),
-        name: o.title,
-        size: if_value(get_by_tag(o,"尺寸")), 
-        comsumption: [if_value(get_by_tag(o,"年耗電量")),
-                     if_value(get_by_tag(o,"消耗")),null].filter(o=>o)[0],
-        type: ["年耗電量","消耗功率"][if_value(get_by_tag(o,"年耗電量"))?0:1],
-        link: "http://www.energylabel.org.tw/purchasing/product/"+o.url
-      }))
+  cata_ac_1.concat(cata_ac_2).map((o)=>({
+      infos: [
+        {
+          label: "廠牌名稱",
+          content: if_value(get_by_tag(o,"標示義務公司"))
+        },{
+          label: "產品型號",
+          content: if_value(get_by_tag(o,"產品型號"))
+        },{
+          label: "額定冷氣能力",
+          content: if_value(get_by_tag(o,"額定總冷氣能力"))
+        },{
+          label: "年耗電量",
+          content: if_value(get_by_tag(o,"年耗電量"))
+        }
+      ],
+      comsumption: if_value(get_by_tag(o,"額定總冷氣能力")) || 100000,
+      link: "https://ranking.energylabel.org.tw/_outweb/product/Approval/"+o.url
+      
+    }
+    ))
       .sort((a,b)=>(parseInt(a.comsumption)-parseInt(b.comsumption) ))
 
 advice_devices["冰箱"]=
