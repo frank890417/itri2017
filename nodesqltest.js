@@ -1,6 +1,7 @@
 var data = [
   {
     "name": "冷氣機",
+    "english_name": "air conditioner",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -14,6 +15,7 @@ var data = [
   },
   {
     "name": "照明",
+    "english_name": "illumination",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -27,6 +29,7 @@ var data = [
   },
   {
     "name": "電視機",
+    "english_name": "television",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -40,6 +43,7 @@ var data = [
   },
   {
     "name": "機上盒",
+    "english_name": "set-top box",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -53,6 +57,7 @@ var data = [
   },
   {
     "name": "Wifi分享器",
+    "english_name": "wireless router",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -66,6 +71,7 @@ var data = [
   },
   {
     "name": "吸塵器",
+    "english_name": "vacuum cleaner",
     "place": "客廳",
     "count": 0,
     "rarely": 1,
@@ -79,6 +85,7 @@ var data = [
   },
   {
     "name": "電風扇",
+    "english_name": "electric fan",
     "place": "客廳",
     "count": 0,
     "rarely": 3,
@@ -92,6 +99,7 @@ var data = [
   },
   {
     "name": "音響",
+    "english_name": "audio electronics",
     "place": "客廳",
     "count": 0,
     "rarely": 1,
@@ -105,6 +113,7 @@ var data = [
   },
   {
     "name": "DVD光碟機",
+    "english_name": "DVD player",
     "place": "客廳",
     "count": 0,
     "rarely": 1,
@@ -118,6 +127,7 @@ var data = [
   },
   {
     "name": "冷氣機",
+    "english_name": "air conditioner",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -131,6 +141,7 @@ var data = [
   },
   {
     "name": "照明",
+    "english_name": "illumination",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -144,6 +155,7 @@ var data = [
   },
   {
     "name": "電暖器",
+    "english_name": "heater",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -157,6 +169,7 @@ var data = [
   },
   {
     "name": "電熨斗",
+    "english_name": "electric iron",
     "place": "臥室",
     "count": 0,
     "rarely": 1,
@@ -170,6 +183,7 @@ var data = [
   },
   {
     "name": "電腦（桌上型）",
+    "english_name": "computer (desktop)",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -183,6 +197,7 @@ var data = [
   },
   {
     "name": "電腦（筆記型）",
+    "english_name": "notebook",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -196,6 +211,7 @@ var data = [
   },
   {
     "name": "印表機",
+    "english_name": "printer",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -209,6 +225,7 @@ var data = [
   },
   {
     "name": "收音機",
+    "english_name": "radio",
     "place": "臥室",
     "count": 0,
     "rarely": 1,
@@ -222,6 +239,7 @@ var data = [
   },
   {
     "name": "除濕機",
+    "english_name": "dehumidifier",
     "place": "臥室",
     "count": 0,
     "rarely": 3,
@@ -235,6 +253,7 @@ var data = [
   },
   {
     "name": "照明",
+    "english_name": "illumination",
     "place": "廚房",
     "count": 0,
     "rarely": 3,
@@ -248,6 +267,7 @@ var data = [
   },
   {
     "name": "冰箱",
+    "english_name": "refrigerator",
     "place": "廚房",
     "count": 0,
     "rarely": 3,
@@ -261,6 +281,7 @@ var data = [
   },
   {
     "name": "電熱水瓶",
+    "english_name": "electric water boiler",
     "place": "廚房",
     "count": 0,
     "rarely": 3,
@@ -274,6 +295,7 @@ var data = [
   },
   {
     "name": "電子鍋",
+    "english_name": "electronic pot",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -287,6 +309,7 @@ var data = [
   },
   {
     "name": "電鍋",
+    "english_name": "steam cooker",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -300,6 +323,7 @@ var data = [
   },
   {
     "name": "飲水機",
+    "english_name": "water dispenser",
     "place": "廚房",
     "count": 0,
     "rarely": 3,
@@ -313,6 +337,7 @@ var data = [
   },
   {
     "name": "烘碗機",
+    "english_name": "dish dryer",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -326,6 +351,7 @@ var data = [
   },
   {
     "name": "微波爐",
+    "english_name": "microwave oven",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -339,6 +365,7 @@ var data = [
   },
   {
     "name": "電磁爐",
+    "english_name": "induction Cooker",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -352,6 +379,7 @@ var data = [
   },
   {
     "name": "洗碗機",
+    "english_name": "dishwasher",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -365,6 +393,7 @@ var data = [
   },
   {
     "name": "抽油煙機",
+    "english_name": "range hood",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -378,6 +407,7 @@ var data = [
   },
   {
     "name": "烤麵包機",
+    "english_name": "toaster",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -391,6 +421,7 @@ var data = [
   },
   {
     "name": "電烤箱",
+    "english_name": "electric oven",
     "place": "廚房",
     "count": 0,
     "rarely": 1,
@@ -404,6 +435,7 @@ var data = [
   },
   {
     "name": "照明",
+    "english_name": "illumination",
     "place": "浴室",
     "count": 0,
     "rarely": 3,
@@ -417,6 +449,7 @@ var data = [
   },
   {
     "name": "洗衣機",
+    "english_name": "washing machine",
     "place": "浴室",
     "count": 0,
     "rarely": 1,
@@ -430,6 +463,7 @@ var data = [
   },
   {
     "name": "乾衣機",
+    "english_name": "drying machine",
     "place": "浴室",
     "count": 0,
     "rarely": 1,
@@ -443,6 +477,7 @@ var data = [
   },
   {
     "name": "電熱水器",
+    "english_name": "water heater",
     "place": "浴室",
     "count": 0,
     "rarely": 2,
@@ -456,6 +491,7 @@ var data = [
   },
   {
     "name": "吹風機",
+    "english_name": "hair dryer",
     "place": "浴室",
     "count": 0,
     "rarely": 1,
@@ -469,6 +505,7 @@ var data = [
   },
   {
     "name": "電熨斗",
+    "english_name": "electric iron",
     "place": "浴室",
     "count": 0,
     "rarely": 1,

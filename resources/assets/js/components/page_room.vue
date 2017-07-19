@@ -38,7 +38,7 @@
           .form_block(v-if="now_device", style="margin-top: 15%")
             .form-group
               .device_info
-                .eng Speaker
+                .eng {{now_device.english_name}}
                 h3 {{now_device.name}}
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")

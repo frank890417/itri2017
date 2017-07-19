@@ -32,11 +32,12 @@
               .col-sm-8
                 .btn_with_side
                   span.input_side_btn(@click="member_count--") -
-                  input.form-control(type="number",v-model="member_count")
+                  input.form-control(type="number",
+                                     v-model="member_count")
                   span.input_side_btn(@click="member_count++") +
             .row.form-group
               .col-sm-4
-                label 坪數({{area_size}})：
+                label 坪數：
               .col-sm-8                
                 .btn_with_side
                   span.input_side_btn(@click="area_size--") -
