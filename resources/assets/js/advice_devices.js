@@ -19,7 +19,6 @@ var advice_devices ={};
 
 advice_devices["冷氣機"]=
   cata_ac_1.concat(cata_ac_2)
-    .filter(o=>if_value(get_by_tag(o,"產品效率分級"))=="第1級" )
     .map((o)=>({
       infos: [
         {
@@ -45,7 +44,6 @@ advice_devices["冷氣機"]=
 
 advice_devices["冰箱"]=
   cata_ice
-    .filter(o=>if_value(get_by_tag(o,"產品效率分級"))=="第1級" )
     .map((o)=>({
       infos: [
         {
@@ -98,7 +96,6 @@ advice_devices["照明"]=[]
 
 advice_devices["電熱水瓶"]=
   cata_hotpot
-    .filter(o=>if_value(get_by_tag(o,"產品效率分級"))=="第1級" )
     .map((o)=>({
       infos: [
         {
@@ -148,7 +145,6 @@ advice_devices["洗衣機"]=
 
 advice_devices["電熱水器"]=
   cata_hot_water
-    .filter(o=>if_value(get_by_tag(o,"產品效率分級"))=="第1級" )
     .map((o)=>({
       infos: [
         {
@@ -220,6 +216,7 @@ var advice_catas = [{"value":0,"name":"全部"},{"value":1,"name":"冷氣機"},{
 // "洗衣機", 
 // "電熱水器",
 // "電鍋",
+window.advice_device_compiled = {advice_devices,advice_catas}
 export default {advice_devices,advice_catas}
 // 1.      品牌
 // 2.      型號

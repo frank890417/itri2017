@@ -116,7 +116,7 @@ import { mapState, mapMutations } from 'vuex'
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
 import advices from '../advices'
-import advice_devices from '../advice_devices'
+import advice_devices from '../advice_devices_compiled' 
 export default {
   name: 'page_solution',
   data() {
