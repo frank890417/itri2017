@@ -1,40 +1,11 @@
 <template lang="pug">
 section.manage_index.panel.panel-primary
-  .panel_header 節能介紹
-  .panel_body(v-if="temp_zh")
-    .col-sm-12
-      h3 區塊-關於
-      hr
-      h4 長條圖
-      input.form-control(v-model="temp_zh.zh.page_about.section_1.title")
-      textarea.form-control(v-model="temp_zh.zh.page_about.section_1.content" rows=5)
-      hr
-      h4 圓餅圖
-      input.form-control(v-model="temp_zh.zh.page_about.section_2.title")
-      textarea.form-control(v-model="temp_zh.zh.page_about.section_2.content" rows=5)
-      br
-    .col-sm-6
-      h4 資料-夏月
-      div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.summer").form-inline
-        label(style="width: 70px") {{d.name}}
-        input.form-control(v-model="d.value")
-    .col-sm-6
-      h4 資料-非夏月
-      div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.nsummer").form-inline
-        label(style="width: 70px")  {{d.name}}
-        input.form-control(v-model="d.value")
-    .col-sm-12
-      br
-      button.btn.btn-danger(@click="save_website_data") 儲存變更
-      br
-      br
 
-  h1 節能建議
-  div(v-for="obj in advices")
-    h3 {{obj.name}}
-    //vue_lazy_table(:table_data = "obj.content.map((o)=>({content: o}))"
-                    
-              :configs = "{show_id: false, show_search: false}")
+
+
+  h1 使用者基本資料
+  hr
+  vue_lazy_table(:table_data = "userdetails")
 
   h1 使用者紀錄
   hr
@@ -45,16 +16,18 @@ section.manage_index.panel.panel-primary
   vue_lazy_table(:table_data = "conclude_table"
               :rows = "conclude_table_rows"
               :configs = "{show_id: false, show_search: false}")
-  h1 裝置
-  hr
-  vue_lazy_table(:table_data = "devices",
+  //h1 裝置
+  //hr
+  //vue_lazy_table(:table_data = "devices",
               :rows = "devices_table_rows")
-  h1 推薦電器
-  hr
-  select(v-model="now_select_device")
-    option(v-for="op in Object.keys(advice_devices)" , :value="op") {{op}}
+  //pre {{userdetails}}
 
-  vue_lazy_table(:table_data = "advice_devices[now_select_device]"            :rows = "adv_table_rows"  )
+
+  
+  // select(v-model="now_select_device")
+  //   option(v-for="op in Object.keys(advice_devices)" , :value="op") {{op}}
+
+  // vue_lazy_table(:table_data = "advice_devices[now_select_device]"            :rows = "adv_table_rows"  )
 
 
 
@@ -62,7 +35,7 @@ section.manage_index.panel.panel-primary
 </template>
 
 <script>
-import advice_devices from "../../advice_devices"
+import advice_devices from "../../advice_devices_compiled"
 import vue_lazy_table from '../components/vue_lazy_table';
 import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
@@ -115,7 +88,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['uuid_devicelog','devices','website_zh']),
+    ...mapState(['uuid_devicelog','devices','website_zh','userdetails']),
     show_uuid_table(){
       return this.uuid_devicelog
     },

@@ -4,6 +4,7 @@ Vue.use(Router)
 import manage_index from '../components/manage_index.vue'
 import manage_about from '../components/manage_about.vue'
 import manage_room from '../components/manage_room.vue'
+import manage_solution from '../components/manage_solution.vue'
 
 export default new Router({
   routes: [
@@ -25,7 +26,7 @@ export default new Router({
     },
     {
       path: '/solution',
-      component: manage_index
+      component: manage_solution
     },
     {
       path: '/share',

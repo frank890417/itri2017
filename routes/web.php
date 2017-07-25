@@ -17,6 +17,7 @@ Route::get('/manage', function () {
 });
 
 Route::resource("/devicelog","DevicelogController");
+Route::resource("/userdetail","UserdetailController");
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

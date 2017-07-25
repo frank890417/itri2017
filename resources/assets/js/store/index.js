@@ -69,12 +69,23 @@ const store = new Vuex.Store({
             place_id: o.place_id
           }
         })
+
+     
+
       var return_data = {
         uuid: context.state.user_uuid,
         user_data,
       };
       console.log('user_data:',return_data);
       axios.post("/devicelog",return_data);
+
+      console.log('userdetails:',context.state.general_infos);
+       var user_data = {
+        uuid: context.state.user_uuid,
+        general_infos: context.state.general_infos
+      };
+
+      axios.post("/userdetail",user_data);
 
     }
   }

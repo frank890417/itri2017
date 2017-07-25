@@ -20,7 +20,7 @@
             | {{ row[row_key] }}
           td
             .btn.btn-default 編輯
-            .btn.btn-danger 刪除
+            //.btn.btn-danger 刪除
     .page_nav
       .btn.btn-default(v-if="pages.length>1",
                        v-for="p in pages",

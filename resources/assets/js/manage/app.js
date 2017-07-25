@@ -8,6 +8,7 @@ window.store=store
 
 store.dispatch("get_uuid_devicelog")
 store.dispatch("get_devices")
+store.dispatch("get_userdetail")
 store.dispatch("get_website_zh")
 
 new Vue({
@@ -16,17 +17,19 @@ new Vue({
   store,
   data: {
     routes: [
-      {
-        label: "總覽",
-        link: "/",
-      },
+      // {
+      //   label: "說明頁",
+      //   link: "/",
+      // },
       {
         label: "說明頁",
-        link: "/index",
-      },{
-        label: "節能介紹",
         link: "/about",
-      },{
+      },
+      // {
+      //   label: "基礎資料",
+      //   link: "/about",
+      // },
+      {
         label: "電器填寫",
         link: "/room",
       },{

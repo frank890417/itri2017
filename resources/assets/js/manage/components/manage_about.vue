@@ -6,11 +6,12 @@
         .col-sm-12
           h3 區塊-關於
           hr
+        .col-sm-6
           h4 長條圖
           input.form-control(v-model="temp_zh.zh.page_about.section_1.title")
           textarea.form-control(v-model="temp_zh.zh.page_about.section_1.content" rows=5)
-          hr
-          h4 圓餅圖
+        .col-sm-6
+          h4 泡泡圖
           input.form-control(v-model="temp_zh.zh.page_about.section_2.title")
           textarea.form-control(v-model="temp_zh.zh.page_about.section_2.content" rows=5)
           br

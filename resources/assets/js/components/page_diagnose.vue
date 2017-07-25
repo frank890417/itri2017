@@ -169,6 +169,7 @@ export default {
           this.debounce=false;
           return ;
         }
+        this.update_general_infos();
         var result=0;
         var summer_mode=(this.summer=="true");
         var gates=JSON.parse(JSON.stringify(this.gates));
@@ -213,7 +214,7 @@ export default {
   },
   mounted (){
     console.log("diagnose mounted");
-    
+    this.update_general_infos();
   },
   computed: {
     ...mapState(['loading','house_area_size','general_infos']),

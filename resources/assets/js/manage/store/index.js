@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     uuid_devicelog: [],
     devices: [],
     website_zh: {},
+    userdetails: []
   },
   mutations: {
     set_uuid_devicelog(state,data){
@@ -20,6 +21,9 @@ const store = new Vuex.Store({
     },
     set_website_zh(state,data){
       state.website_zh=data
+    },
+    set_userdetails(state,data){
+      state.userdetails=data
     },
   },
   actions: {
@@ -33,6 +37,13 @@ const store = new Vuex.Store({
     get_devices(context){
       axios.get("/api/devices").then(
         (res)=>context.commit("set_devices",res.data)
+
+      )
+    },
+
+    get_userdetail(context){
+      axios.get("/api/userdetails").then(
+        (res)=>context.commit("set_userdetails",res.data)
 
       )
     },
