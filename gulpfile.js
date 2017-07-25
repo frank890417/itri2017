@@ -22,7 +22,7 @@ elixir((mix) => {
         ],'public/js/app.js')
        .webpack([
           './node_modules/babel-polyfill/dist/polyfill.js',
-          'backend.js'],
+          'manage/app.js'],
         'public/js/backend.js')
        .jade({
         baseDir: './resources',

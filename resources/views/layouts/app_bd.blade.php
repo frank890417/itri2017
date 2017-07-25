@@ -33,11 +33,25 @@
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
   </head>
   <body>
-    <div id="app">
-      {{-- <navbar></navbar> --}}
-      <transition name="fade" mode="out-in">
-        <router-view :key="$route.path"></router-view>
-      </transition>
+    <div id="app" class="contianer">
+
+      <div class="row">
+        <div class="col-sm-3">
+          <ul class="list-group">
+            <li v-for="route in routes">
+              <router-link class="list-group-item" :to="route.link">@{{route.label}}</router-link>
+            </li>
+          
+          </ul>
+        </div>
+        <div class="col-sm-9">
+          <transition name="fade" mode="out-in">
+            <router-view :key="$route.path"></router-view>
+          </transition>
+        </div>
+      </div>
+      
+      
       {{-- <section_footer></section_footer> --}}
     </div>
     <!-- @yield('content') -->

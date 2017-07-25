@@ -13,7 +13,7 @@
 
 Route::get('/', "HomeController@index");
 Route::get('/manage', function () {
-    return view('layouts/app_bd');
+    return view('layouts/app_manage');
 });
 
 Route::resource("/devicelog","DevicelogController");
