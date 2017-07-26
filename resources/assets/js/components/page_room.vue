@@ -68,7 +68,7 @@
                    v-for="(light,lid) in light_list") {{light.name}}
             .form-group
               label 數量
-              span.input_side_btn(@click="now_device.count--") -
+              span.input_side_btn(@click="now_device.count-=now_device.count>0?1:0") -
               input(type="number" ,v-model="now_device.count")
               span.input_side_btn(@click="now_device.count++") +
             .form-group
