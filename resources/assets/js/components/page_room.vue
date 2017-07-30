@@ -40,6 +40,8 @@
               .device_info
                 .eng {{now_device.english_name}}
                 h3 {{now_device.name}}
+                  button_moreinfo(:msg="'請選擇房間主要光源'",
+                                  v-if="now_device.name=='照明'")
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
               
@@ -120,6 +122,7 @@
 import rooms from '../rooms'
 import {mapState,mapMutations} from 'vuex'
 import SoundPanel from './SoundPanel'
+import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
 
 export default {
@@ -139,7 +142,7 @@ export default {
     })
   },
   components: {
-    SoundPanel
+    SoundPanel,button_moreinfo
   },
   computed: {
     filter_device(){

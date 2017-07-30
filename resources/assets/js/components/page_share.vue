@@ -21,10 +21,14 @@
             h2 我家的吃電怪獸是….{{monster.name}}
             img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
             h3 處方箋小語：
-            p 冰箱老了，看到帳單的你就哭了。<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
+            p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
             .btn_group_inline
               button.btn.active(@click="share_result") 分享我的吃電怪獸
+                i.fa.fa-share-alt
               button.btn(@click="toggle_result") 返回診斷
+                i.fa.fa-undo
+              a.btn(href="http://www.energypark.org.tw/", target="_blank") 節約能源園區
+                i.fa.fa-external-link
 </template>
 <script>
 import {mapState,mapMutations} from 'vuex' 
@@ -50,11 +54,11 @@ export default {
       var result=this.devices.slice()
                     .sort((a,b)=>(b.device_consumption-a.device_consumption))
                     .slice(0,1)[0];
-      console.log(result);
+      // console.log(result);
       return result
     },
     total_avg_year (){
-      console.log(this.avg_month*(12));
+      // console.log(this.avg_month*(12));
       return (this.avg_month*(12));
     }
   },

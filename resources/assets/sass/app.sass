@@ -713,11 +713,14 @@ section
         top: 10px
         bottom: 5px
     //查看更多
-    h2 a
+    .small
       display: block
       margin-top: 10px
       float: right
       font-size: 16px
+      +rwd_sm
+        float: none
+        margin-bottom: 20px
 
     svg
       position: absolute
@@ -770,6 +773,13 @@ section
     display: flex
     flex-wrap: wrap
     padding-left: 0
+    +rwd_sm
+      display: block
+      .small
+        display: block
+        float: none
+        
+        
     li
       // display: inline-block
       padding: 10px
@@ -858,9 +868,15 @@ section
       animation: running_b 3s infinite linear
       transform: translateX(-150px)
 
+  i
+    margin-left: 10px
+    font-size: 20px
 
-
-    
+  .btn_group_inline
+    margin-top: 40px
+    .btn
+      font-size: 16px
+      padding: 15px
       // transform: rotate(160deg)
   .elec_watch
     transform: translateX(50px)
