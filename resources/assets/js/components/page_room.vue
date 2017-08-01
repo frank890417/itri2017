@@ -56,7 +56,7 @@
                 li(v-for="(device,did) in filter_device",@click="switch_device(did)",:class="{active: now_device_id==did,empty: device.count==0}") 
                   span(v-if="now_device_id==did")
                   span {{device.name}}
-                  // div (數量:{{device.count}} {{["很少","偶爾","經常","頻繁"][device.option]}}使用 {{ ["0-3年","3-5年","5-10年","10年以上"][device.buy_time_option] }})
+                  // div (數量:{{device.count}} {{["很少","偶爾","經常","頻繁"][device.option]}}使用 {{ ["0-3年","3-5年","5-10年","10年以上"][device.buy_time] }})
 
           //電器消耗
           .form_block
@@ -89,22 +89,17 @@
                 button.btn(:class="{active:now_device.option==3}",@click="now_device.option=3")
                   span 頻繁
                   span.degree {{now_device.frequently}}hr
+
             .form-group
               label 購買年份
               br
               .btn_group_inline(v-if="now_device")
-                button.btn(:class="{active:now_device.buy_time_option==0}",@click="now_device.buy_time_option=0")
-                  span 新
-                  span.degree 3年
-                button.btn(:class="{active:now_device.buy_time_option==1}",@click="now_device.buy_time_option=1")
-                  span 一般
-                  span.degree 5年
-                button.btn(:class="{active:now_device.buy_time_option==2}",@click="now_device.buy_time_option=2")
-                  span 久
-                  span.degree 10年
-                button.btn(:class="{active:now_device.buy_time_option==3}",@click="now_device.buy_time_option=3")
-                  span 老舊
-                  span.degree 以上
+                button.btn(v-for="op in get_year_options(now_device.year_options)" ,
+                           :class="{active:now_device.buy_time==op.value}",
+                           @click="now_device.buy_time=op.value")
+                  span {{op.label}}
+                  span.degree {{op.degree}}
+               
 
             .form_group.test_info
               hr
@@ -134,7 +129,7 @@ export default {
       device_data.forEach(obj=>{obj.place_id=this.rooms.map(o=>o.name).indexOf(obj.place) })
       device_data.forEach(obj=>{obj.option=0})
       device_data.forEach(obj=>{obj.light_option=0})
-      device_data.forEach(obj=>{obj.buy_time_option=0})
+      device_data.forEach(obj=>{obj.buy_time=""})
       device_data.forEach(obj=>{obj.consumption=obj.default_consumption})
       this.devices=device_data
       console.log(device_data)
@@ -190,17 +185,30 @@ export default {
         var hour=[d.rarely,d.occasionally,d.often,d.frequently][d.option];
         var device_consumption= parseInt(cump*d.count*d.consumption_mul*d.day
                 *hour/1000 );
+
+        //老舊加乘
+        let optiontext = d.buy_time.replace("+","")
+        if (optiontext.indexOf("-")!=-1) optiontext=optiontext.split("-")[0]
+        let is_old = parseInt(optiontext)>=d.old_condition && d.old_condition!=-1
         
+        if (is_old){
+          device_consumption*=1.5
+        }
+
         if (d.type=="light"){
           light_total +=device_consumption;
         } 
         total_c+=device_consumption;
 
         if (d.count>0){
-          log_list.push({content: d.count+" x "+d.name + " ("+["很少","偶爾","經常","頻繁"][d.option]+")" + " : "
+          log_list.push({
+            content: d.count+" x "+d.name 
+                     + " ("+["很少","偶爾","經常","頻繁"][d.option]+")"
+                     +(is_old?"(老舊*1.5)":"") + " : "
             //+" ("+d.place+"):  "
             //+cump+"*"+d.consumption_mul+"*"+hour+"hr *"+d.day+" = "
-            +device_consumption+" (度 / 年)",place: d.place});
+            +device_consumption+" (度 / 年)",
+            place: d.place});
         }
         //設定設備清單上的單電器消耗量
         d.hour_consumption = cump;
@@ -240,6 +248,53 @@ export default {
     ...mapState(['house_area_size','site_width','scrollTop'])
   },
   methods: {
+    get_year_options(op_array_text){
+      let ar = JSON.parse(op_array_text)
+      let options = []
+      let label2 = ["新","老舊"]
+      let label3 = ["新","一般","老舊"]
+      let label4 = ["新","一般","久","老舊"]
+
+      //產生選項(內部記錄用)
+      ar.forEach((d,i)=>{
+        if (i==0){
+          options.push({
+            value: "0-"+d,
+            degree: (d+'年') 
+          })
+        }else if (i<=ar.length-1){
+          options.push({
+            value: ar[i-1]+"-"+d,
+            degree: (d+'年') 
+          })
+        }
+        if (i==ar.length-1){
+          options.push({
+            value: d+"+",
+            degree: '以上'
+          })
+        }
+      })
+
+      let use_label_set = null
+      //判斷長度給定選項
+      switch (options.length) {
+        case 2:
+          use_label_set = label2
+          break;
+        case 3:
+          use_label_set = label3
+          break;
+        case 4:
+          use_label_set = label4
+          break;
+      }
+      options.forEach((o,i,arr)=>{
+        o.label=use_label_set[i]
+      })
+      return options
+      
+    },
     switch_device(id){
       this.now_device_id=id;
       // this.now_device.count=1;
