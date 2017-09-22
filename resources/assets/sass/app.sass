@@ -545,6 +545,7 @@ section
 
 //---------------
 .section_room
+
   .test_info ul
     padding-left: 20px
   .room_img
@@ -553,6 +554,9 @@ section
     mix-blend-mode: multiply
 
   .btn_room_selector
+    .manage
+      font-size: 20px
+      vertical-align: bottom
     &.fixed
       position: fixed
       top: 0
@@ -628,8 +632,41 @@ section
     position: relative
     overflow: hidden
 
-  
+    &.spec_select
+      margin-bottom: -10px
+      display: flex
+      padding: 0px
+      display: inline-block
+      //往下偏移蓋住下方區塊上邊界，製造相連感
+      margin-bottom: -11px
+      position: relative
+      z-index: 1
+      border-bottom: none
+      
+      ul,li
+        margin: 0
+        padding: 0
+      ul
+        display: flex
+      li
+        padding: 5px 10px
+        font-size: 14px
+        //預設不會跟下面區塊相接
+        border:
+          bottom: solid 1px
+          right: solid 1px
+        background-color: #eee
+        cursor: pointer
+        
+        &:hover
+          background-color: #ddd
 
+        &.active
+          background-color: white
+          //如果是正在編輯的就相接
+          border-bottom: none
+          // background-color: $color_yellow
+          
   .device_info
     position: absolute
     left: 10px
