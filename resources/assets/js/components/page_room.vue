@@ -1,6 +1,6 @@
 <template lang="pug">
   section.section_room
-    SoundPanel(:now_room="rooms[now_place_id]")
+    //SoundPanel(:now_room="rooms[now_place_id]")
     .container
       .row
         .col-sm-12
