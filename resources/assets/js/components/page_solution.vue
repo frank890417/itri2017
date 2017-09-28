@@ -217,6 +217,7 @@ export default {
             name: obj.name,
             place: obj.place,
             value: (obj.place == this.rooms[this.now_place_id].name) ? obj.device_consumption : 0,
+            devices: obj.alter_specs
           }))
           //接續all房間值為零的物件
           .concat(this.uni_name_list.map(dev_name => ({

@@ -44,7 +44,13 @@ export default {
     datas(){
        // console.log(this.datas.map((obj)=>obj.value));
        this.datas.forEach((obj)=>{
-          this.nodes.forEach((obj2)=>{if (obj.name==obj2.name && obj.place==obj2.place && obj.name!="") obj2.value=obj.value});
+          this.nodes.forEach(
+            (obj2)=>{
+              if (obj.name==obj2.name && obj.place==obj2.place && obj.name!=""){
+                 obj2.value=obj.value
+              }
+            }
+          );
         });
     },
     use_unit(){
@@ -133,23 +139,23 @@ export default {
 
     //拖曳事件與更新
     var drag = d3
-              .drag()
-              .on("start",function(){
-                //重新開始模擬
-                simulation.alphaTarget(0.3).restart();
-                console.log(d3.select(this).attr("data-name"));
-                vobj.$emit("set_device",d3.select(this).attr("data-name"));
-                
-              })
-              .on("drag",function(){
-                //更新位置
-                  nodes[d3.select(this).attr("dataid")].x=d3.event.x;
-                  nodes[d3.select(this).attr("dataid")].y=d3.event.y;
+        .drag()
+        .on("start",function(){
+          //重新開始模擬
+          simulation.alphaTarget(0.3).restart();
+          console.log(d3.select(this).attr("data-name"));
+          vobj.$emit("set_device",d3.select(this).attr("data-name"));
+          
+        })
+        .on("drag",function(){
+          //更新位置
+            nodes[d3.select(this).attr("dataid")].x=d3.event.x;
+            nodes[d3.select(this).attr("dataid")].y=d3.event.y;
 
-              }).on("end",function(){
-                //結束
-                 // nodes[d3.select(this).attr("dataid")].value+=5;   
-              });
+        }).on("end",function(){
+          //結束
+            // nodes[d3.select(this).attr("dataid")].value+=5;   
+        });
 
       //一些固定的屬性
 

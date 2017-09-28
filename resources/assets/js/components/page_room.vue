@@ -60,12 +60,13 @@
             ul 
               //預設規格
               li(:class="{active: alter_id==-1}"
-                 @click="alter_id=-1") {{now_device.consumption}}瓦({{now_device.count}}個)
+                 @click="alter_id=-1") {{now_device.consumption}}瓦 ({{now_device.count}}個)
               //其他規格
               li(:class="{active: alter_id==alt_id}",
-                v-if="now_device.alter_specs" 
+                v-if="now_device.alter_specs.length>0" 
                 v-for="(alt,alt_id) in now_device.alter_specs",
-                @click="alter_id=alt_id") {{alt.consumption}}瓦({{alt.count}}個)
+                @click="alter_id=alt_id") {{alt.consumption}}瓦 ({{alt.count}}個)
+                span(@click = "removeAlt(now_device,alt_id)") &nbsp; x
               li.more(@click="add_other_spec(now_device)") +
           //電器消耗
           .form_block.contanier-fluid
@@ -136,7 +137,7 @@ import {mapState,mapMutations} from 'vuex'
 import SoundPanel from './SoundPanel'
 import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
-
+import Vue from 'vue'
 export default {
   name: 'page_room',
   mounted (){
@@ -292,6 +293,14 @@ export default {
     ...mapState(['house_area_size','site_width','scrollTop'])
   },
   methods: {
+    //移除其他規格（如果沒規格舊回歸alt_id)
+    removeAlt(device,id){
+      this.alter_id=(id-1)>=0?(id-1):-1
+      Vue.nextTick(()=>{
+        device.alter_specs.splice(id,1)
+
+      })
+    },
     //加入一個自訂規格
     add_other_spec(device){
       if (!device.alter_specs){
@@ -305,7 +314,8 @@ export default {
         option: 0,
         light_option: 0
       });
-      console.log(device.alter_specs)
+      // console.log(device.alter_specs)
+      this.alter_id = device.alter_specs.length-1
     },
     get_year_options(op_array_text){
       let ar = JSON.parse(op_array_text)
