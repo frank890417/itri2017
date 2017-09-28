@@ -30,7 +30,7 @@
                 v-show="rooms[now_place_id].eng==room.eng",
                 :key="room")
        
-        .col-sm-4(v-if="now_device")
+        .col-sm-4.col-controlpanel(v-if="now_device")
 
           //現在在編輯的電器表單
           .form_block(v-if="now_device")

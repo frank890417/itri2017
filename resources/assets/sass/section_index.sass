@@ -3,15 +3,16 @@
 .section_index
   height: 100vh
   .col-sm-4
-    padding-top: 50vh
+    padding-top: 45vh
   .col-sm-8
-
+    // background-color: $color_yellow
+    // height: 100vh
   .scene
     position: absolute
     width: 80vw
     right: -40vw
     top: -10vw
-    mix-blend-mode: multiply
+    mix-blend-mode: color-burn
     pointer-events: none
 
   .info
@@ -19,6 +20,7 @@
 
   h4
     font-size: 16px
+    letter-spacing: 1px
     &:after
       content: ""
       display: inline-block
@@ -26,7 +28,7 @@
       width: 130px
       margin-left: 15px
   h1
-    font-size: 38px
+    font-size: 46px
     margin-top: 10px
 
   .graduation
