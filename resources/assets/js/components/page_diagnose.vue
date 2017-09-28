@@ -60,10 +60,10 @@
                  
                 .form-group
                   label 度數：
-                  input.form-control(v-model="degree")
+                  input.form-control(v-model="degree", type="number")
                 .form-group
                   label 電費：
-                  input.form-control(v-model="money")
+                  input.form-control(v-model="money", type="number")
             //.row
               .col-sm-4
                 label 換算年用電
@@ -82,6 +82,7 @@
 import {mapState,mapMutations} from 'vuex' 
 import region_data from '../region_data'
 import button_moreinfo from './button_moreinfo'
+
 export default {
   name: 'page_diagnose',
   data(){

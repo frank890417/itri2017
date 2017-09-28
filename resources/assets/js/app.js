@@ -40,6 +40,11 @@ new Vue({
 
 
 
+window.onload=function(){
+  store.commit("set_loading",false)
+  console.log("load conplete")
+}
+
 console.log("User uuid(Random)",store.state.user_uuid)
 
 if (document.domain=="saving.energypark.org.tw"){

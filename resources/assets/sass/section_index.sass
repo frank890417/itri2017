@@ -1,0 +1,65 @@
+
+//-------------
+.section_index
+  height: 100vh
+  .col-sm-4
+    padding-top: 50vh
+  .col-sm-8
+
+  .scene
+    position: absolute
+    width: 80vw
+    right: -40vw
+    top: -10vw
+    mix-blend-mode: multiply
+    pointer-events: none
+
+  .info
+    display: inline-block
+
+  h4
+    font-size: 16px
+    &:after
+      content: ""
+      display: inline-block
+      border-bottom: solid 1px $color_grey
+      width: 130px
+      margin-left: 15px
+  h1
+    font-size: 38px
+    margin-top: 10px
+
+  .graduation
+    list-style: none
+    padding-left: 0
+    li
+      display: inline-block
+      height: 6px
+      border-left: solid 2px $color_grey
+      margin-right: 12px
+      &.longer
+        height: 10px
+
+  button.btn
+    display: inline-block
+    background-color: #4d4d4d
+    color: white
+    width: auto
+    +trans
+    &:hover
+      background-color: #666
+
+  +rwd_sm
+    .col-sm-4
+      padding-top: 45vh
+      height: 100vh
+      text-align: left
+      background-image: url('../img/場景/Kitchen2.png')
+      background-size: 100% auto
+      background-repeat: no-repeat
+    .col-sm-8
+      min-height: 500px
+      display: none
+    button.btn
+      width: 100%
+   

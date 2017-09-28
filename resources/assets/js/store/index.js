@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    loading: false,
+    loading: TextTrackCueList,
     house_area_size: 15,
     device_result: {},
     full_nav_open: false,

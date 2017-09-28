@@ -63,8 +63,8 @@
                 .col-sm-12(v-if="get_advices(advice_device,cataname).length",
                     v-for="cataname in ['聰明省','好選擇','好習慣']")
                   .row.row_cata
-                    .col-sm-2
-                      img(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'", style='width: 100%')
+                    .col-sm-2.col_advice_cata
+                      img.advice_cata_icon(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'")
                     ul.col-sm-10
                       li 
                         h4 {{cataname}}

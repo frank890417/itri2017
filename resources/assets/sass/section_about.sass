@@ -1,0 +1,25 @@
+//--------------
+.section_about
+  h2
+    margin-top: 50px
+    color: $color_yellow_dark
+    font-size: 50px
+    font-weight: 400
+    margin-bottom: 40px
+
+  .explain_block
+    vertical-align: middle
+    padding: 5px 0px
+    cursor: pointer
+    &:before
+      content: ""
+
+      width: 45px
+      height: 20px
+      border: solid 2px $color_grey
+      display: inline-block
+      margin-right: 10px
+    &.white:before
+      background-color: white
+    &.yellow:before
+      background-color: $color_yellow

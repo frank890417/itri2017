@@ -37,7 +37,7 @@
     @yield('blade_pass_variables')
     {{-- Script BEFORE app.js --}}
     @yield('require_js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 {{--     <script src="/js/Rx.min.js"></script> --}}
     <script>
       window.site_info_zh = {!! $site_info_zh !!};

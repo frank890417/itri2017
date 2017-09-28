@@ -11,6 +11,7 @@ store.dispatch("get_devices")
 store.dispatch("get_userdetail")
 store.dispatch("get_website_zh")
 
+
 new Vue({
   el: '#app',
   router,
