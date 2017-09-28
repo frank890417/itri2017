@@ -44,6 +44,9 @@ window.onload=function(){
   store.commit("set_loading",false)
   console.log("load conplete")
 }
+window.onresize=function(){
+  store.commit("set_window_width",window.innerWidth)
+}
 
 console.log("User uuid(Random)",store.state.user_uuid)
 

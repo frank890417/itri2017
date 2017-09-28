@@ -1,6 +1,6 @@
 <template lang="pug">
   
-  section.full_nav.yellow
+  section.full_nav.yellow(:class='{active:full_nav_open}')
     ul
       li(@click="to_section('.section_index')")
         .eng INDEX

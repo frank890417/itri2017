@@ -8,7 +8,7 @@
             span.chinese 電器診斷
       .row
         .col-sm-12
-          h2 第一階段 / 基本資料
+          h3 第一階段 / 基本資料
             button_moreinfo(:msg="'來跟全國均用電比較一下吧！'")
           br
           

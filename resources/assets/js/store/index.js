@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     scrollTop: 0,
     user_degree: 0,
     user_uuid: uuidv4(),
-    site_width: window.outerWidth,
+    site_width: window.innerWidth,
   },
   mutations: {
     set_loading(state,mode){
@@ -46,8 +46,11 @@ const store = new Vuex.Store({
   // console.log(state.scrollTop);
     },
     set_user_degree(state,value){
-      state.user_degree = value;
-  // console.log(state.scrollTop);
+      state.user_degree = value
+  // console.log(state.scrollTop)
+    },
+    set_window_width(state,value){
+      state.site_width=value
     }
   },
   actions: {

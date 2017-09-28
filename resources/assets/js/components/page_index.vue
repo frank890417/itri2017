@@ -1,18 +1,10 @@
 <template lang="pug">
   div.page
-    //ul.nav_line()
-      li(:class="{active: get_navl_active('.section_index')}") 首頁
-      li(:class="{active: get_navl_active('.section_about')}") 節能簡介
-      li(:class="{active: get_navl_active('.section_diagnose')}") 節能診斷
-      li(:class="{active: get_navl_active('.section_room')}") 電器選取
-      li(:class="{active: get_navl_active('.section_solution')}") 結能處方箋
-      li(:class="{active: get_navl_active('.section_share')}") 診斷結果
     .hambergur(@click="toggle_nav",:class="{active: full_nav_open}")
       .bar
       .bar
       .bar
-    transition(name="fade")    
-      full_nav(v-if="full_nav_open")
+    full_nav
     transition(name="fade")
       page_load(v-if="loading")
 

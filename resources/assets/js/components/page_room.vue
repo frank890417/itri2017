@@ -4,23 +4,21 @@
     .container
       .row
         .col-sm-12
-          h2 第二階段 / 電器填寫
-          br
-          br
+          h3.page_title 第二階段 / 電器填寫
         .col-sm-8
-          h4 / {{rooms[now_place_id].eng}}
+          //h5 / {{rooms[now_place_id].eng}}
           //h1 {{rooms[now_place_id].name}}
 
           //房間選擇
           .btn_group.btn_room_selector(:class="{fixed: site_width<600 && inPageRange}")
             h1(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
-            h1.manage +管理房間 
-          h4 {{rooms[now_place_id].slogan}}
+            h1.manage.hidden-xs +管理房間 
+          p {{rooms[now_place_id].slogan}}
 
           //電表跟數字
           .consumption_pointer
             .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
-            h4 {{total.room_sum[now_place_id].value}} 度/年
+            p {{total.room_sum[now_place_id].value}} 度/年
           
           //場景圖片
           .room_img
@@ -35,7 +33,7 @@
         .col-sm-4(v-if="now_device")
 
           //現在在編輯的電器表單
-          .form_block(v-if="now_device", style="margin-top: 15%")
+          .form_block(v-if="now_device")
             .form-group
               .device_info
                 .eng {{now_device.english_name}}
@@ -45,8 +43,8 @@
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
               
-              .device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
-              .device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
+              p.device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
+              p.device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
               //- img
 
           //電器選取清單
@@ -60,62 +58,72 @@
 
           .form_block.spec_select
             ul 
+              //預設規格
               li(:class="{active: alter_id==-1}"
-                 @click="alter_id=-1") {{now_device.consumption}}w x {{now_device.count}}
+                 @click="alter_id=-1") {{now_device.consumption}}瓦({{now_device.count}}個)
+              //其他規格
               li(:class="{active: alter_id==alt_id}",
                 v-if="now_device.alter_specs" 
                 v-for="(alt,alt_id) in now_device.alter_specs",
-                @click="alter_id=alt_id") {{alt.consumption}}w x {{alt.count}}
+                @click="alter_id=alt_id") {{alt.consumption}}瓦({{alt.count}}個)
               li.more(@click="add_other_spec(now_device)") +
           //電器消耗
-          .form_block
-            .form-group(v-if="now_device.type=='normal'")
-              label 電器瓦數
-              input(type="number",v-model="now_device_profile.consumption")
-            .form-group(v-if="now_device.type=='light'")
+          .form_block.contanier-fluid
+            .form-group.row(v-if="now_device.type=='normal'")
+              .col-xs-4
+                label 電器瓦數
+              .col-xs-8
+                input(type="number",v-model="now_device_profile.consumption")
+            .form-group.row(v-if="now_device.type=='light'")
               ul.room_device_list
                 li(:class="{active:now_device_profile.light_option==lid}",
                    @click="now_device_profile.light_option=lid",
                    v-for="(light,lid) in light_list") {{light.name}}
-            .form-group
-              label 數量
-              span.input_side_btn(@click="now_device_profile.count-=now_device_profile.count>0?1:0") -
-              input(type="number" ,v-model="now_device_profile.count")
-              span.input_side_btn(@click="now_device_profile.count++") +
-            .form-group
-              label 平均使用
-              br
-              .btn_group_inline(v-if="now_device")
-                button.btn(:class="{active:now_device_profile.option==0}",@click="now_device_profile.option=0")
-                  span 很少
-                  span.degree {{now_device.rarely}}hr
-                button.btn(:class="{active:now_device_profile.option==1}",@click="now_device_profile.option=1")
-                  span 偶爾
-                  span.degree {{now_device.occasionally}}hr
-                button.btn(:class="{active:now_device_profile.option==2}",@click="now_device_profile.option=2")
-                  span 經常
-                  span.degree {{now_device.often}}hr
-                button.btn(:class="{active:now_device_profile.option==3}",@click="now_device_profile.option=3")
-                  span 頻繁
-                  span.degree {{now_device.frequently}}hr
+            .form-group.row
+              .col-xs-4
+                label 數量
+              .col-xs-8
+                .btn_with_side
+                  span.input_side_btn(@click="now_device_profile.count-=now_device_profile.count>0?1:0") -
+                  input(type="number" ,v-model="now_device_profile.count")
+                  span.input_side_btn(@click="now_device_profile.count++") +
+            .form-group.row
+              .col-xs-4
+                label 平均使用
+              .col-xs-12
+                .btn_group_inline(v-if="now_device")
+                  button.btn(:class="{active:now_device_profile.option==0}",@click="now_device_profile.option=0")
+                    span 很少
+                    span.degree {{now_device.rarely}}hr
+                  button.btn(:class="{active:now_device_profile.option==1}",@click="now_device_profile.option=1")
+                    span 偶爾
+                    span.degree {{now_device.occasionally}}hr
+                  button.btn(:class="{active:now_device_profile.option==2}",@click="now_device_profile.option=2")
+                    span 經常
+                    span.degree {{now_device.often}}hr
+                  button.btn(:class="{active:now_device_profile.option==3}",@click="now_device_profile.option=3")
+                    span 頻繁
+                    span.degree {{now_device.frequently}}hr
 
-            .form-group
-              label 購買年份
-              br
-              .btn_group_inline(v-if="now_device_profile")
-                button.btn(v-for="op in get_year_options(now_device.year_options)" ,
-                           :class="{active:now_device_profile.buy_time==op.value}",
-                           @click="now_device_profile.buy_time=op.value")
-                  span {{op.label}}
-                  span.degree {{op.degree}}
-               
+            .form-group.row
+              .col-xs-4
+                label 購買年份
+              .col-xs-12
+                .btn_group_inline(v-if="now_device_profile")
+                  button.btn(v-for="op in get_year_options(now_device.year_options)" ,
+                            :class="{active:now_device_profile.buy_time==op.value}",
+                            @click="now_device_profile.buy_time=op.value")
+                    span {{op.label}}
+                    span.degree {{op.degree}}
+                
 
-            .form_group.test_info
-              hr
-              //h4 一年 {{total.value}} 度 (平均 {{ parseInt(total.value/12) }} 度)
-              h4 計算清單 ({{rooms[now_place_id].name}}):
-              ul
-                li(v-for="log in filterlog(total.log)") {{log.content}}
+            .form_group.test_info.row
+              
+              .col-sm-12
+                h5 計算清單 ({{rooms[now_place_id].name}}):
+              .col-sm-12
+                ul
+                  li(v-for="log in filterlog(total.log)") {{log.content}}
               //hr
               //ul
                 li(v-for="(r,id) in total.room_sum") {{r.value}}度 ({{r.percentage}}%)

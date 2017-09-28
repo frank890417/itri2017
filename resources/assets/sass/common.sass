@@ -13,12 +13,26 @@ body
   color: white
 
 h1
+  font-size: 40px
 h2
   font-size: 34px
 h3
+  font-size: 28px
 h4
+  font-size: 24px
 h5
+  font-size: 20px
 h6
+  font-size: 18px
+p
+  font-size: 16px
+  letter-spacing: 1px
+
+.container
+  // min-height: 100vh
+  max-width: 1400px
+  @media (min-width: 1600px)
+    width: 1400px
 
 
 //小螢幕設定
@@ -51,11 +65,14 @@ p
   font-size: 16px
   line-height: 30px
   letter-spacing: 1px
+
 input
   border: solid 1px $color_grey
   background-color: transparent
   // margin-left: $gutter_width
   padding: 5px 10px
+  min-width: 0
+  width: 100%
 
 .btn_group_inline
   display: flex
@@ -64,20 +81,33 @@ input
     flex: 1
     padding-left: 0
     padding-right: 0
+    border-right: none
+    &:last-child
+      border-right: solid 1px inherit
 
+//input旁邊有塞+-按鈕
 .btn_with_side
   display: flex
   background-color: #fff
-  .input_side_btn
-    padding: 0px 10px
-    border: solid 1px $color_grey
-    cursor: pointer
-    user-select: none
-    +trans
-    +flex_center
 
-    &:hover
-      background-color: #eee
+//input旁塞的按鈕
+.input_side_btn
+  padding: 0px 10px
+  // border: solid 1px $color_grey
+  cursor: pointer
+  user-select: none
+  min-width: 30px
+  background-color: #f6f6f6
+  &:first
+    border-right: solid 1px
+  &:last
+    border-left: solid 1px
+
+  +trans
+  +flex_center
+
+  &:hover
+    background-color: #ddd
 
 
 button,.btn
@@ -129,12 +159,6 @@ svg
 ul
   list-style: none
   padding: 0
-
-.container
-  // min-height: 100vh
-  max-width: 1500px
-  @media (min-width: 1600px)
-    width: 1400px
 
 .full_width_bar
   width: 100vw
