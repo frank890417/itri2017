@@ -2,6 +2,8 @@
   section.section_about
     .container
       .row
+        .col-sm-6.col-sm-offset-3
+          p 電器是我們生活中很重要的成員，但鮮少我們會注意到，直到帳單來臨時才發現比想像的多，讓我們來探索自己家中的電器，是否在不知不覺中老化，成為了家中的吃電怪獸吧！
         .col-sm-4.text-left
           h2(v-html="$t('page_about.section_1.title')")
             img(src="/img/thunder.svg" width=45)

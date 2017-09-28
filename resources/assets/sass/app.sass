@@ -19,10 +19,15 @@
 @import "./footer"
 
 .consumption_pointer
-  
-  border: solid 1px black
+  margin-top: 10px
+  // border: solid 1px black
+  background-color: #f6f6f6
   padding: 10px
   display: inline-block
+
+  p
+    margin: 0
+    padding: 0
   
   @keyframes rolling
     0%
@@ -35,7 +40,7 @@
     display: block
     width: 150px
     height: 3px
-    background: linear-gradient(90deg,$color_grey 0%,$color_grey 25%,white 25%,white 35%,$color_grey 35%)
+    background: linear-gradient(90deg,$color_grey 0%,$color_grey 25%,#f6f6f6 25%,#f6f6f6 35%,$color_grey 35%)
     animation: rolling 3s infinite linear
 
 

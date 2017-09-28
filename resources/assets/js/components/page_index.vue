@@ -14,7 +14,9 @@
           .col-sm-4.text-right
             img(src="/img/thunder.svg" width=45)
             h4 Comsumption of daily life
-            h1 家庭電器用電家計簿
+            h1 家庭電器用電
+              br.hidden-xs 
+              | 家計簿
             h5 尋找家中的吃電怪獸
             br
             button.btn.btn-lg(@click="scroll_to_about") 前往探索
