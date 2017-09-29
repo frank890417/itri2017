@@ -65,3 +65,24 @@
   .default
     margin-top: 10px
     color: rgba(white,0.4)
+
+
+
+//-------------------------
+.fade-enter-active,.fade-leave-active
+  transition: opacity .5s
+
+.fade-enter,.fade-leave-to
+  opacity: 0 !important
+.fade-enter-to,.fade-leave
+  opacity: 1
+
+.fade-delay-enter-active
+  transition: opacity .5s .5s
+.fade-delay-leave-active
+  transition: opacity .5s
+
+.fade-delay-enter,.fade-delay-leave-to
+  opacity: 0 !important
+.fade-delay-enter-to,.fade-delay-leave
+  opacity: 1

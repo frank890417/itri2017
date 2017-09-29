@@ -10,9 +10,9 @@
           ul
             li(v-for="(room,rid) in rooms")
               span {{rid+1}}.{{room.name}}
-              span.remove_btn -
-            button.btn(v-for="(room,rid) in rooms")
-              span +新增{{room.name}}
+              span.remove_btn(v-if="room.type!='origin'",@click="removeAltRoom(room)") -
+            button.btn(v-for="(room,rid) in rooms",@click="addAltRoom(room.name)")
+              span + 新增{{room.name}}
             
           
 
@@ -37,14 +37,13 @@
           
           //場景圖片
           .room_img
-            transition-group(name="fade-delay",mode="out-in")
-              img.scene(
-                :src="'/img/場景/'+room.eng+'2.png'" 
-                style="width: 100%",
-                v-for="room in rooms",
-                v-show="rooms[now_place_id].eng==room.eng",
-                :key="room")
-       
+            img.scene(
+              :src="'/img/場景/'+room.eng+'2.png'" 
+              style="width: 100%",
+              v-for="(room,rid) in rooms",
+              v-show="now_place_id==rid",
+              :key="room.hash")
+      
         .col-sm-4.col-controlpanel(v-if="now_device")
 
           //現在在編輯的電器表單
@@ -157,29 +156,43 @@ export default {
   name: 'page_room',
   mounted (){
     console.log("page room mounted.");
+    //assign hash number for rooms
+    this.rooms.forEach(room=>{
+      room.type="origin"
+      room.hash = this.getHash()
+    })
+    //get devices
     axios.get("/api/devices").then(res=>{
-      var device_data = res.data
+      let device_data = res.data
       device_data.forEach(obj=>{
-        obj.place_id=this.rooms.map(o=>o.name).indexOf(obj.place) 
+        let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
+        obj.place_id=deviceBelongRoomId
         obj.option=0
         obj.light_option=0
         obj.buy_time=""
         obj.alter_specs=[]
-        obj.consumption=obj.default_consumption        
+        obj.consumption=obj.default_consumption     
+        
+        obj.roomtype="origin"
+        obj.hash=this.rooms[deviceBelongRoomId].hash
+
+        
       })
 
       this.devices=device_data
+      this.originDevicesData = JSON.parse(JSON.stringify(this.devices))
 
     })
+    
   },
   components: {
     SoundPanel,button_moreinfo
   },
   computed: {
     filter_device(){
-      console.log(this.devices.map(o=>o.place));
+      console.log(this.devices.map(o=>o.place ));
       return this.devices
-            .filter( device => (device.place==this.rooms[this.now_place_id].name) );
+            .filter( device => (device.hash==this.rooms[this.now_place_id].hash) );
     },
     //當前的電器
     now_device(){
@@ -207,7 +220,7 @@ export default {
       var total_c = 0;
       var log_list=[];
       var light_total=0;
-      var room_sum=[0,0,0,0];
+      var room_sum=this.rooms.map(o=>0);
 
       //加總電器
       this.devices.forEach((device,i)=>{
@@ -238,6 +251,7 @@ export default {
           var hour=[device.rarely,device.occasionally,device.often,device.frequently][profile.option];
           var device_consumption= parseInt(cump*profile.count*device.consumption_mul*device.day
                   *hour/1000 );
+          console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
 
           //老舊加乘
           let optiontext = profile.buy_time.replace("+","")
@@ -254,21 +268,23 @@ export default {
           total_c+=device_consumption;
 
         
+          //將計算是記錄下來    
           log_list.push({
             content: profile.count+" x "+device.name 
                     + " ("+["很少","偶爾","經常","頻繁"][profile.option]+")"
-                    +(is_old?"(老舊*1.5)":"") + " : "
-            //+" ("+device.place+"):  "
-            //+cump+"*"+device.consumption_mul+"*"+hour+"hr *"+device.day+" = "
-            +device_consumption+" (度 / 年)",
-            place: device.place});
+                    +(is_old?"(老舊*1.5)":"") + " : " +device_consumption+" (度 / 年)",
+            place: device.place,
+            hash: device.hash
+          });
         
           //設定設備清單上的單電器消耗量
           device.hour_consumption += cump;
           device.device_consumption += device_consumption;
 
           //加總到房間總耗電量
-          room_sum[this.get_place_id(device.place)]+=device_consumption;
+          let room_id = this.get_place_id(device.hash);
+          console.log(device_consumption)
+          room_sum[room_id]+=device_consumption;
         })
             
         //如果沒有任何成立的profile 預設值為0
@@ -281,14 +297,19 @@ export default {
       //處理預設照明
       if (light_total==0){
        log_list.push(
-        {content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
-         place: "all"});
+        {
+          content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+          place: "all"
+        });
        total_c+=this.house_area_size*12;
        room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
        room_sum.forEach((value,i)=>{
           log_list.push(
-          {content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
-           place: this.rooms[i].name});
+          {
+            content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+            place: this.rooms[i].name,
+            hash: this.rooms[i].hash
+          });
        })
       }
       // console.log(room_sum)
@@ -310,6 +331,39 @@ export default {
     ...mapState(['house_area_size','site_width','scrollTop'])
   },
   methods: {
+    getHash(){
+      return parseInt(Math.random()*10000000)
+    },
+    //加入新房間
+    addAltRoom(roomName){
+      let clone  = 
+        JSON.parse(JSON.stringify(
+          this.rooms.find(r=>r.name==roomName && r.type=="origin")
+        ))
+      console.log(clone)
+      clone.type = "alt"
+      clone.hash = this.getHash();
+      let room_devices = this.originDevicesData.filter(d=>d.roomtype=="origin" && d.place==clone.name)
+      let clone_devices = 
+        JSON.parse(JSON.stringify(
+          room_devices
+        ))
+      clone_devices.forEach(d=>{
+        d.roomtype="clone"
+        d.hash=clone.hash
+      })
+      this.devices = this.devices.concat(clone_devices)
+      this.rooms.push(clone)
+    },
+    //移除複製的房間
+    removeAltRoom(room){
+      let newid = this.get_place_id(room.hash)-1
+      newid = newid>=0?newid:0
+      this.now_place_id = newid
+      this.devices=this.devices.filter(d=>d.hash!=room.hash)
+      this.rooms=this.rooms.filter(r=>r.hash!=room.hash)
+      
+    },
     //移除其他規格（如果沒規格舊回歸alt_id)
     removeAlt(device,id){
       this.alter_id=(id-1)>=0?(id-1):-1
@@ -326,6 +380,7 @@ export default {
       device.alter_specs.push({
         consumption: 0,
         type: device.type,
+        hash: device.hash,
         count: 0,
         buy_time: "",
         option: 0,
@@ -391,10 +446,11 @@ export default {
       this.now_place_id=id
       this.now_device_id=0
     },
-    get_place_id(name){
+    //取得hash對應的房間
+    get_place_id(hash){
       var result=0;
       this.rooms.forEach((d,i)=>{
-        if (d.name==name)
+        if (d.hash==hash)
           result=i;
       });
       return result;
@@ -403,8 +459,8 @@ export default {
       return 3* (Math.pow( Math.E, - val/2000 ) )+0.6;
     },
     filterlog(log){
-      console.log("log",log)
-      return log.filter(o=>o.place==this.rooms[this.now_place_id].name ) 
+      // console.log("log",log)
+      return log.filter(o=>o.hash==this.rooms[this.now_place_id].hash ) 
     },
     ...mapMutations(['set_device_result','set_devices','scrollTop','site_width'])
   },
@@ -417,6 +473,7 @@ export default {
       user_filled: false,
       alter_id: -1,
       show_edit_room: false,
+      originDevicesData: [],
       light_list: [
         {
           name: "省電燈泡",
