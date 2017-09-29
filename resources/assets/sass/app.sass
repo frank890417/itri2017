@@ -69,20 +69,18 @@
 
 
 //-------------------------
-.fade-enter-active,.fade-leave-active
+.fade-enter-active, .fade-leave-active 
   transition: opacity .5s
 
-.fade-enter,.fade-leave-to
-  opacity: 0 !important
-.fade-enter-to,.fade-leave
-  opacity: 1
+.fade-enter, .fade-leave-to ,.fade-leave-active /* .fade-leave-active below version 2.1.8 */
+  opacity: 0
 
 .fade-delay-enter-active
-  transition: opacity .5s .5s
+  transition: .5s .5s
 .fade-delay-leave-active
-  transition: opacity .5s
+  transition: .5s
 
-.fade-delay-enter,.fade-delay-leave-to
+.fade-delay-enter,.fade-delay-leave-to,.fade-delay-leave-active
   opacity: 0 !important
-.fade-delay-enter-to,.fade-delay-leave
+.fade-delay-enter-to,.fade-delay-leave-to
   opacity: 1

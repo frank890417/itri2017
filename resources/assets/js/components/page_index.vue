@@ -14,7 +14,7 @@
       .bar
       .bar
     transition(name="fade")
-      page_load(v-if="loading")
+      page_load(v-show="loading")
 
     .page_view
       section.section_index

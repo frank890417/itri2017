@@ -11,7 +11,7 @@
             li(v-for="(room,rid) in rooms")
               span {{rid+1}}.{{room.name}}
               span.remove_btn(v-if="room.type!='origin'",@click="removeAltRoom(room)") -
-            button.btn(v-for="(room,rid) in rooms",@click="addAltRoom(room.name)")
+            button.btn(v-for="(room,rid) in rooms",v-if="room.type=='origin'",@click="addAltRoom(room.name)")
               span + 新增{{room.name}}
             
           
@@ -37,6 +37,7 @@
           
           //場景圖片
           .room_img
+            //transition-group(name="fade-delay", mode="out-in")
             img.scene(
               :src="'/img/場景/'+room.eng+'2.png'" 
               style="width: 100%",
