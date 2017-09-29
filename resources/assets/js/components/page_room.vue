@@ -13,6 +13,7 @@
               span.remove_btn(v-if="room.type!='origin'",@click="removeAltRoom(room)") -
             button.btn(v-for="(room,rid) in rooms",v-if="room.type=='origin'",@click="addAltRoom(room.name)")
               span + 新增{{room.name}}
+
             
           
 

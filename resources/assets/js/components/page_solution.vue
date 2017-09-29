@@ -107,9 +107,9 @@
                   hr
                 .col-sm-12
                   .nav_btns
-                    .btn.btn_pre(@click="advice_index -=advice_index>0?1:0") < 上6筆
+                    .btn.btn_pre(@click="advice_index -=advice_index>0?1:0") &lt; 上6筆
                     .pagenum {{advice_index+1}} / {{parseInt(advice_devices[advice_device].length/6)}}
-                    .btn.btn_post(@click="advice_index+=1") 下6筆 >
+                    .btn.btn_post(@click="advice_index+=1") 下6筆 &gt;
 
 </template>
 

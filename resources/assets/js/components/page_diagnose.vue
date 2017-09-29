@@ -60,9 +60,11 @@
                  
                 .form-group
                   label 度數：
+                    button_moreinfo(:msg="'請填入台電電費單上之用電度數'")
                   input.form-control(v-model="degree", type="number")
                 .form-group
                   label 電費：
+                    button_moreinfo(:msg="'請填入台電電費單上之電費'")
                   input.form-control(v-model="money", type="number")
             //.row
               .col-sm-4
