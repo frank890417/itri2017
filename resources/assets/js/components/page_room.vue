@@ -505,7 +505,13 @@ export default {
   },
   created(){
   },
-
+  watch: {
+    "now_device_profile.consumption": function(){
+      if (this.now_device_profile.consumption=="" || isNaN(this.now_device_profile.consumption) || this.now_device_profile.consumption<0){
+        this.now_device_profile.consumption=0
+      }
+    }
+  }
 
 }
 </script>
