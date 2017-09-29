@@ -224,11 +224,30 @@ ul
 
 
     
-
-.page
-  // padding-top: 100px
-  // padding-bottom: 100px
-
++range_width(800px,3000px)
+  .page
+    // padding-top: 100px
+    // padding-bottom: 100px
+    
+    .page_view
+      transition: 0.5s
+      position: relative
+      left: 0
+      //&:before
+        // background-color: rgba(#333,0.4)
+        // content: ""
+        // display: block
+        // position: absolute
+        // left: 0
+        // top: 0
+        // +size(100%,100%)
+        // opacity: 0
+        // transition: 0.5s
+        
+    &.full_nav_open .page_view
+      left: 300px
+      filter: blur(5px)
+        
 
 
 
