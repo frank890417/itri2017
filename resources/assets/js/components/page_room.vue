@@ -1,6 +1,21 @@
 <template lang="pug">
   section.section_room
     //SoundPanel(:now_room="rooms[now_place_id]")
+    transition(name="fade")
+      .dialog_edit_room(v-if="show_edit_room")
+        .dialog
+          h3 編輯房間
+            span.close_btn(@click="show_edit_room=!show_edit_room") x
+          hr
+          ul
+            li(v-for="(room,rid) in rooms")
+              span {{rid+1}}.{{room.name}}
+              span.remove_btn -
+            button.btn(v-for="(room,rid) in rooms")
+              span +新增{{room.name}}
+            
+          
+
     .container
       .row
         .col-sm-12
@@ -12,7 +27,7 @@
           //房間選擇
           .btn_group.btn_room_selector(:class="{fixed: site_width<600 && inPageRange}")
             h1(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="switch_place(rid)") {{room.name}}
-            h1.manage.hidden-xs +管理房間 
+            h1.manage.hidden-xs(@click="show_edit_room=!show_edit_room") +管理房間 
           p {{rooms[now_place_id].slogan}}
 
           //電表跟數字
@@ -144,14 +159,16 @@ export default {
     console.log("page room mounted.");
     axios.get("/api/devices").then(res=>{
       var device_data = res.data
-      device_data.forEach(obj=>{obj.place_id=this.rooms.map(o=>o.name).indexOf(obj.place) })
-      device_data.forEach(obj=>{obj.option=0})
-      device_data.forEach(obj=>{obj.light_option=0})
-      device_data.forEach(obj=>{obj.buy_time=""})
-      device_data.forEach(obj=>{obj.alter_specs=[]})
-      device_data.forEach(obj=>{obj.consumption=obj.default_consumption})
+      device_data.forEach(obj=>{
+        obj.place_id=this.rooms.map(o=>o.name).indexOf(obj.place) 
+        obj.option=0
+        obj.light_option=0
+        obj.buy_time=""
+        obj.alter_specs=[]
+        obj.consumption=obj.default_consumption        
+      })
+
       this.devices=device_data
-      console.log(device_data)
 
     })
   },
@@ -399,6 +416,7 @@ export default {
       rooms,
       user_filled: false,
       alter_id: -1,
+      show_edit_room: false,
       light_list: [
         {
           name: "省電燈泡",
