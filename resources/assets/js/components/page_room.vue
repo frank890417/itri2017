@@ -22,7 +22,7 @@
           
           //場景圖片
           .room_img
-            transition-group(name="fade",mode="out-in")
+            transition-group(name="fade-delay",mode="out-in")
               img.scene(
                 :src="'/img/場景/'+room.eng+'2.png'" 
                 style="width: 100%",
@@ -66,7 +66,7 @@
                 v-if="now_device.alter_specs.length>0" 
                 v-for="(alt,alt_id) in now_device.alter_specs",
                 @click="alter_id=alt_id") {{alt.consumption}}瓦 ({{alt.count}}個)
-                span(@click = "removeAlt(now_device,alt_id)") &nbsp; x
+                span.remove_alt_btn(@click = "removeAlt(now_device,alt_id)") &nbsp; x
               li.more(@click="add_other_spec(now_device)") +
           //電器消耗
           .form_block.contanier-fluid
@@ -365,8 +365,8 @@ export default {
       
     },
     switch_device(id){
-      this.now_device_id=id;
-      this.alter_id=-1;
+      this.alter_id=-1
+      this.now_device_id=id
       // this.now_device.count=1;
     },
     switch_place(id){

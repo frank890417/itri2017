@@ -1,6 +1,8 @@
 *
   font-family: "Roboto",微軟正黑體
 
+
+
 html,body
   overflow-x: hidden
 
@@ -73,6 +75,9 @@ input
   padding: 5px 10px
   min-width: 0
   width: 100%
+
+button
+  letter-spacing: 2px
 
 .btn_group_inline
   display: flex
@@ -262,3 +267,25 @@ section
       border-bottom: solid 4px $color_yellow
     &.empty
       opacity: 0.5
+
+
+
+//-------------------------
+.fade-enter-active,.fade-leave-active
+  transition: opacity .5s
+
+.fade-enter,.fade-leave-to
+  opacity: 0
+.fade-enter-to,.fade-leave
+  opacity: 1
+
+.fade-delay-enter-active
+  transition: opacity .5s .5s
+.fade-delay-leave-active
+  transition: opacity .5s
+
+.fade-delay-enter,.fade-delay-leave-to
+  opacity: 0
+.fade-delay-enter-to,.fade-delay-leave
+  opacity: 1
+

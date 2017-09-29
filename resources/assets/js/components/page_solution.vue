@@ -51,8 +51,12 @@
               span <br>除了採用處方，更可以考慮更換有節能標章的新電器，聰明的省電！
             br
 
-            .btn_group_inline.advice_device_list
-              button.btn(v-for="(dev,did) in advice_device_list",:class="{active:dev==advice_device}",@click="set_advice_device(dev)") 
+            .btn_group_inline.advice_device_list(:class="{fixed: site_width<600 && inPageRange}")
+              button.btn(
+                  v-for="(dev,did) in advice_device_list",
+                  :class="{active:dev==advice_device}",
+                  @click="set_advice_device(dev)"
+                ) 
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  
 
@@ -146,7 +150,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['device_result', 'devices']),
+    ...mapState(['device_result', 'devices','scrollTop','site_width']),
     advice_brands(){
       return this.advice_devices[this.advice_device]
               .map(o=>o.brand)
@@ -195,9 +199,9 @@ export default {
     now_consumption() {
       //取得現在消耗量(-1為全屋子)
       if (this.now_place_id == -1) {
-        return this.device_result.room_sum.map(o => o.value).reduce((a, b) => a + b);
+        return parseInt(this.device_result.room_sum.map(o => o.value).reduce((a, b) => a + b));
       } else {
-        return this.device_result.room_sum[this.now_place_id].value
+        return parseInt(this.device_result.room_sum[this.now_place_id].value)
       }
     },
     uni_name_list() {
@@ -254,6 +258,20 @@ export default {
     old_devices() {
       return this.devices.filter(dev => dev.buy_time_option == 3)
     },
+
+    inPageRange(){
+      let sc = this.scrollTop
+      let $section = $(".section_solution")
+      if ($(".section_solution").length){
+        let page_top = $section.offset().top
+        let page_height = $section.outerHeight()
+        let result = sc> page_top && sc < page_top + page_height
+        // console.log("inRange",result)
+        return result
+      }
+      return false
+      
+    }
   },
   methods: {
     ...mapMutations([]),
