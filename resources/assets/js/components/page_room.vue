@@ -370,8 +370,9 @@ export default {
       // this.now_device.count=1;
     },
     switch_place(id){
-      this.now_place_id=id;
-      this.now_device_id=0;
+      this.alter_id=-1
+      this.now_place_id=id
+      this.now_device_id=0
     },
     get_place_id(name){
       var result=0;
