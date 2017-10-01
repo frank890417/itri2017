@@ -261,14 +261,16 @@ export default {
 
     inPageRange(){
       let sc = this.scrollTop
-      let $section = $(".section_solution")
-      if ($(".section_solution").length){
-        let page_top = $section.offset().top
-        let page_height = $section.outerHeight()
+      
+      if (this.$el){
+        let page_top = this.$el.offsetTop
+        let page_height = this.$el.offsetHeight
         let result = sc> page_top && sc < page_top + page_height
         // console.log("inRange",result)
         return result
       }
+     
+  
       return false
       
     }

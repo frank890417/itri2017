@@ -206,11 +206,12 @@ export default {
       return this.alter_id==-1 ? this.now_device : this.now_device.alter_specs[this.alter_id]
     },
     inPageRange(){
+      console.log("element room",this.$el)
       let sc = this.scrollTop
-      let $section = $(".section_room")
-      if ($(".section_room").length){
-        let page_top = $section.offset().top
-        let page_height = $section.outerHeight()
+    
+      if (this.$el){
+        let page_top = this.$el.offsetTop;
+        let page_height = this.$el.offsetHeight;
         let result = sc> page_top && sc < page_top + page_height
         // console.log("inRange",result)
         return result

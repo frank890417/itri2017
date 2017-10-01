@@ -24,4 +24,4 @@ Route::get("/websiteinfo/key/{key}","ApiController@websiteinfo");
 Route::post("/websiteinfo/key/{key}","ApiController@websiteinfo_save");
 
 
-Route::resource("devices","ApiController");
+// Route::resource("devices","ApiController");
