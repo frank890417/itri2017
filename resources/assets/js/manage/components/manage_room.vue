@@ -1,9 +1,16 @@
 <template lang="pug">
-section.manage_room
-  h1 房間電器
-  hr
-  vue_lazy_table(:table_data = "devices",
-              :rows = "devices_table_rows")
+section.manage_room.container-fluid 
+  .row
+    .col-sm-12
+      h1 房間電器
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 電器列表
+        .panel-body
+        
+          vue_lazy_table(:table_data = "devices",
+                      :rows = "devices_table_rows")
   //- editor_form(:dataset="devices")
   //h1 推薦電器
   //hr

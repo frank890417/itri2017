@@ -1,35 +1,41 @@
 <template lang="pug">
-  section.manage_index
-      h1 節能介紹
-      hr
-      div(v-if="temp_zh")
-        .col-sm-12
-          h3 區塊-關於
-          hr
-        .col-sm-6
-          h4 長條圖
-          input.form-control(v-model="temp_zh.zh.page_about.section_1.title")
-          textarea.form-control(v-model="temp_zh.zh.page_about.section_1.content" rows=5)
-        .col-sm-6
-          h4 泡泡圖
-          input.form-control(v-model="temp_zh.zh.page_about.section_2.title")
-          textarea.form-control(v-model="temp_zh.zh.page_about.section_2.content" rows=5)
-          br
-        .col-sm-6
-          h4 資料-夏月
-          div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.summer").form-inline
-            label(style="width: 70px") {{d.name}}
-            input.form-control(v-model="d.value")
-        .col-sm-6
-          h4 資料-非夏月
-          div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.nsummer").form-inline
-            label(style="width: 70px")  {{d.name}}
-            input.form-control(v-model="d.value")
-        .col-sm-12
-          br
-          button.btn.btn-danger(@click="save_website_data") 儲存變更
-          br
-    
+  section.manage_index.container-fluid
+
+    .row
+      .col-sm-12
+        h1 頁面編輯
+    .row
+      .col-sm-12
+        .panel.panel-primary
+          .panel-heading 介紹區塊
+          .panel-body
+            h1 節能介紹
+            hr
+            div(v-if="temp_zh")
+              .col-sm-6
+                h4 長條圖
+                input.form-control(v-model="temp_zh.zh.page_about.section_1.title")
+                textarea.form-control(v-model="temp_zh.zh.page_about.section_1.content" rows=5)
+              .col-sm-6
+                h4 泡泡圖
+                input.form-control(v-model="temp_zh.zh.page_about.section_2.title")
+                textarea.form-control(v-model="temp_zh.zh.page_about.section_2.content" rows=5)
+                br
+              .col-sm-6
+                h4 資料-夏月
+                div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.summer").form-inline
+                  label(style="width: 70px") {{d.name}}
+                  input.form-control(v-model="d.value")
+              .col-sm-6
+                h4 資料-非夏月
+                div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.nsummer").form-inline
+                  label(style="width: 70px")  {{d.name}}
+                  input.form-control(v-model="d.value")
+              .col-sm-12
+                br
+                button.btn.btn-danger(@click="save_website_data") 儲存變更
+                br
+          
 </template>
 
 <script>

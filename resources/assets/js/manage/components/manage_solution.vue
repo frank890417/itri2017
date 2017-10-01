@@ -1,8 +1,14 @@
 <template lang="pug">
-section.manage_room
-  h1 行動處方
-  hr
-  vue_lazy_table(:table_data = "advices")
+section.manage_room.container-fluid 
+  .row
+    .col-sm-12
+      h1 行動處方
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 處方列表
+        .panel-body
+          vue_lazy_table(:table_data = "advices")
     
 </template>
 

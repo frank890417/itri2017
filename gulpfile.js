@@ -24,6 +24,9 @@ elixir((mix) => {
           './node_modules/babel-polyfill/dist/polyfill.js',
           'manage/app.js'],
         'public/js/backend.js')
+        .webpack([
+           'advice_devices_compiled.js'],
+         'public/js/advice_devices.js')
        .jade({
         baseDir: './resources',
         blade: true,

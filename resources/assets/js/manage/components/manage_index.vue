@@ -1,21 +1,34 @@
 <template lang="pug">
-section.manage_index.panel.panel-primary
+section.manage_index.container-fluid 
+  .row
+    .col-sm-12
+      h1 資料分析
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 使用者基本資料
+        .panel-body
+          vue_lazy_table(:table_data = "userdetails",
+                        :rows = "uuid_devicelog_rows")
 
 
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 使用者紀錄
+        .panel-body
+          vue_lazy_table(:table_data = "show_uuid_table"
+                  :rows = "uuid_devicelog_rows")
 
-  h1 使用者基本資料
-  hr
-  vue_lazy_table(:table_data = "userdetails")
-
-  h1 使用者紀錄
-  hr
-  vue_lazy_table(:table_data = "show_uuid_table"
-              :rows = "uuid_devicelog_rows")
-  h1 統計
-  hr
-  vue_lazy_table(:table_data = "conclude_table"
-              :rows = "conclude_table_rows"
-              :configs = "{show_id: false, show_search: false}")
+  
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 統計
+        .panel-body
+          vue_lazy_table(:table_data = "conclude_table"
+                      :rows = "conclude_table_rows"
+                      :configs = "{show_id: false, show_search: false}")
   //h1 裝置
   //hr
   //vue_lazy_table(:table_data = "devices",
@@ -35,7 +48,7 @@ section.manage_index.panel.panel-primary
 </template>
 
 <script>
-import advice_devices from "../../advice_devices_compiled"
+// import advice_devices from "../../advice_devices_compiled"
 import vue_lazy_table from '../components/vue_lazy_table';
 import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
@@ -50,7 +63,8 @@ export default {
         "uuid -> 使用者編號",
         "total_consumption -> 總消耗度數(年)",
         "created_time -> 時間",
-        "device_count -> 填寫電器數"
+        "device_count -> 填寫電器數",
+        "updated_at -> __hide"
 
       ],
       conclude_table_rows: [
@@ -82,8 +96,8 @@ export default {
 
       ],
       now_select_device: "電視機",
-      advice_devices: advice_devices.advice_devices,
-      advice_catas: advice_devices.advice_catas,
+      // advice_devices: advice_devices.advice_devices,
+      // advice_catas: advice_devices.advice_catas,
       temp_zh: null
     }
   },

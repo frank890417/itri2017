@@ -7,8 +7,8 @@
     <link href="/css/admin_css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/admin_css/datepicker3.css" rel="stylesheet">
     <link href="/css/admin_css/styles.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/skins/lightgray/skin.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/skins/lightgray/content.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/skins/lightgray/skin.min.css" rel="stylesheet"> -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.4/skins/lightgray/content.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Icons -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -68,8 +68,8 @@
         -->
         <ul class="nav menu">
           <!--,v-bind:class="{'active':(route.path==route.link)}"!-->
-          <li v-for="route in routes" >
-              <router-link class="list-group-item" :to="route.link">
+          <li v-for="route in routes" :class="{active: $route.path==route.link}">
+              <router-link :to="route.link">
                  <svg class="glyph stroked dashboard-dial">
                    <use xlink:href="#stroked-dashboard-dial"></use>
                  </svg> @{{route.label}}
@@ -151,6 +151,7 @@
       <!-- /.sidebar -->
       <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <!-- @yield('content') -->
+
         <transition name="fade" mode="out-in">
           <router-view :key="$route.path"></router-view>
         </transition>

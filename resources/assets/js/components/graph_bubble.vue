@@ -1,4 +1,4 @@
-<template lang="pug">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <template lang="pug">
   svg.graph_bubble(:data-hash="hash")
 
 </template>
