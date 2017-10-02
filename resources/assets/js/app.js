@@ -13,6 +13,8 @@ import vue_i18n from './vue_i18n'
 import axios from 'axios'
 
 import {mapState,mapMutations} from 'vuex'
+import App from './components/App'
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -35,6 +37,9 @@ new Vue({
   },
   methods: {
     ...mapMutations(['set_scrollTop'])
+  },
+  components: {
+    App
   }
 })
 

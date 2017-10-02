@@ -13,10 +13,6 @@
               span.remove_btn(v-if="room.type!='origin'",@click="removeAltRoom(room)") -
             button.btn(v-for="(room,rid) in rooms",v-if="room.type=='origin'",@click="addAltRoom(room.name)")
               span + 新增{{room.name}}
-
-            
-          
-
     .container
       .row
         .col-sm-12
@@ -92,10 +88,15 @@
               .col-xs-8
                 input(type="number",v-model="now_device_profile.consumption")
             .form-group.row(v-if="now_device.type=='light'")
-              ul.room_device_list
-                li(:class="{active:now_device_profile.light_option==lid}",
-                   @click="now_device_profile.light_option=lid",
-                   v-for="(light,lid) in light_list") {{light.name}}
+              .col-xs-12
+                ul.room_device_list
+                  li(:class="{active:now_device_profile.light_option==lid}",
+                    @click="now_device_profile.light_option=lid;now_device_profile.consumption=light_list[lid].value",
+                    v-for="(light,lid) in light_list") {{light.name}}
+              .col-xs-4
+                label 電器瓦數
+              .col-xs-8
+                input(type="number",v-model="now_device_profile.consumption")
             .form-group.row
               .col-xs-4
                 label 數量
@@ -166,6 +167,17 @@ export default {
     //get devices
     axios.get("/api/devices").then(res=>{
       let device_data = res.data
+
+      //add other by reduce all device data
+      let other_devices = 
+        device_data.map(o=>o.name)
+                   .filter((d,i,arr)=>arr.indexOf(d)==i)
+                   .map(devicename=>device_data.find(r=>r.name==devicename))
+      other_devices = JSON.parse(JSON.stringify(other_devices))
+      other_devices.forEach(device=>device.place="其他")
+      device_data = device_data.concat(other_devices)
+
+      //initial device options
       device_data.forEach(obj=>{
         let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
         obj.place_id=deviceBelongRoomId
@@ -174,11 +186,15 @@ export default {
         obj.buy_time=""
         obj.alter_specs=[]
         obj.consumption=obj.default_consumption     
+        if (obj.type=="light"){
+          obj.consumption=this.light_list[0].value
+        }
+        if (obj.type=="hotwater"){
+          obj.consumption=1070
+        }
         
         obj.roomtype="origin"
         obj.hash=this.rooms[deviceBelongRoomId].hash
-
-        
       })
 
       this.devices=device_data
@@ -244,7 +260,8 @@ export default {
             cump=profile.consumption;
           }
           if (device.type=="light"){
-            cump=this.light_list[profile.light_option].value;
+            cump=profile.consumption;
+            // cump=this.light_list[profile.light_option].value;
             
           }if (device.type=="hotwater"){
             cump=1070;
@@ -254,7 +271,7 @@ export default {
           var hour=[device.rarely,device.occasionally,device.often,device.frequently][profile.option];
           var device_consumption= parseInt(cump*profile.count*device.consumption_mul*device.day
                   *hour/1000 );
-          console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
+          // console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
 
           //老舊加乘
           let optiontext = profile.buy_time.replace("+","")
@@ -317,15 +334,20 @@ export default {
       }
       // console.log(room_sum)
 
+
       //後處理房間百分比與包資料
       room_sum=room_sum.map(value=>({value,percentage: parseInt(100*value/total_c)}));
-
-      var result={
+      let result={
         value: total_c,
         log: log_list,
         room_sum: room_sum,
-        user_filled: this.devices.map(dev=>dev.count).reduce((a,b)=>(a+b),0)
+        user_filled: this.devices.map(
+            device => [device].concat(device.alter_specs)
+                              .filter(o=>o.count>0)
+                              .map(o=>parseInt(o.count))
+        ).reduce((a,b) => (a+b),0)
       };
+      
       //回傳與設定vuex全域變數
       this.set_devices(this.devices.slice());
       this.set_device_result(result);

@@ -26,7 +26,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass?indentedSyntax">
 
-
 $color_grey: #4D4D4D
 $color_yellow: #F5DA4E
 

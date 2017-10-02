@@ -96,6 +96,10 @@ export default {
                   .attr("x1",-200).attr("x2",1000).attr("y1",graph_height).attr("y2",graph_height)
                   .attr("stroke","#333")
 
+      // var unitline = svg.append("line")
+      //             .attr("x1",-200).attr("x2",1000).attr("y1",graph_height/2).attr("y2",graph_height/2)
+      //             .attr("stroke","#333")
+
       summer_old.attr("fill","transparent").attr("stroke","black")
         
         .attr("x",(d,i)=>(i*split_width))

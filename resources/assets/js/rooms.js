@@ -37,5 +37,19 @@ var rooms = [
   }
 
 ];
+var unique_device = 
+  rooms.map(r=>r.devices)
+    .reduce((all,ar)=>all.concat(ar),[])
+    .filter((d,i,arr)=>arr.indexOf(d)==i)
+
+rooms.push({
+    id: 4,
+    name: "其他", 
+    default_percentage: 0,  
+    eng: "Other", 
+    slogan: "", 
+    pic: "all",
+    devices: unique_device
+})
 
 export default rooms

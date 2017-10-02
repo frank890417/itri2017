@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import page_index from '../components/page_index'
+import App from '../components/App'
 
 Vue.use(Router)
 
@@ -8,7 +8,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: page_index
+      component: App
     }
   ],
   mode: "history"

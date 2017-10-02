@@ -51,13 +51,11 @@
                   span 近期用電
                   button_moreinfo(:msg="'帳單電費為兩個月一期'")
                   span  ({{summer=='true'?"夏月":"非夏月"}})：
-
               .col-sm-8
                 .form-group
                   .btn_group_inline
                     button.btn(:class="{active:summer=='true'}",@click="summer='true'") 夏月
                     button.btn(:class="{active:summer=='false'}",@click="summer='false'") 非夏月
-                 
                 .form-group
                   label 度數：
                     button_moreinfo(:msg="'請填入台電電費單上之用電度數'")
