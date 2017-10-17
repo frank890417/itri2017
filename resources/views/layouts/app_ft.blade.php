@@ -7,6 +7,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>家庭電器用電家計簿 - 工研院綠能所</title>
+
+     <meta property="og:title" content="家庭電器用電家計簿 - 工研院綠能所" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="http://saving.energypark.org.tw/img/og.png" />
+    <meta property="og:description" content="電器在我們沒注意時慢慢的老化，成為家中荷包的重擔， 讓我們一起抓出家裡的吃電怪獸吧！" />
+
     <!-- Styles -->
     
     <link rel="icon" type="image/png" href="img/favicon.png" />

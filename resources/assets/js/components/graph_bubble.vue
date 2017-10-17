@@ -67,8 +67,8 @@ export default {
   },
   mounted () {
     var vobj=this;
-    this.width=this.size ? this.size.width: $(this.$el).outerWidth();
-    this.height=this.size ? this.size.height:$(this.$el).outerHeight();
+    this.width= (this.size && this.size.width) ? this.size.width: $(this.$el).outerWidth();
+    this.height= (this.size && this.size.height) ? this.size.height:$(this.$el).outerHeight();
     this.mul=this.use_mul ? this.use_mul:this.mul;
     this.unit=this.use_unit ? this.use_unit:this.unit;
     this.power=this.use_power ? this.use_power:this.power;

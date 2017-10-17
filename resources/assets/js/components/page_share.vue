@@ -65,7 +65,7 @@ export default {
   methods: {
     ...mapMutations(['set_loading','toggle_result']),
     share_result(){
-      
+      window.open('https://www.facebook.com/sharer/sharer.php?u='+"http://saving.energypark.org.tw")
     }
   },
   watch:{

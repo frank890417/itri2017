@@ -30,12 +30,13 @@
                          :use_power="0.33",
                          :use_unit="'度'",
                          :use_mul="8",
-                         @set_device="set_advice_device"
+                         @set_device="set_advice_device",
+                         :size="{height: 600}"
                         )
             
             ul.room_part_value
               li(v-for="(r,id) in device_result.room_sum" ,
-                 :style="{width: (r.percentage+12)+'%'}",
+                 :style="{width: (r.percentage+15)+'%'}",
                  @mouseenter="now_place_id=id" , 
                  @mouseleave="now_place_id=-1" , 
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
@@ -294,7 +295,7 @@ export default {
         .filter((obj) => obj.device == device_name)
         .filter((obj) => obj.cata == cata)
         .sort((a, b) => (b.cata > a.cata))
-      console.log(result)
+      // console.log(result)
       return result;
     },
     set_advice_device(name) {
