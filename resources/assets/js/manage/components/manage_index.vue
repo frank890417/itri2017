@@ -9,7 +9,7 @@ section.manage_index.container-fluid
         .panel-heading 使用者基本資料
         .panel-body
           vue_lazy_table(:table_data = "userdetails",
-                        :rows = "uuid_devicelog_rows")
+                        :rows = "uuid_user_details")
 
 
   .row
@@ -58,6 +58,19 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
+      uuid_user_details: [
+        "id -> 編號",
+        "uuid -> 使用者編號",
+        "county -> 縣市",
+        "member_count -> 成員數量",
+        "area_size -> 大小",
+        "summer -> 夏月",
+        "degree -> 度",
+        "money -> 錢",
+        "created_at -> 建立時間",
+        "updated_at -> __hide"
+
+      ],
       uuid_devicelog_rows: [
         "id -> 編號",
         "uuid -> 使用者編號",

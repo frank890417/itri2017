@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get("/devicelog/uuid","DevicelogController@show_uuid_group");
+Route::resource("devices","DeviceController");
 Route::get("devices","ApiController@devices");
 Route::get("userdetails","ApiController@userdetails");
 Route::get("/websiteinfo/key/{key}","ApiController@websiteinfo");

@@ -14,12 +14,12 @@
           span(v-if="row_key==sort_key && !sort_direction") ▲
           span(v-if="row_key!=sort_key ") 　
       tbody
-        tr(v-for="(row,rid) in sliced_data", :key="row")
+        tr(v-for="(row,rid) in sliced_data", :key="rid")
           td(v-for = "row_key in (row_keys || default_row_keys)",
              v-if = "row_name_alias(row_key)!='__hide'")
             | {{ row[row_key] }}
           td
-            .btn.btn-default 編輯
+            .btn.btn-default(@click="edit(row)") 編輯
             //.btn.btn-danger 刪除
     .page_nav
       .btn.btn-default(v-if="pages.length>1",
@@ -33,7 +33,7 @@ import Vue from 'vue'
 // sorted -> sliced
 export default {
   name: 'vue_lazy_table',
-  props: ["table_data","row_keys","rows","configs"],
+  props: ["table_data","row_keys","rows","configs","edit"],
   data () {
     return {
       sort_key: null,
@@ -112,7 +112,7 @@ export default {
       
     },
     sliced_data(){
-      let raw_sort = this.sorted_data
+      let raw_sort = this.sorted_data.slice()
       let slice_pre = (this.sort_direction?raw_sort:raw_sort.reverse());
       let slice_post = slice_pre.slice( (this.page-1)*this.page_split_num,(this.page)*this.page_split_num )
       return slice_post

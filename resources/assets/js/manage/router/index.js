@@ -4,7 +4,10 @@ Vue.use(Router)
 import manage_index from '../components/manage_index.vue'
 import manage_about from '../components/manage_about.vue'
 import manage_room from '../components/manage_room.vue'
+import manage_device from '../components/manage_device.vue'
 import manage_solution from '../components/manage_solution.vue'
+import manage_test from '../components/manage_test.vue'
+
 
 export default new Router({
   routes: [
@@ -25,6 +28,11 @@ export default new Router({
       component: manage_room
     },
     {
+      path: '/device/:device_id',
+      component: manage_device,
+      props: true
+    },
+    {
       path: '/solution',
       component: manage_solution
     },
@@ -39,6 +47,10 @@ export default new Router({
     {
       path: '/dataset',
       component: manage_index
+    },
+    {
+      path: '/test',
+      component: manage_test
     }
   ],
   mode: "hash"

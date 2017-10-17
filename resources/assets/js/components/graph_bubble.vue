@@ -1,5 +1,5 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <template lang="pug">
-  svg.graph_bubble(:data-hash="hash")
+<template lang="pug">
+  svg.graph_bubble
 
 </template>
 
@@ -44,6 +44,7 @@ export default {
     datas(){
        // console.log(this.datas.map((obj)=>obj.value));
        this.datas.forEach((obj)=>{
+          //this.nodex.find((obj2)=>(obj.name==obj2.name && && obj.place==obj2.place && obj.name!=""))
           this.nodes.forEach(
             (obj2)=>{
               if (obj.name==obj2.name && obj.place==obj2.place && obj.name!=""){
@@ -66,8 +67,8 @@ export default {
   },
   mounted () {
     var vobj=this;
-    this.width=this.size ? this.size.width: $("svg.graph_bubble[data-hash='"+this.hash+"']").outerWidth();
-    this.height=this.size ? this.size.height:$("svg.graph_bubble[data-hash='"+this.hash+"']").outerHeight();
+    this.width=this.size ? this.size.width: $(this.$el).outerWidth();
+    this.height=this.size ? this.size.height:$(this.$el).outerHeight();
     this.mul=this.use_mul ? this.use_mul:this.mul;
     this.unit=this.use_unit ? this.use_unit:this.unit;
     this.power=this.use_power ? this.use_power:this.power;
@@ -107,7 +108,9 @@ export default {
     ;
 
     //設定svg畫布
-    var svg=d3.select("svg.graph_bubble[data-hash='"+this.hash+"']");
+    // var svg=d3.select("svg.graph_bubble[data-hash='"+this.hash+"']");
+    var svg=d3.select(this.$el);
+    // console.log("grb",svg)
 
     //attrs 一次設定多個屬性（要多引入js庫）
 
@@ -207,13 +210,14 @@ export default {
         if (d.r<=0) d.r=0.01;
       });
       
-        //預先設定位置跟填色，還有select用的dataid
+      // console.log()
+      //預先設定位置跟填色，還有select用的dataid
       cir.attrs({
-        cx: function(d){return d.x},
-        cy: function(d){return d.y},
-        r: function(d){return d.r},
+        cx: function(d){return d.x?d.x:0},
+        cy: function(d){return d.y?d.y:0},
+        r: function(d){return d.r?d.r:0},
         fill: (d)=>{
-          return color(d.r);
+          return color(d.r?d.r:0);
         },
         dataid: (d,i)=>(i)
       })

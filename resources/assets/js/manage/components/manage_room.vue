@@ -8,9 +8,9 @@ section.manage_room.container-fluid
       .panel.panel-primary
         .panel-heading 電器列表
         .panel-body
-        
           vue_lazy_table(:table_data = "devices",
-                      :rows = "devices_table_rows")
+                      :rows = "devices_table_rows",
+                      :edit = "edit")
   //- editor_form(:dataset="devices")
   //h1 推薦電器
   //hr
@@ -68,6 +68,10 @@ export default {
         'default_consumption -> 預設能耗',
         'consumption_mul -> 能耗加乘',
         'type -> 電器種類',
+        'english_name -> 英文名稱',
+        'sharetext -> 分享文字',
+        'year_options -> 年份選項',
+        'old_condition -> 老舊條件',
         'created_at -> 創建時間 | hide',
         'updated_at -> 更新時間 | hide'
 
@@ -104,6 +108,10 @@ export default {
     ...mapActions(['push_website_data']),
     save_website_data(){
       this.push_website_data(this.temp_zh)
+    },
+    edit(event){
+      console.log(event)
+      this.$router.push("/device/"+event.id)
     }
   }
   // methods: {}

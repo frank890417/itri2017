@@ -30,7 +30,9 @@ export default {
       }
     },
     highlight(){
-      var svg=d3.select("svg.graph_bar[data-hash='"+this.hash+"']");
+      // var svg=d3.select("svg.graph_bar[data-hash='"+this.hash+"']");
+      var svg=d3.select(this.$el);
+      console.log("d3 select root svg",svg);
       var summer_old=svg.selectAll("rect.tem_summer")
       var summer_new=svg.selectAll("rect.tem_summer_new")
       if (this.highlight=="summer"){
