@@ -19,7 +19,8 @@
              v-if = "row_name_alias(row_key)!='__hide'")
             | {{ row[row_key] }}
           td
-            .btn.btn-default(@click="edit(row)") 編輯
+            .btn.btn-default(@click="edit(row)",
+                             v-if="edit") 編輯
             //.btn.btn-danger 刪除
     .page_nav
       .btn.btn-default(v-if="pages.length>1",
@@ -84,9 +85,9 @@ export default {
       })
 
       if (data_clone){
-        //add id col
+        // add id col
         if (this.conf.show_id){data_clone.forEach( (o,id)=> {
-            if (!o.id) { o.id = id+1}
+            if (!o.id) { o.id = id}
           }
         )}
 

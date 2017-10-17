@@ -111,7 +111,7 @@ export default {
     },
     edit(event){
       console.log(event)
-      this.$router.push("/device/"+event.id)
+      this.$router.push("/device/"+(event.id))
     }
   }
   // methods: {}

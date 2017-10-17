@@ -16,13 +16,14 @@ section.manage_room.container-fluid
         .panel-body
           //pre(v-html="now_device")
           //h3 {{now_device.name}}
-          .form-group.row(v-for="(item,key) in now_device")
+          .form-group.row(v-for="(item,key) in now_device",
+                          v-if="!(hidden_attrs.indexOf(key)+1)")
             .col-sm-3
-              label {{key}}
+              label {{ translate_label(key) }}
             .col-sm-9
               input.form-control(v-model="now_device[key]")
           .form-group
-            .btn.btn-primary 儲存推薦電器
+            .btn.btn-primary(@click='save_device_infos') 儲存推薦電器
         //.panel-body {{devices}}
           //vue_lazy_table(:table_data = "devices",
                          :rows = "devices_table_rows")
@@ -42,46 +43,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
-      uuid_devicelog_rows: [
-        "id -> 編號",
-        "uuid -> 使用者編號",
-        "total_consumption -> 總消耗度數(年)",
-        "created_time -> 時間",
-        "device_count -> 填寫電器數"
-      ],
-      conclude_table_rows: [
-        'total -> 人數總計',
-        'avg -> 平均度數',
-        'device_count -> 平均填寫電器'
-      ],
-      adv_table_rows:[
-        'brand -> 品牌',
-        'name -> 名稱',
-        'comsumption -> 功率',
-        'size -> 尺寸',
-        'link -> 連結 | hide'
-      ],
-      devices_table_rows:[
-        'name -> 名稱',
-        'place -> 地點',
-        'count -> 預設數量 | hide',
-        'rarely -> 很少',
-        'occasionally -> 偶爾',
-        'often -> 經常',
-        'frequently -> 頻繁',
-        'day -> 使用天數',
-        'default_consumption -> 預設能耗',
-        'consumption_mul -> 能耗加乘',
-        'type -> 電器種類',
-        'english_name -> 英文名稱',
-        'sharetext -> 分享文字',
-        'year_options -> 年份選項',
-        'old_condition -> 老舊條件',
-        'created_at -> 創建時間 | hide',
-        'updated_at -> 更新時間 | hide'
-
-      ],
-      now_select_device: "電視機",
+      hidden_attrs: ['id','created_at','updated_at'],
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
       temp_zh: null
@@ -100,7 +62,7 @@ export default {
       }]
     },
     now_device(){
-      return this.devices[this.device_id]
+      return this.devices.find(o=>o.id==this.device_id)
     }
   },
   watch: {
@@ -116,9 +78,45 @@ export default {
     ...mapActions(['push_website_data']),
     save_website_data(){
       this.push_website_data(this.temp_zh)
+    },
+    translate_label(eng){
+      let translist = [
+        "id -> #",
+        "name -> 名稱",
+        "place -> 地點",
+        "rarely -> 很少(hr)",
+        "count -> 數量",
+        "occasionally -> 偶爾(hr)",
+        "often -> 經常(hr)",
+        "frequently -> 頻繁(hr)",
+        "day -> 使用天數",
+        "default_consumption -> 預設瓦數",
+        "consumption_mul -> 消耗加乘",
+        "type -> 種類",
+        "created_at -> 建立時間",
+        "updated_at -> 修改時間",
+        "english_name -> 英文名稱",
+        "sharetext -> 分享文字",
+        "year_options -> 年份",
+        "old_condition -> 老舊條件",
+        
+      ]
+      translist = translist.map(o=>o.split(" -> "))
+      let result = translist.find(o=>o[0]==eng)
+      return result?result[1]:eng
+
+    },
+    save_device_infos(){
+      axios.post('/device/'+this.device_id,{
+        _method: 'put',
+      }).then((res)=>{
+        // console.log("ajax result",res)
+        if (res.data.status=='success'){
+          console.log("儲存成功")
+        }
+      })
     }
   }
-  // methods: {}
 }
 </script>
 
