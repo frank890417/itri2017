@@ -8,7 +8,8 @@ section.manage_room.container-fluid
       .panel.panel-primary
         .panel-heading 處方列表
         .panel-body
-          vue_lazy_table(:table_data = "advices")
+          vue_lazy_table(:table_data = "advices",
+                        :dataTitle="'處方列表'")
     
 </template>
 

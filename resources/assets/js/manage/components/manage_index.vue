@@ -9,7 +9,8 @@ section.manage_index.container-fluid
         .panel-heading 使用者基本資料
         .panel-body
           vue_lazy_table(:table_data = "userdetails",
-                        :rows = "uuid_user_details")
+                        :rows = "uuid_user_details",
+                        :dataTitle="'使用者基本資料'")
 
 
   .row
@@ -18,7 +19,8 @@ section.manage_index.container-fluid
         .panel-heading 使用者紀錄
         .panel-body
           vue_lazy_table(:table_data = "show_uuid_table"
-                  :rows = "uuid_devicelog_rows")
+                  :rows = "uuid_devicelog_rows",
+                        :dataTitle="'使用者紀錄'")
 
   
   .row

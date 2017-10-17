@@ -4,6 +4,8 @@
       .form-group-inline
         label Search: 
         input(v-model="search_keyword")
+        .btn.btn-primary.pull-right(@click="export_csv") 匯出csv
+        
     table.table.table-hover
       thead
         th(v-for = "row_key in (row_keys || default_row_keys)",
@@ -34,7 +36,7 @@ import Vue from 'vue'
 // sorted -> sliced
 export default {
   name: 'vue_lazy_table',
-  props: ["table_data","row_keys","rows","configs","edit"],
+  props: ["table_data","row_keys","rows","configs","edit","dataTitle"],
   data () {
     return {
       sort_key: null,
@@ -165,6 +167,65 @@ export default {
     get_key_handler(key){
       let key_obj = this.parse_items_list.find(o=>o.name==key)
       return key_obj?key_obj.handler:null
+    },
+    export_csv(){
+      
+      let convertToCSV = function convertToCSV(objArray) {
+          var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+          var str = '';
+
+          for (var i = 0; i < array.length; i++) {
+              var line = '';
+              for (var index in array[i]) {
+                  if (line != '') line += ','
+
+                  line += array[i][index];
+              }
+
+              str += line + '\r\n';
+          }
+
+          return str;
+      }
+
+      let exportCSVFile = function exportCSVFile(headers, items, fileTitle) {
+          if (headers) {
+              items.unshift(headers);
+          }
+
+          // Convert Object to JSON
+          var jsonObject = JSON.stringify(items);
+
+          var csv = convertToCSV(jsonObject);
+
+          var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+
+          var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          if (navigator.msSaveBlob) { // IE 10+
+              navigator.msSaveBlob(blob, exportedFilenmae);
+          } else {
+              var link = document.createElement("a");
+              if (link.download !== undefined) { // feature detection
+                  // Browsers that support HTML5 download attribute
+                  var url = URL.createObjectURL(blob);
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", exportedFilenmae);
+                  link.style.visibility = 'hidden';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+              }
+          }
+      }
+
+      let rkey = this.row_keys || this.default_row_keys;
+      let headers = {};
+      rkey.forEach(o=>headers[o]=o)
+
+      var fileTitle = this.dataTitle || "資料匯出"; // or 'my-unique-title'
+      let dateString = ( new Date().toLocaleDateString()).replace(/[\/\s\:]/g,"");
+      exportCSVFile(headers, this.sorted_data, fileTitle + dateString); 
+
     }
   }
 }

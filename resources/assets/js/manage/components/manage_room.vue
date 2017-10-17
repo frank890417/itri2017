@@ -10,7 +10,8 @@ section.manage_room.container-fluid
         .panel-body
           vue_lazy_table(:table_data = "devices",
                       :rows = "devices_table_rows",
-                      :edit = "edit")
+                      :edit = "edit",
+                        :dataTitle="'電器列表'")
   //- editor_form(:dataset="devices")
   //h1 推薦電器
   //hr
