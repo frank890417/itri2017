@@ -109,10 +109,11 @@ export default {
     save_device_infos(){
       axios.post('/device/'+this.device_id,{
         _method: 'put',
+        ...this.now_device
       }).then((res)=>{
         // console.log("ajax result",res)
         if (res.data.status=='success'){
-          console.log("儲存成功")
+          alert("儲存成功")
         }
       })
     }

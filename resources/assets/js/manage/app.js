@@ -39,13 +39,14 @@ new Vue({
       },{
         label: "診斷結果",
         link: "/share",
-      },{
-        label: "圖表與分析",
-        link: "/analysis",
-      },{
-        label: "外部資料",
-        link: "/dataset",
-      }
+      },
+      // {
+      //   label: "圖表與分析",
+      //   link: "/analysis",
+      // },{
+      //   label: "外部資料",
+      //   link: "/dataset",
+      // }
     ]
   }
 })

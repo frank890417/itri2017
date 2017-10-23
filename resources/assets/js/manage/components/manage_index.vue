@@ -10,17 +10,17 @@ section.manage_index.container-fluid
         .panel-body
           vue_lazy_table(:table_data = "userdetails",
                         :rows = "uuid_user_details",
-                        :dataTitle="'使用者基本資料'")
-
+                        :dataTitle = "'使用者基本資料'")
+          //graph_bar(:data = "")
 
   .row
     .col-sm-12
       .panel.panel-primary
         .panel-heading 使用者紀錄
         .panel-body
-          vue_lazy_table(:table_data = "show_uuid_table"
-                  :rows = "uuid_devicelog_rows",
-                        :dataTitle="'使用者紀錄'")
+          vue_lazy_table(:table_data = "show_uuid_table",
+                         :rows = "uuid_devicelog_rows",
+                         :dataTitle="'使用者紀錄'")
 
   
   .row
@@ -113,7 +113,8 @@ export default {
       now_select_device: "電視機",
       // advice_devices: advice_devices.advice_devices,
       // advice_catas: advice_devices.advice_catas,
-      temp_zh: null
+      temp_zh: null,
+      
     }
   },
   computed: {
@@ -127,7 +128,26 @@ export default {
         avg: (this.uuid_devicelog.map(o=>o.total_consumption).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(2),
         device_count: (this.uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(1)
       }]
-    }
+    },
+    // graph_degree(){
+    //   // let result = this.uuid_devicelog_rows.reduce((total,obj)=>{
+    //   //   for(let i =0;i<5;i++){
+    //   //     if (obj.total_consumption > i*4000 && obj.total_consumption<(i+1)*4000){
+    //   //       total[i+"-"+i*4000]++
+    //   //     }
+    //   //   }
+    //   // },({
+    //   //   "0-4000": 0,
+    //   //   "4000-8000": 0,
+    //   //   "8000-12000": 0,
+    //   //   "12000-16000": 0,
+    //   //   "16000-20000": 0,
+    //   // }))
+
+      
+    //   // return Object.keys(result).map(k=>({name: k,value: result[k]}))
+
+    // }
   },
   watch: {
     website_zh(){
