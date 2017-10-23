@@ -4,13 +4,32 @@ section.manage_room.container-fluid
     .col-sm-12
       h1 行動處方
   .row
-    .col-sm-12
+    .col-sm-8
       .panel.panel-primary
         .panel-heading 處方列表
         .panel-body
           vue_lazy_table(:table_data = "advices",
-                        :dataTitle="'處方列表'")
-    
+                        :dataTitle="'處方列表'",
+                        :edit = "switchDevice")
+    .col-sm-4
+      .panel.panel-default
+        .panel-heading 建議編輯-{{nowAdviceId}}
+        .panel-body
+          .row
+            .col-sm-12
+              .form-group
+                label 電器名稱
+                input.form-control(v-model="advices[nowAdviceId].device")
+              .form-group
+                label 建議種類
+                input.form-control(v-model="advices[nowAdviceId].cata")
+              .form-group
+                label 建議內容
+                textarea.form-control(row=10,v-model="advices[nowAdviceId].content")
+                //textarea(v-model="")
+              .form-group
+                .btn.btn-primary 儲存建議
+      
 </template>
 
 <script>
@@ -25,6 +44,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
+      nowAdviceId: 0,
       uuid_devicelog_rows: [
         "id -> 編號",
         "uuid -> 使用者編號",
@@ -93,6 +113,9 @@ export default {
     ...mapActions(['push_website_data']),
     save_website_data(){
       this.push_website_data(this.temp_zh)
+    },
+    switchDevice(advice){
+      this.nowAdviceId=advice.id
     }
   }
   // methods: {}
