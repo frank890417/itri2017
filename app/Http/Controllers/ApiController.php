@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Device;
+use App\Advice;
 use App\Websiteinfo;
 use App\Userdetail;
 
@@ -14,6 +15,10 @@ class ApiController extends Controller
     //
     public function devices(){
       return Device::all();
+    }
+    //
+    public function advices(){
+      return Advice::all();
     }
     public function userdetails(){
       return Userdetail::all();

@@ -7,28 +7,31 @@ section.manage_room.container-fluid
     .col-sm-8
       .panel.panel-primary
         .panel-heading 處方列表
+          .btn.btn-secondary(@click="addNewDevice") +新增建議
         .panel-body
           vue_lazy_table(:table_data = "advices",
                         :dataTitle="'處方列表'",
-                        :edit = "switchDevice")
+                        :edit = "switchDevice",
+                        :rows = "advice_rows")
     .col-sm-4
       .panel.panel-default
         .panel-heading 建議編輯-{{nowAdviceId}}
-        .panel-body
+        .panel-body(v-if="nowAdvice")
           .row
             .col-sm-12
               .form-group
                 label 電器名稱
-                input.form-control(v-model="advices[nowAdviceId].device")
+                input.form-control(v-model="nowAdvice.device")
               .form-group
                 label 建議種類
-                input.form-control(v-model="advices[nowAdviceId].cata")
+                input.form-control(v-model="nowAdvice.cata")
               .form-group
                 label 建議內容
-                textarea.form-control(row=10,v-model="advices[nowAdviceId].content")
+                textarea.form-control(row=10,v-model="nowAdvice.content")
                 //textarea(v-model="")
               .form-group
-                .btn.btn-primary 儲存建議
+                .btn.btn-primary(@click="saveAdvice") 儲存建議
+                .btn.btn-danger(@click="deleteAdvice") 刪除建議
       
 </template>
 
@@ -36,15 +39,17 @@ section.manage_room.container-fluid
 import advice_devices from "../../advices"
 import vue_lazy_table from './vue_lazy_table';
 // import editor_form from './editor_form';
-import advices from "../../advices"
+// import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
+import Axios from 'axios'
 
 export default {
   data () {
     return {
+
       msg: 'Welcome to Your Vue.js App',
-      advices: advices,
-      nowAdviceId: 0,
+      advices: [],
+      nowAdviceId: 1,
       uuid_devicelog_rows: [
         "id -> 編號",
         "uuid -> 使用者編號",
@@ -81,11 +86,25 @@ export default {
         'updated_at -> 更新時間 | hide'
 
       ],
+      advice_rows: [
+        "id -> 編號",
+        "device -> 裝置",
+        "cata -> 類別",
+        "content -> 內容",
+        "created_at -> __hide",
+        "updated_at -> 更新時間"
+
+      ],
       now_select_device: "電視機",
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
       temp_zh: null
     }
+  },
+  mounted(){
+    Axios.get('/api/advices').then((res)=>{
+      this.advices=res.data
+    })
   },
   computed: {
     ...mapState(['uuid_devicelog','devices','website_zh']),
@@ -98,7 +117,10 @@ export default {
         avg: (this.uuid_devicelog.map(o=>o.total_consumption).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(2),
         device_count: (this.uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(1)
       }]
-    }
+    },
+    nowAdvice(){
+      return this.advices.find( (ad)=>(ad.id==this.nowAdviceId) )
+    },
   },
   watch: {
     website_zh(){
@@ -116,6 +138,36 @@ export default {
     },
     switchDevice(advice){
       this.nowAdviceId=advice.id
+    },
+    saveAdvice(){
+      axios.post('/advice/'+this.nowAdviceId,{
+        _method: 'put',
+        ...this.nowAdvice
+      }).then((res)=>{
+        if (res.data.status=='success'){
+          alert("儲存成功")
+        }
+      })
+    },
+    addNewDevice(){
+      let newId = this.advices.push({
+        id: this.advices.map(o=>o.id).reduce((a,b)=>a>b?a:b)+1,
+        device: "ddd",
+        content: ""
+      })
+      this.nowAdviceId = newId
+    },
+    deleteAdvice(){
+      if (confirm('確認要刪除此項建議嗎?')){
+        Axios.post('/advice/'+this.nowAdviceId,{
+          _method: 'delete',
+        }).then((res)=>{
+
+          Axios.get('/api/advices').then((res)=>{
+            this.advices=res.data
+          })
+        })
+      }
     }
   }
   // methods: {}

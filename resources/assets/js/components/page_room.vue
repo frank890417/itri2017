@@ -85,7 +85,7 @@
             .form-group.row(v-if="now_device.type=='normal'")
               .col-xs-4
                 label 電器瓦數
-              .col-xs-8
+              .col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model="now_device_profile.consumption")
             .form-group.row(v-if="now_device.type=='light'")
               .col-xs-12
@@ -531,8 +531,10 @@ export default {
   },
   watch: {
     "now_device_profile.consumption": function(){
-      if (this.now_device_profile.consumption=="" || isNaN(this.now_device_profile.consumption) || this.now_device_profile.consumption<0){
-        this.now_device_profile.consumption=0
+      if (this.now_device_profile){
+        if (this.now_device_profile.consumption=="" || isNaN(this.now_device_profile.consumption) || this.now_device_profile.consumption<0 ){
+          this.now_device_profile.consumption=0
+        }
       }
     }
   }

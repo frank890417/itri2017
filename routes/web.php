@@ -17,6 +17,7 @@ Route::get('/manage', function () {
 });
 
 Route::resource("/device","DeviceController");
+Route::resource("/advice","AdviceController");
 Route::resource("/devicelog","DevicelogController");
 Route::resource("/userdetail","UserdetailController");
 Auth::routes();

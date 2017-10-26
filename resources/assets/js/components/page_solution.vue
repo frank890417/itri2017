@@ -37,8 +37,7 @@
             ul.room_part_value
               li(v-for="(r,id) in device_result.room_sum" ,
                  :style="{width: (r.percentage+15)+'%'}",
-                 @mouseenter="now_place_id=id" , 
-                 @mouseleave="now_place_id=-1" , 
+                 @click="now_place_id=id" ,
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12.card_prescription
           .card_inner
@@ -117,8 +116,9 @@
 import { mapState, mapMutations } from 'vuex'
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
-import advices from '../advices'
+// import advices from '../advices'
 import advice_devices from '../advice_devices_compiled' 
+import Axios from 'axios'
 
 export default {
   name: 'page_solution',
@@ -126,14 +126,14 @@ export default {
     return {
       now_place_id: -1,
       rooms,
-      advices,
+      advices: [],
       advice_device: '冷氣機',
       sound_expand: null,
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
       recommend_advice_filter: "",
       filter_brand: "",
-      advice_index: 0
+      advice_index: 1
     };
   },
   components: {
@@ -142,6 +142,9 @@ export default {
   mounted() {
     console.log("solution mounted");
     this.sound_expand = new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
+    Axios.get('/api/advices').then((res)=>{
+      this.advices=res.data
+    })
   },
   watch: {
     now_place_id() {
@@ -291,7 +294,7 @@ export default {
       return parseInt(100 * room_value / this.device_result.value);
     },
     get_advices(device_name, cata) {
-      var result = advices
+      var result = this.advices
         .filter((obj) => obj.device == device_name)
         .filter((obj) => obj.cata == cata)
         .sort((a, b) => (b.cata > a.cata))

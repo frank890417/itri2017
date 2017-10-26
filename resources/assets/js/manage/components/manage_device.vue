@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      advices: advices,
+      advices: [],
       hidden_attrs: ['id','created_at','updated_at'],
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
