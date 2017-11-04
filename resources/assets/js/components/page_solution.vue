@@ -26,7 +26,8 @@
           .card_inner
             .card_title
               h5 Comsumption Percentage
-              h2 用電比例視覺化
+              h2 用電比例視覺化({{now_room.name}})
+            .btn-bubble-all(@click="now_place_id=-1", v-if="now_place_id!=-1")  &lt; 顯示總比例
             graph_bubble(:datas="device_value",
                          :use_power="0.33",
                          :use_unit="'度'",
@@ -38,6 +39,7 @@
             ul.room_part_value
               li(v-for="(r,id) in device_result.room_sum" ,
                  :style="{width: (r.percentage+15)+'%'}",
+                 v-if="r.percentage",
                  @click="now_place_id=id" ,
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
         .card.col-sm-12.card_prescription
