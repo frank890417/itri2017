@@ -4,6 +4,7 @@
       .row
         .col-sm-12
           h1.title RESULT
+            br.visible-xs
             span.chinese 診斷結果
             button_moreinfo(:msg="'計算結果僅供參考，詳細情況仍有許多變因'")
       .row

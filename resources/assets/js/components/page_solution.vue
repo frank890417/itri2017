@@ -4,6 +4,7 @@
       .row.text-left
         .col-sm-12
           h1.title SOLUTION
+            br.visible-xs
             span.chinese 節能處方箋
     .full_width_bar.yellow
     .container
