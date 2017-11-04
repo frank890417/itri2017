@@ -87,6 +87,15 @@ export default {
         .enter().append("text")
         .attr("class","mul")
 
+      var label_ns = svg.selectAll("text.ns")
+        .data(datas.summer_old)
+        .enter().append("text")
+
+      var label_s = svg.selectAll("text.s")
+        .data(datas.summer_new)
+        .enter().append("text")
+
+
       var mul=2;
       var split_width=80;
       var span_width=30;
@@ -104,7 +113,7 @@ export default {
 
       summer_old.attr("fill","transparent").attr("stroke","black")
         
-        .attr("x",(d,i)=>(i*split_width))
+        .attr("x",(d,i)=>(i*split_width+50))
         .attr("y",(d,i)=>(graph_height))
         .attr("width",rect_width)
         .attr("height",0)
@@ -113,7 +122,7 @@ export default {
         .attr("height",(d,i)=>d*mul);
         
       summer_new.attr("fill","#F6D568").attr("stroke","black")
-        .attr("x",(d,i)=>(i*split_width+span_width))
+        .attr("x",(d,i)=>(i*split_width+span_width+50))
         .attr("y",(d,i)=>(graph_height))
         .attr("width",rect_width)
         .attr("height",0)
@@ -123,10 +132,32 @@ export default {
         
       mul_text.attr("fill","#333")
         .text((d,i)=>(i+1)+'月')
-        .attr("x",(d,i)=>(i*split_width+1.5*span_width/2))
+        .attr("x",(d,i)=>(i*split_width+1.5*span_width/2+50))
         .attr("y",graph_height+30)
         .attr("text-anchor","middle")
         .style("font-size","14px")
+
+      // label_ns  
+      //   .attr("x",(d,i)=>(i*split_width))
+      //   .attr("y",(d,i)=>(graph_height))
+      //   .text((d,i)=>(i+1)+'月')
+      //   .attr("width",rect_width)
+      //   .attr("height",0)
+      //   .text(d=>d)
+      //   .transition().duration(1000).delay((d,i)=>i*100) 
+      //   .attr("y",(d,i)=>(graph_height-d*mul+ 10))
+      //   .attr("height",(d,i)=>d*mul);
+
+      // label_s.attr("fill","#333")
+      //   .attr("x",(d,i)=>(i*split_width+span_width))
+      //   .attr("y",(d,i)=>(graph_height))
+      //   .attr("width",rect_width)
+      //   .attr("height",0)
+      //   .text(d=>d)
+      //   .transition().duration(1000).delay((d,i)=>i*100)
+      //   .attr("y",(d,i)=>(graph_height-d*mul+ 10))
+      //   .attr("height",(d,i)=>d*mul);
+        
         
     }
   }

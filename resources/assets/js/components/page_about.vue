@@ -13,10 +13,10 @@
           p 
             .explain_block.white(@mouseover="highlight='summer'" ,@mouseleave="highlight=''") 十年以上老電器
             .explain_block.yellow(@mouseover="highlight='nsummer'" ,@mouseleave="highlight=''") 節能新電器 
-        .col-sm-8
+        .col-sm-8.col-about-bargraph
           //- h1 長條圖
           graph_bar.about_bar(:init="scrl_control_bar",:highlight="highlight")
-      .row
+      .row 
         .col-sm-7
           graph_bubble(:size="{width: page_width<800?page_width:800, height: 550, use_mul: 20}",:datas="bubble_data")
         .col-sm-5.text-left
