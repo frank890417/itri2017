@@ -39,7 +39,7 @@ export default {
   name: 'page_share',
   data () {
     return {
-      avg_month: 460,
+      avg_month: 434,
       scrl_start_watch: false
     }
   },
