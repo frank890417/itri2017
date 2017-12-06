@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Websiteinfo;
-use Auth;
-class HomeController extends Controller
+class PublicController extends Controller
 {
-    /**
+     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -26,10 +25,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        // // view('layouts/app_manage')
         $websiteinfo = (Websiteinfo::where("key","zh_info")->get())[0]->data; 
-        return view('layouts/app_manage')
-               ->with("site_info_zh",$websiteinfo)
-               ->with('user', Auth::user() );
+        return view('layouts/app_ft')
+               ->with("site_info_zh",$websiteinfo);
     }
 }

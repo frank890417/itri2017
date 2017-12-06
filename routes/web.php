@@ -11,10 +11,9 @@
 |
 */
 
-Route::get('/', "HomeController@index");
-Route::get('/manage', function () {
-    return view('layouts/app_manage');
-});
+Route::get('/', "PublicController@index");
+Route::get('/manage', "HomeController@index")->name('home');
+
 
 Route::resource("/device","DeviceController");
 Route::resource("/advice","AdviceController");
@@ -22,4 +21,8 @@ Route::resource("/devicelog","DevicelogController");
 Route::resource("/userdetail","UserdetailController");
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', function(){
+    return redirect("/");
+});
+// Route::get('/home', 'PublicController@index')->name('home');

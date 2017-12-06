@@ -130,7 +130,7 @@
                   |  Sub Item 3
           --}}
           <li role="presentation" onClick="location.replace('{{ url('manage/detail_info') }}')" class="divider"></li>
-          <li><a href="/login">
+          <li v-if="!user"><a href="/login" >
               <svg class="glyph stroked male-user">
                 <use xlink:href="#stroked-male-user"></use>
               </svg>Login</a></li>
@@ -141,10 +141,10 @@
               |  Register
             
           -->
-          <li><a onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+          <li v-if="user"><a onclick="event.preventDefault();document.getElementById('logout-form').submit();">
               <svg class="glyph stroked male-user">
                 <use xlink:href="#stroked-male-user"></use>
-              </svg>Logout</a></li>
+              </svg>@{{user.name}} Logout</a></li>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;"><span>{{ csrf_field() }}</span></form>
         </ul>
       </div>
@@ -398,6 +398,7 @@
     if (["zh","cn","en"].indexOf(locale)==-1){
       locale="zh";
     }
+    var user = {!! json_encode($user) !!}
     $("a[data-lang='locale']").addClass("active");
   </script>
   {{-- script(src='/js/admin_js/chart.min.js') --}}

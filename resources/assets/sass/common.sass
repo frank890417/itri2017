@@ -2,177 +2,179 @@
   font-family: "Roboto",微軟正黑體
 
 
-
 html,body
   overflow-x: hidden
 
 body
   color: $color_grey
-.btn
-  border-radius: 0%
-.btn-primary
-  background-color: $color_grey
-  color: white
-
-h1
-  font-size: 40px
-h2
-  font-size: 34px
-h3
-  font-size: 28px
-h4
-  font-size: 24px
-h5
-  font-size: 20px
-h6
-  font-size: 18px
-p
-  font-size: 16px
-  letter-spacing: 1px
-
-.container
-  // min-height: 100vh
-  max-width: 1400px
-  @media (min-width: 1600px)
-    width: 1400px
 
 
-//小螢幕設定
-+rwd_sm
-  .row
-    margin-left: -5px
-    margin-right: -5px
-  [class^="col-"]
-    padding: 5px
-    svg
-      margin-left: -15px
-      margin-right: -15px
-  .container
-    [class^="col-"]
-      svg
-        margin-left: -30px
-        margin-right: -30px
-    // padding: 0
-  h1
-    font-size: 36px
-
-
-
-a.btn
-  text-decoration: none
-
-  color: inherit
-
-p
-  font-size: 16px
-  line-height: 30px
-  letter-spacing: 1px
-
-input
-  border: solid 1px $color_grey
-  background-color: transparent
-  // margin-left: $gutter_width
-  padding: 5px 10px
-  min-width: 0
-  width: 100%
-
-button
-  letter-spacing: 2px
-
-.btn_group_inline
-  display: flex
-  margin-top: 10px
+.page
   .btn
-    flex: 1
-    padding-left: 0
-    padding-right: 0
-    border-right: none
-    &:last-child
-      border-right: solid 1px #333
+    border-radius: 0%
+  .btn-primary
+    background-color: $color_grey
+    color: white
 
-//input旁邊有塞+-按鈕
-.btn_with_side
-  display: flex
-  background-color: #fff
+  h1
+    font-size: 40px
+  h2
+    font-size: 34px
+  h3
+    font-size: 28px
+  h4
+    font-size: 24px
+  h5
+    font-size: 20px
+  h6
+    font-size: 18px
+  p
+    font-size: 16px
+    letter-spacing: 1px
 
-//input旁塞的按鈕
-.input_side_btn
-  padding: 0px 10px
-  // border: solid 1px $color_grey
-  cursor: pointer
-  user-select: none
-  min-width: 30px
-  background-color: #f6f6f6
-  &:first
-    border-right: solid 1px
-  &:last
-    border-left: solid 1px
-
-  +trans
-  +flex_center
-
-  &:hover
-    background-color: #ddd
+  .container
+    // min-height: 100vh
+    max-width: 1400px
+    @media (min-width: 1600px)
+      width: 1400px
 
 
-button,.btn
-  border: solid 1px $color_grey
-  background-color: transparent
-  outline: none !important
-  user-select: none
-  padding: 5px 25px
-  width: 100%
-  box-shadow: none !important
-  position: relative
-  cursor: pointer
-  +trans
+  //小螢幕設定
+  +rwd_sm
+    .row
+      margin-left: -5px
+      margin-right: -5px
+    [class^="col-"]
+      padding: 5px
+      svg
+        margin-left: -15px
+        margin-right: -15px
+    .container
+      [class^="col-"]
+        svg
+          margin-left: -30px
+          margin-right: -30px
+      // padding: 0
+    h1
+      font-size: 36px
 
-  
 
-  .degree
-    position: absolute
-    right: -10px
-    top: -20px
-    font-size: 12px
 
-  &:focus
-    outline: none !important
+  a.btn
+    text-decoration: none
 
-  &:hover
-    background-color: rgba(#ddd,0.3)
+    color: inherit
 
-  &.active
-    background-color: $color_yellow
-    color: $color_grey
+  p
+    font-size: 16px
+    line-height: 30px
+    letter-spacing: 1px
+
+  input
+    border: solid 1px $color_grey
+    background-color: transparent
+    // margin-left: $gutter_width
+    padding: 5px 10px
+    min-width: 0
+    width: 100%
+
+  button
+    letter-spacing: 2px
+
+  .btn_group_inline
+    display: flex
+    margin-top: 10px
+    .btn
+      flex: 1
+      padding-left: 0
+      padding-right: 0
+      border-right: none
+      &:last-child
+        border-right: solid 1px #333
+
+  //input旁邊有塞+-按鈕
+  .btn_with_side
+    display: flex
+    background-color: #fff
+
+  //input旁塞的按鈕
+  .input_side_btn
+    padding: 0px 10px
+    // border: solid 1px $color_grey
+    cursor: pointer
+    user-select: none
+    min-width: 30px
+    background-color: #f6f6f6
+    &:first
+      border-right: solid 1px
+    &:last
+      border-left: solid 1px
+
+    +trans
+    +flex_center
+
     &:hover
-      background-color: lighten($color_yellow,10)
+      background-color: #ddd
+
+
+  button,.btn
+    border: solid 1px $color_grey
+    background-color: transparent
+    outline: none !important
+    user-select: none
+    padding: 5px 25px
+    width: 100%
+    box-shadow: none !important
+    position: relative
+    cursor: pointer
+    +trans
+
+    
 
     .degree
+      position: absolute
+      right: -10px
+      top: -20px
+      font-size: 12px
+
+    &:focus
+      outline: none !important
+
+    &:hover
+      background-color: rgba(#ddd,0.3)
+
+    &.active
+      background-color: $color_yellow
       color: $color_grey
+      &:hover
+        background-color: lighten($color_yellow,10)
 
-svg
-  circle
-    cursor: pointer
-  &.graph_bar
-    text
-      pointer-events: none
+      .degree
+        color: $color_grey
+
+  svg
+    circle
       cursor: pointer
-      user-select: none
-      -webkit-user-select: none
+    &.graph_bar
+      text
+        pointer-events: none
+        cursor: pointer
+        user-select: none
+        -webkit-user-select: none
 
 
-ul
-  list-style: none
-  padding: 0
+  ul
+    list-style: none
+    padding: 0
 
-.full_width_bar
-  width: 100vw
-  margin-top: 10px
-  margin-bottom: 10px
+  .full_width_bar
+    width: 100vw
+    margin-top: 10px
+    margin-bottom: 10px
 
-  &.yellow
-    background-color: $color_yellow
-    height: 10px
+    &.yellow
+      background-color: $color_yellow
+      height: 10px
 
 
 

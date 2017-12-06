@@ -17,6 +17,7 @@ new Vue({
   router,
   store,
   data: {
+    user: window.user,
     routes: [
       // {
       //   label: "說明頁",
