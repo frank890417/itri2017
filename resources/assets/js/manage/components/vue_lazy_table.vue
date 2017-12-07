@@ -179,8 +179,10 @@ export default {
               var line = '';
               for (var index in array[i]) {
                   if (line != '') line += ','
-
+                  let hasNL = (""+array[i][index]).indexOf("\n")>-1
+                  if (hasNL) line+='"'
                   line += array[i][index];
+                  if (hasNL) line+='"'
               }
 
               str += line + '\r\n';
@@ -197,11 +199,12 @@ export default {
           // Convert Object to JSON
           var jsonObject = JSON.stringify(items);
 
+          var universalBOM = "\uFEFF";
           var csv = convertToCSV(jsonObject);
 
           var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
 
-          var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          var blob = new Blob(["\ufeff",csv], { type: 'text/csv;charset=utf-8;' });
           if (navigator.msSaveBlob) { // IE 10+
               navigator.msSaveBlob(blob, exportedFilenmae);
           } else {
