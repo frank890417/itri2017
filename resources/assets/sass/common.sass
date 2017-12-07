@@ -9,7 +9,7 @@ body
   color: $color_grey
 
 
-.page
+.page_view
   .btn
     border-radius: 0%
   .btn-primary
@@ -72,7 +72,7 @@ body
 
   input
     border: solid 1px $color_grey
-    background-color: transparent
+    // background-color: transparent
     // margin-left: $gutter_width
     padding: 5px 10px
     min-width: 0
@@ -177,6 +177,45 @@ body
       height: 10px
 
 
+  section
+    // border: solid 2px
+    padding: 50px 10px
+
+    &.yellow
+      background-color: $color_yellow
+    &.grey
+      background-color: $color_grey
+      color: white
+
+    .title
+      font-size: 70px
+      font-weight: 500
+      .chinese
+        font-size: 26px
+        margin-left: 10px
+        font-weight: 400
+
+
+  .bar_list
+    padding: 0
+    li
+      display: inline-block
+      padding: 4px 8px
+      cursor: pointer
+      border-bottom: solid 4px transparent
+      transition: 0.5s
+      
+
+      &:hover
+        border-bottom: solid 4px #eee
+      &.active
+        border-bottom: solid 4px $color_yellow
+      &.empty
+        opacity: 0.5
+
+
+
+
 
 //---
 .fade-enter-active,.fade-leave-active
@@ -250,44 +289,5 @@ body
       left: 300px
       filter: blur(5px)
         
-
-
-
-section
-  // border: solid 2px
-  padding: 50px 10px
-
-  &.yellow
-    background-color: $color_yellow
-  &.grey
-    background-color: $color_grey
-    color: white
-
-  .title
-    font-size: 70px
-    font-weight: 500
-    .chinese
-      font-size: 26px
-      margin-left: 10px
-      font-weight: 400
-
-
-.bar_list
-  padding: 0
-  li
-    display: inline-block
-    padding: 4px 8px
-    cursor: pointer
-    border-bottom: solid 4px transparent
-    transition: 0.5s
-    
-
-    &:hover
-      border-bottom: solid 4px #eee
-    &.active
-      border-bottom: solid 4px $color_yellow
-    &.empty
-      opacity: 0.5
-
 
 

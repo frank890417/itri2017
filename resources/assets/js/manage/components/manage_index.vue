@@ -6,6 +6,14 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       .panel.panel-primary
+        .panel-heading 平均耗電
+        .panel-body
+          input.form-control(v-model="temp_zh.zh.page_share.avg_consump",
+                             placeholder="月平均")
+          button.btn.btn-danger(@click="save_website_data") 儲存變更
+  .row
+    .col-sm-12
+      .panel.panel-primary
         .panel-heading 使用者基本資料
         .panel-body
           vue_lazy_table(:table_data = "userdetails",

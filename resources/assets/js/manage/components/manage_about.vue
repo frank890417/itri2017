@@ -119,7 +119,7 @@ export default {
     }
   },
   mounted(){
-     this.temp_zh=this.website_zh
+    this.temp_zh=this.website_zh
   }
   // methods: {}
 }

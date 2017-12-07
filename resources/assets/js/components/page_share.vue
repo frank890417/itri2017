@@ -48,7 +48,7 @@ export default {
     svg_inline_watch
   },
   mounted (){
-   
+    this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
   computed: {...mapState(['loading','device_result','devices','user_degree','scrollTop']),
     monster(){

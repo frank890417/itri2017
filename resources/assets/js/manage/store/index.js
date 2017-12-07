@@ -56,7 +56,9 @@ const store = new Vuex.Store({
     },
     push_website_data(context,data){
       context.commit("set_website_zh",data)
-      axios.post("/api/websiteinfo/key/zh_info",data)
+      axios.post("/api/websiteinfo/key/zh_info",data).then(()=>{
+        alert("更新完畢")
+      })
     }
   }
 });
