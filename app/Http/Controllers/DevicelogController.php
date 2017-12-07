@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Devicelog;
+use App\Userdetail;
 class DevicelogController extends Controller
 {
     //
@@ -32,9 +33,17 @@ class DevicelogController extends Controller
         DB::raw("MAX(updated_at) as created_time"),
         DB::raw("COUNT(device_consumption) as device_count")
         )
-                      ->groupBy("uuid")
-                      ->get();
+        ->groupBy("uuid")
+        ->get();
+    }
 
+    public function show_uuid_group_detail($uuid){
+      $result = [ 
+        "logs" => Devicelog::where("uuid",$uuid)->get(),
+        "user" => Userdetail::where("uuid",$uuid)->first(),
+      ];
+
+      return $result;
 
     }
 }

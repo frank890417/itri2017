@@ -7,6 +7,8 @@ import manage_room from '../components/manage_room.vue'
 import manage_device from '../components/manage_device.vue'
 import manage_solution from '../components/manage_solution.vue'
 import manage_test from '../components/manage_test.vue'
+import manage_user_detail from '../components/manage_user_detail.vue'
+
 
 
 export default new Router({
@@ -51,6 +53,11 @@ export default new Router({
     {
       path: '/test',
       component: manage_test
+    },
+    {
+      path: '/user/:uuid',
+      component: manage_user_detail,
+      props: true
     }
   ],
   mode: "hash"

@@ -28,7 +28,9 @@ section.manage_index.container-fluid
         .panel-body
           vue_lazy_table(:table_data = "show_uuid_table",
                          :rows = "uuid_devicelog_rows",
-                         :dataTitle="'使用者紀錄'")
+                         :dataTitle="'使用者紀錄'",
+                         btntext="查看",
+                         :edit="gotoUser")
 
   
   .row
@@ -169,6 +171,9 @@ export default {
     ...mapActions(['push_website_data']),
     save_website_data(){
       this.push_website_data(this.temp_zh)
+    },
+    gotoUser(row){
+      this.$router.push("/user/"+row.uuid)
     }
   }
   // methods: {}
