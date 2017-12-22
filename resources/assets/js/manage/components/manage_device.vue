@@ -130,7 +130,7 @@ export default {
         "sharetext -> 分享文字",
         "year_options -> 年份",
         "old_condition -> 老舊條件",
-        "default_freq_option -> 預設頻率選項",
+        "default_freq_option -> 預設選項",
         
       ]
       translist = translist.map(o=>o.split(" -> "))

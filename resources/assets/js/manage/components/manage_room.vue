@@ -8,7 +8,7 @@ section.manage_room.container-fluid
       .panel.panel-primary
         .panel-heading 電器列表
         .panel-body
-          vue_lazy_table(:table_data = "devices",
+          vue_lazy_table(:table_data = "c_devices",
                       :rows = "devices_table_rows",
                       :edit = "edit",
                         :dataTitle="'電器列表'")
@@ -74,7 +74,8 @@ export default {
         'year_options -> 年份選項',
         'old_condition -> 老舊條件',
         'created_at -> 創建時間 | hide',
-        'updated_at -> 更新時間 | hide'
+        'updated_at -> 更新時間 | hide',
+        "default_freq_option -> 預設選項",
 
       ],
       now_select_device: "電視機",
@@ -85,6 +86,12 @@ export default {
   },
   computed: {
     ...mapState(['uuid_devicelog','devices','website_zh']),
+    c_devices(){
+      return this.devices.map(obj=>({
+        ...obj,
+        default_freq_option:['很少','偶爾','經常','頻繁'][obj.default_freq_option]
+      }))
+    },
     show_uuid_table(){
       return this.uuid_devicelog
     },
