@@ -181,7 +181,7 @@ export default {
       device_data.forEach(obj=>{
         let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
         obj.place_id=deviceBelongRoomId
-        obj.option=0
+        obj.option=obj.default_freq_option
         obj.light_option=0
         obj.buy_time=""
         obj.alter_specs=[]

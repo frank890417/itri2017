@@ -6,13 +6,15 @@ import axios from 'axios'
 
 window.store=store
 
+import vue_lazy_table from './components/vue_lazy_table';
+Vue.component("vue_lazy_table", vue_lazy_table)
+
 store.dispatch("get_uuid_devicelog")
 store.dispatch("get_devices")
 store.dispatch("get_userdetail")
 store.dispatch("get_website_zh")
 
-import vue_lazy_table from './components/vue_lazy_table';
-Vue.component("vue_lazy_table",vue_lazy_table)
+
 
 new Vue({
   el: '#app',

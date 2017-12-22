@@ -10,20 +10,46 @@ section.manage_room.container-fluid
       h1 電器編輯
 
   .row
-    .col-sm-12
+    .col-sm-4
       .panel.panel-primary
         .panel-heading {{now_device.name}}
         .panel-body
           //pre(v-html="now_device")
           //h3 {{now_device.name}}
-          .form-group.row(v-for="(item,key) in now_device",
+          .form-group.row(v-for="key in left_key_list",
                           v-if="!(hidden_attrs.indexOf(key)+1)")
             .col-sm-3
               label {{ translate_label(key) }}
-            .col-sm-9
+            .col-sm-9(v-if="key!='default_freq_option'")
               input.form-control(v-model="now_device[key]")
+            .col-sm-9(v-else)
+              select.form-control(v-model="now_device[key]")
+                option(value="0") 很少
+                option(value="1") 偶爾
+                option(value="2") 經常
+                option(value="3") 頻繁
           .form-group
             .btn.btn-primary(@click='save_device_infos') 儲存推薦電器
+    .col-sm-8
+      .panel.panel-default
+        .panel-heading 其他設定
+        .panel-body
+          //pre(v-html="now_device")
+          //h3 {{now_device.name}}
+          .form-group.row(v-for="key in get_obj_keys(now_device,left_key_list)",
+                          v-if="!(hidden_attrs.indexOf(key)+1)")
+            .col-sm-3
+              label {{ translate_label(key) }}
+            .col-sm-9(v-if="key!='default_freq_option'")
+              input.form-control(v-model="now_device[key]")
+            .col-sm-9(v-else)
+              select.form-control(v-model="now_device[key]")
+                option(value="0") 很少
+                option(value="1") 偶爾
+                option(value="2") 經常
+                option(value="3") 頻繁
+          .form-group
+
         //.panel-body {{devices}}
           //vue_lazy_table(:table_data = "devices",
                          :rows = "devices_table_rows")
@@ -32,7 +58,6 @@ section.manage_room.container-fluid
 
 <script>
 import advice_devices from "../../advice_devices"
-import vue_lazy_table from './vue_lazy_table';
 // import editor_form from './editor_form';
 import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
@@ -46,11 +71,13 @@ export default {
       hidden_attrs: ['id','created_at','updated_at'],
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
-      temp_zh: null
+      temp_zh: null,
+      left_key_list: ['name','place','count','english_name','default_consumption','default_freq_option']
     }
   },
   computed: {
     ...mapState(['uuid_devicelog','devices','website_zh']),
+    
     show_uuid_table(){
       return this.uuid_devicelog
     },
@@ -71,11 +98,15 @@ export default {
     }
   },
   components: {
-    vue_lazy_table,
+
     // editor_form
   },
   methods: {
     ...mapActions(['push_website_data']),
+    get_obj_keys(obj,without){
+      let keys = Object.keys(obj)
+      return keys.filter(key=>(without || []).indexOf(key)==-1)
+    },
     save_website_data(){
       this.push_website_data(this.temp_zh)
     },
@@ -99,6 +130,7 @@ export default {
         "sharetext -> 分享文字",
         "year_options -> 年份",
         "old_condition -> 老舊條件",
+        "default_freq_option -> 預設頻率選項",
         
       ]
       translist = translist.map(o=>o.split(" -> "))
