@@ -13,7 +13,15 @@ section.manage_person.container-fluid
       .panel.panel-primary
         .panel-heading 使用者資料 {{show_data[0].uuid}} |  ({{show_data[0].updated_at}})
         .panel-body
-          p(v-if="userinfo") {{userinfo}}        
+          ul(v-if="userinfo")
+            li uuid: {{userinfo.uuid}}
+            li 居住地區: {{ userinfo.county}}
+            li 家庭人數: {{userinfo.member_count}}
+            li 空間大小(坪): {{userinfo.area_size}}
+            li 月份: {{userinfo.summer?"夏月":"非夏月"}}
+            li 度數: {{userinfo.degree}}
+            li 電費: {{userinfo.money}}
+            li 建立時間: {{userinfo.created_at}}
           vue_lazy_table(
             :table_data="show_data",
             :rows = "user_rows"
@@ -22,12 +30,14 @@ section.manage_person.container-fluid
 
 <script>
 import {mapState} from "vuex"
+import region_data from '../../region_data'
 export default {
   props: ["uuid"],
   data(){
     return {
       userdata: [],
       userinfo: null,
+      region_data,
       user_rows: [
         "id -> #",
         "device_name -> 電器",

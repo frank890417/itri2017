@@ -6,14 +6,6 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 平均耗電
-        .panel-body
-          input.form-control(v-model="temp_zh.zh.page_share.avg_consump",
-                             placeholder="月平均")
-          button.btn.btn-danger(@click="save_website_data") 儲存變更
-  .row
-    .col-sm-12
-      .panel.panel-primary
         .panel-heading 使用者基本資料
         .panel-body
           vue_lazy_table(:table_data = "userdetails",
@@ -24,7 +16,7 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 使用者紀錄
+        .panel-heading 電器填寫紀錄
         .panel-body
           vue_lazy_table(:table_data = "show_uuid_table",
                          :rows = "uuid_devicelog_rows",
@@ -64,12 +56,13 @@ section.manage_index.container-fluid
 import vue_lazy_table from '../components/vue_lazy_table';
 import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
-
+import region_data from '../../region_data'
 export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
+      region_data,
       uuid_user_details: [
         "id -> 編號",
         "uuid -> 使用者編號",
@@ -129,6 +122,14 @@ export default {
   },
   computed: {
     ...mapState(['uuid_devicelog','devices','website_zh','userdetails']),
+    userdetails_show(){
+      return this.userdetails.map((u)=>({
+        ...u,
+        region: this.region_data[u.region],
+
+
+      }) )
+    },
     show_uuid_table(){
       return this.uuid_devicelog
     },
