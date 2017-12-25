@@ -9,6 +9,20 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
+                        <div class="form-group{{ $errors->has('auth_code') ? ' has-error' : '' }}">
+                            <label for="auth_code" class="col-md-4 control-label">Auth_code</label>
+
+                            <div class="col-md-6">
+                                <input id="auth_code" type="text" class="form-control" name="auth_code" value="{{ old('auth_code') }}" required autofocus>
+
+                                @if ($errors->has('auth_code'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('auth_code') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>

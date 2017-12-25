@@ -408,7 +408,7 @@ export default {
         hash: device.hash,
         count: 0,
         buy_time: "",
-        option: 0,
+        option: device.default_freq_option,
         light_option: 0
       });
       // console.log(device.alter_specs)
