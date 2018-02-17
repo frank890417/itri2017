@@ -96,14 +96,15 @@
                     //- pre {{ad_dev}}
                     
                     div(v-if="ad_dev.infos")
-                      div(v-for="info in ad_dev.infos")
+                      div {{info}}
+                      div(v-for="info in parse_json(ad_dev.infos)")
                         span {{info.label}}： 
                         span {{info.content}}                        
                     div(v-else)
-                      .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.brand}}
-                      .device_com 型號 &nbsp;|&nbsp; {{ad_dev.name}}
+                      .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.company}}
+                      .device_com 型號 &nbsp;|&nbsp; {{ad_dev.itemid}}
                       .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
-                      .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.comsumption}}
+                      .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.consumption}}
                       
                     a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
                       i.fa.fa-external-link
@@ -159,7 +160,12 @@ export default {
   watch: {
     now_place_id() {
       this.sound_expand.play();
-    }
+    },
+    advice_device(){
+      Axios.get('/api/advice_devices/'+this.advice_device).then((res)=>{
+        this.advice_devices=res.data
+      })
+    },
   },
   computed: {
     ...mapState(['device_result', 'devices','scrollTop','site_width']),
@@ -172,11 +178,6 @@ export default {
       return this.advices
                     .map(o => o.device)
                     .filter((d, i, arr) => arr.indexOf(d) == i);
-    },
-    advice_device(){
-      Axios.get('/api/advice_advices/'+this.advice_device).then((res)=>{
-        this.advice_devices=res.data
-      })
     },
     sorted_devices() {
       //取的排序好的電器(前三名)
@@ -293,6 +294,10 @@ export default {
     }
   },
   methods: {
+    parse_json(text){
+      return JSON.parse(text)
+    },
+
     ...mapMutations([]),
     filter_value(array_obj, filter, brand) {
       return array_obj.filter((o) => JSON.stringify(Object.values(o)).indexOf(filter) != -1)
