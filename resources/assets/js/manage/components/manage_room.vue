@@ -26,7 +26,7 @@ section.manage_room.container-fluid
 </template>
 
 <script>
-import advice_devices from "../../advice_devices"
+// import advice_devices from "../../advice_devices"
 import vue_lazy_table from './vue_lazy_table';
 // import editor_form from './editor_form';
 import advices from "../../advices"
@@ -79,8 +79,8 @@ export default {
 
       ],
       now_select_device: "電視機",
-      advice_devices: advice_devices.advice_devices,
-      advice_catas: advice_devices.advice_catas,
+      advice_devices: [],
+      advice_catas: [],
       temp_zh: null
     }
   },

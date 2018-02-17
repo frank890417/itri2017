@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get("/devicelog/uuid","DevicelogController@show_uuid_group");
 Route::get("/devicelog/{uuid}","DevicelogController@show_uuid_group_detail");
 Route::resource("devices","DeviceController");
+
+
+Route::get("/advice_devices/{cata}","ApiController@get_advice_devices_by_cata");
 Route::get("devices","ApiController@devices");
 Route::resource("advices","AdviceController");
 

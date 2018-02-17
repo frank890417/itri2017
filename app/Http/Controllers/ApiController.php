@@ -9,6 +9,7 @@ use App\Device;
 use App\Advice;
 use App\Websiteinfo;
 use App\Userdetail;
+use App\AdviceDevice;
 
 class ApiController extends Controller
 {
@@ -20,6 +21,11 @@ class ApiController extends Controller
     public function advices(){
       return Advice::all();
     }
+
+    public function get_advice_devices_by_cata($cata){
+      return AdviceDevice::where("cata",$cata)->get();
+    }
+
     public function userdetails(){
       return Userdetail::all();
     }
