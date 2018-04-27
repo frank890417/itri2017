@@ -54,7 +54,7 @@
     {{-- Script AFTER app.js --}}
     @yield('require_js_after')
     <script>
-    if (location.host=="location"){
+    if (location.host=="localhost"){
         document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
         ':35729/livereload.js?snipver=1"></' + 'script>');
         

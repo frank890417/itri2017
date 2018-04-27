@@ -388,7 +388,11 @@
   {{-- Script BEFORE app.js --}}
   <script>
 
-    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +':35729/livereload.js?snipver=1"></' + 'script>');
+    if (location.host=="localhost"){
+        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+        ':35729/livereload.js?snipver=1"></' + 'script>');
+        
+    }
   </script>
   @yield('require_js')
   <script src="/js/admin_js/jquery-1.11.1.min.js"></script>
