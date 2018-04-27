@@ -253,7 +253,7 @@ export default {
         .text((d)=> ( (parseInt(d.value)>2)?((parseFloat(d.value) ).toFixed(vobj.unit=="%"?1:0)+vobj.unit):"") )
     }
 
-    var ss = new Audio("/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%BB%91%E9%BC%A0%E7%A7%BB%E9%80%B2%E7%90%83.mp3");
+    var ss = new Audio("/music/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%BB%91%E9%BC%A0%E7%A7%BB%E9%80%B2%E7%90%83.mp3");
     ss.volume=0.3;
     function handleMouseOver(d, i) {  
       // console.log("over");

@@ -51,7 +51,7 @@ export default {
   },
   mounted (){
     var vobj=this;
-    this.sound_expand=new Audio("http://awiclass.monoame.com/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
+    this.sound_expand=new Audio("/music/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
   },
   watch:{
     mode(){
