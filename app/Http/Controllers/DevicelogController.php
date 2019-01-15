@@ -44,6 +44,18 @@ class DevicelogController extends Controller
       ];
 
       return $result;
+    }
 
+    public function show_last_devicelog_by_users_id($users_id)
+    {
+      $Userdetail_uuid = Userdetail::select("uuid")->where("users_id",$users_id)->orderBy('updated_at', 'desc')->first()->uuid;
+      $result = Devicelog::where("uuid",$Userdetail_uuid)->get();
+      return $result;
+    }
+    public function show_last_devices_by_users_id($users_id)
+    {
+      $Userdetail_uuid = Userdetail::select("uuid")->where("users_id",$users_id)->orderBy('updated_at', 'desc')->first()->uuid;
+      $result = Devicelog::select("devicelogs.*","devicelogs.count as dvclog_count","devices.*")->where("uuid",$Userdetail_uuid)->where("devicelogs.count",">",0)->join('devices', 'device_id', '=', 'devices.id')->get();
+      return $result;
     }
 }

@@ -8,7 +8,7 @@ import manage_device from '../components/manage_device.vue'
 import manage_solution from '../components/manage_solution.vue'
 import manage_test from '../components/manage_test.vue'
 import manage_user_detail from '../components/manage_user_detail.vue'
-
+import manage_users from '../components/manage_users.vue'
 
 
 export default new Router({
@@ -58,7 +58,10 @@ export default new Router({
       path: '/user/:uuid',
       component: manage_user_detail,
       props: true
-    }
+    },{
+      path: '/users',
+      component: manage_users
+    },  
   ],
   mode: "hash"
 })

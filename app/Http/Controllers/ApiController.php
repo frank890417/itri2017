@@ -10,6 +10,7 @@ use App\Advice;
 use App\Websiteinfo;
 use App\Userdetail;
 use App\AdviceDevice;
+use App\User;
 
 class ApiController extends Controller
 {
@@ -29,6 +30,9 @@ class ApiController extends Controller
     public function userdetails(){
       return Userdetail::all();
     }
+	public function userdetails_by_users_id($users_id){
+      return Userdetail::where("users_id",$users_id)->orderBy('updated_at', 'desc')->first();
+    }
 
     public function websiteinfo($key){
       return Websiteinfo::where("key",$key)->first()->data;
@@ -41,4 +45,13 @@ class ApiController extends Controller
       $websiteinfo->data=json_encode($input);
       $websiteinfo->save();
     }
+
+    public function users(){
+      return User::all();
+    }
+
+    public function user_admin($id){
+      $u= User::find($id);
+      return $u->admin;
+  }
 }

@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+//Route::get('email-verification/error', 'Auth\RegisterController@getVerificationError')->name('email-verification.error');
+//Route::get('email-verification/check/{token}', 'Auth\RegisterController@getVerification')->name('email-verification.check');
 
 Route::get("/devicelog/uuid","DevicelogController@show_uuid_group");
 Route::get("/devicelog/{uuid}","DevicelogController@show_uuid_group_detail");
@@ -27,8 +29,14 @@ Route::get("devices","ApiController@devices");
 Route::resource("advices","AdviceController");
 
 Route::get("userdetails","ApiController@userdetails");
+Route::get("userdetails/{users_id}","ApiController@userdetails_by_users_id");
 Route::get("/websiteinfo/key/{key}","ApiController@websiteinfo");
 Route::post("/websiteinfo/key/{key}","ApiController@websiteinfo_save");
 
+//authenticate issues
+Route::get("users","ApiController@users");
+Route::get("devicelogLast/{users_id}","DevicelogController@show_last_devicelog_by_users_id");
+Route::get("devicesLast/{users_id}","DevicelogController@show_last_devices_by_users_id");
+Route::get("user_admin/{users_id}","ApiController@user_admin");
 
 // Route::resource("devices","ApiController");

@@ -42,7 +42,9 @@
         button.btn(@click="toggle_result") 
           img(src="/img/thunder.svg" height=50)
           span 計算吃電怪獸診斷結果！
-        span.default(v-if="!device_result.user_filled") 您沒有填寫電器，將顯示預設數值     
+        span.default(v-if="!device_result.user_filled") 您沒有填寫電器，將顯示預設數值 
+        //button.btn(@click="testv")
+          span testv
       transition(name="fade")
         page_solution(v-if="show_result")
       transition(name="fade")
@@ -61,8 +63,8 @@
                 br
                 p 
                   a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466257000546" , target="_blank") 智權政策
-                  a(href="ttps://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466251104462" , target="_blank") 法律聲明
-                  a(href="http://web3.moeaboe.gov.tw/ECW/populace/content/ContentFoot.aspx?menu_id=2900" , target="_blank") 政府網站資料開放宣告
+                  a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466251104462" , target="_blank") 法律聲明
+                  //a(href="http://web3.moeaboe.gov.tw/ECW/populace/content/ContentFoot.aspx?menu_id=2900" , target="_blank") 政府網站資料開放宣告
                 br
             .row
               .col-sm-12
@@ -89,7 +91,8 @@
             .row
               .col-sm-12 
                 img(src="/img/itri_logo.png",height=50)
-                div © Industrial Technology Research Institute of Taiwan, R.O.C 工業技術研究院 版權所有
+                //div © Industrial Technology Research Institute of Taiwan, R.O.C 工業技術研究院 版權所有
+                div Copyright© 工業技術研究院
 
 </template>
 
@@ -142,6 +145,9 @@ export default {
         return false
       }
     },
+    testv(){
+	  alert("testv clicked:"+ store.state.member_data.email);
+	},
   }
 }
 </script>

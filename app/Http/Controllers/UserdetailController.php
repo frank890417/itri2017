@@ -21,6 +21,7 @@ class UserdetailController extends Controller
       $inputs["general_infos"]["uuid"]=$inputs["uuid"];
       $inputs["general_infos"]['updated_at']=date("Y-m-d H:i:s");
       $inputs["general_infos"]['created_at']=date("Y-m-d H:i:s");
+      $inputs["general_infos"]["users_id"]=$inputs["users_id"];
       Userdetail::Create($inputs["general_infos"]);
       return ["status"=>"success"];
     }

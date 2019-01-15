@@ -26,10 +26,22 @@ class HomeController extends Controller
 
     public function index()
     {
-        // // view('layouts/app_manage')
+        return view('home');
+        //// view('layouts/app_manage')
+        //$websiteinfo = (Websiteinfo::where("key","zh_info")->get())[0]->data; 
+        //return view('layouts/app_manage')
+        //       ->with("site_info_zh",$websiteinfo)
+        //       ->with('user', Auth::user() );
+    }
+
+public function manage(){
+$user = Auth::user();
+if($user->admin){
         $websiteinfo = (Websiteinfo::where("key","zh_info")->get())[0]->data; 
         return view('layouts/app_manage')
                ->with("site_info_zh",$websiteinfo)
                ->with('user', Auth::user() );
-    }
+}
+return view('home');
+}
 }

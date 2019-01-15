@@ -77,7 +77,7 @@
                         h4 {{cataname}}
                       li(v-for="(adv,id) in get_advices(advice_device,cataname)")
                         div {{id+1}}. {{adv.content}}                  
-            
+        
         .card.col-sm-12(v-if="advice_devices.length>0")
           .card_inner.nominh
             h2 節能電器推薦
@@ -125,8 +125,6 @@ import rooms from '../rooms'
 import Axios from 'axios'
 
 var advice_catas = [{"value":0,"name":"全部"},{"value":1,"name":"冷氣機"},{"value":59,"name":"無風管空調機"},{"value":8,"name":"電扇"},{"value":5,"name":"除濕機"},{"value":4,"name":"電冰箱"},{"value":7,"name":"電視機"},{"value":9,"name":"螢光燈管"},{"value":6,"name":"洗衣機"},{"value":2,"name":"乾衣機"},{"value":10,"name":"吹風機"},{"value":11,"name":"烘手機"},{"value":12,"name":"溫熱型開飲機"},{"value":13,"name":"冰溫熱型開飲機"},{"value":14,"name":"冰溫熱型飲水機"},{"value":15,"name":"汽車"},{"value":16,"name":"機車"},{"value":17,"name":"安定器內藏式螢光燈泡"},{"value":20,"name":"顯示器"},{"value":19,"name":"燃氣台爐"},{"value":18,"name":"即熱式燃氣熱水器"},{"value":21,"name":"電鍋_電子鍋"},{"value":23,"name":"貯備型電熱水器"},{"value":22,"name":"電熱水瓶"},{"value":24,"name":"出口及避難指示燈"},{"value":25,"name":"DVD(錄)放影機"},{"value":26,"name":"溫熱型飲水機"},{"value":27,"name":"室內照明燈具"},{"value":28,"name":"組合音響"},{"value":29,"name":"緊密型螢光燈管"},{"value":32,"name":"影印機"},{"value":33,"name":"印表機"},{"value":34,"name":"空氣清淨機"},{"value":35,"name":"道路照明燈具"},{"value":41,"name":"浴室用通風電扇"},{"value":42,"name":"壁式通風電扇"},{"value":37,"name":"筆記型電腦"},{"value":36,"name":"桌上型電腦"},{"value":46,"name":"空氣源式熱泵熱水器"},{"value":47,"name":"排油煙機"},{"value":48,"name":"微波爐"},{"value":43,"name":"軸流式風機"},{"value":49,"name":"離心式風機"},{"value":50,"name":"螢光燈管用安定器"},{"value":51,"name":"電烤箱"},{"value":53,"name":"貯(儲)備型電開水機"},{"value":54,"name":"發光二極體燈泡"},{"value":56,"name":"LED平板燈"},{"value":57,"name":"在線式不斷電式電源供應器"},{"value":58,"name":"天井燈"},{"value":60,"name":"筒燈及嵌燈"}];
-
-
 
 export default {
   name: 'page_solution',
@@ -324,6 +322,7 @@ export default {
     set_advice_device(name) {
       this.advice_device = name;
       this.advice_index = 0;
+      store.state.advice_device = name;
       console.log("trigger emit: " + name);
     },
     get_cata_link(devname) {

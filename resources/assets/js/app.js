@@ -43,8 +43,6 @@ new Vue({
   }
 })
 
-
-
 window.onload=function(){
   store.commit("set_loading",false)
   console.log("load conplete")
@@ -54,6 +52,8 @@ window.onresize=function(){
 }
 
 console.log("User uuid(Random)",store.state.user_uuid)
+store.dispatch("rec_webCount")
+console.log("rec_webCount done")
 
 if (document.domain=="saving.energypark.org.tw"){
 

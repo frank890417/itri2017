@@ -51,6 +51,7 @@ export default {
         "device_id -> __hide",
         "place -> 地點",
         "place_id -> __hide",
+      	"users_id -> 會員id | hide",
         "created_at -> __hide",
         "updated_at -> __hide",
       ]

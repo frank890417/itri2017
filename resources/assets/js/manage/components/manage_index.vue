@@ -72,6 +72,7 @@ export default {
         "summer -> 夏月",
         "degree -> 度",
         "money -> 錢",
+      	"users_id -> 會員id | hide",
         "created_at -> 建立時間",
         "updated_at -> __hide"
 

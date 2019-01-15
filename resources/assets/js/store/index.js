@@ -17,8 +17,19 @@ const store = new Vuex.Store({
     user_degree: 0,
     user_uuid: uuidv4(),
     site_width: window.innerWidth,
+    member_data:{ 
+      users_id: MEMBER_DATA.users_id ,
+      email: MEMBER_DATA.email,
+      isLogin: MEMBER_DATA.isLogin,
+      isAdmin: 0, 
+    },
+    advice_device:'冷氣機',
+    KWH:1300,
   },
   mutations: {
+    FETCH(state, advice_device) {
+      state.advice_device = advice_device;
+    },
     set_loading(state,mode){
       state.loading = mode;
     },
@@ -40,6 +51,7 @@ const store = new Vuex.Store({
     toggle_result(state){
       state.show_result = !state.show_result;
       store.dispatch("send_user_data");
+      //console.log("member isLogin:", state.member_userData.isLogin );
     },
     set_scrollTop(state,value){
       state.scrollTop = value;
@@ -51,10 +63,13 @@ const store = new Vuex.Store({
     },
     set_window_width(state,value){
       state.site_width=value
-    }
+    },
+
+    setMember_data_isAdmin(state, value){
+      state.member_data.isAdmin=value;    
+    },
   },
   actions: {
-
     send_user_data(context){
       var user_data = context.state.devices
         .filter(o=>o.device_consumption!=0)
@@ -69,11 +84,10 @@ const store = new Vuex.Store({
             buy_time: o.buy_time,
             use_time: [o.rarely,o.occasionally,o.often,o.frequently][o.option],
             light_option: o.light_option,
-            place_id: o.place_id
+            place_id: o.place_id,            
+            users_id: context.state.member_data.users_id ,            
           }
         })
-
-     
 
       var return_data = {
         uuid: context.state.user_uuid,
@@ -82,15 +96,30 @@ const store = new Vuex.Store({
       console.log('user_data:',return_data);
       axios.post("/devicelog",return_data);
 
-      console.log('userdetails:',context.state.general_infos);
        var user_data = {
         uuid: context.state.user_uuid,
-        general_infos: context.state.general_infos
+        general_infos: context.state.general_infos,
+        users_id: context.state.member_data.users_id ,
       };
-
+      console.log('userdetails.general_infos:',user_data.general_infos);
+      //console.log('userdetails.general_infos.money:',user_data.general_infos.money);
       axios.post("/userdetail",user_data);
 
-    }
+
+    },
+  	
+    rec_webCount(context){
+    	var user_data = {
+        	uuid:context.state.user_uuid
+        }
+  		axios.post("/webcounter", user_data);
+    	//console.log("webCnt:", user_data);
+    },
+    get_general_infos(context, users_id){
+      axios.get("/api/userdetails/"+users_id).then(
+        (res)=>context.commit("set_general_infos",res.data)
+      )
+    },
   }
 });
 

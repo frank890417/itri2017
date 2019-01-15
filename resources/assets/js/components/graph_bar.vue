@@ -6,8 +6,6 @@
 
 <script>
 import {mapState,mapMutations} from 'vuex' 
-import * as d3 from 'd3/build/d3.node';
-import d3SelectMulti from 'd3-selection-multi';
 import rooms from '../rooms';
 
 export default {

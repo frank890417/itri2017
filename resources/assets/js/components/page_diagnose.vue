@@ -34,7 +34,7 @@
                 .btn_with_side
                   span.input_side_btn(@click="member_count--") -
                   input.form-control(type="number",
-                                     v-model="member_count")
+                                     v-model="member_count",id="txt_member_count")
                   span.input_side_btn(@click="member_count++") +
             .row.form-group
               .col-sm-4
@@ -61,7 +61,7 @@
                     button_moreinfo(:msg="'請填入台電電費單上之用電度數'")
                   input.form-control(v-model="degree", type="number")
                 .form-group
-                  label 電費：
+                  label 流動電費：
                     button_moreinfo(:msg="'請填入台電電費單上之電費'")
                   input.form-control(v-model="money", type="number")
             //.row
@@ -94,11 +94,11 @@ export default {
             {gate: 240,price: 1.63,price_summer: 1.63},
             {gate: 660,price: 2.10,price_summer: 2.38},
             {gate: 1000,price: 2.89,price_summer: 3.52},
-            {gate: 1400,price: 3.79,price_summer: 4.61},
-            {gate: 2000,price: 4.42,price_summer: 5.42},
-            {gate: 200000,price: 4.83,price_summer: 6.13},
+            {gate: 1400,price: 3.94,price_summer: 4.80},
+            {gate: 2000,price: 4.6,price_summer: 5.66},
+            {gate: 200000,price: 5.03,price_summer: 6.41},
           ],
-      debounce: false,
+      debounce: false,      
       member_count: 3,
       area_size: 15,
       sel_area: "北區",
@@ -162,8 +162,9 @@ export default {
         });
       this.debounce=true;
       this.money = result.toFixed(3);
-
-      
+      //return result;  
+      this.update_general_infos();    
+      //console.log("result.fixed3=",this.money);
     },
     money(){
         if (this.debounce) {
@@ -215,7 +216,26 @@ export default {
   },
   mounted (){
     console.log("diagnose mounted");
-    this.update_general_infos();
+    //this.update_general_infos();
+    if(store.state.member_data.users_id != "0")
+    {
+      axios.get("/api/userdetails/"+store.state.member_data.users_id).then((res)=>
+      {
+        if (res.data != "") {
+    	//this.degree=res.data.degree;
+    	this.summer= res.data.summer;
+    	this.money= res.data.money;
+    	this.member_count= res.data.member_count;
+    	this.area_size= res.data.area_size;
+    	this.sel_area= this.region_data.filter(o=>o.name==res.data.county)[0].area;
+    	this.sel_county= res.data.county;
+    
+      //console.log("sel_area:",this.sel_area);
+  		this.update_general_infos();  
+        }
+      })  
+    }  
+    
   },
   computed: {
     ...mapState(['loading','house_area_size','general_infos']),
@@ -236,7 +256,7 @@ export default {
         degree: this.degree,
         money: this.money
       });
-    }
+    },    
   }
 }
 </script>

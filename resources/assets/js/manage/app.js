@@ -13,8 +13,7 @@ store.dispatch("get_uuid_devicelog")
 store.dispatch("get_devices")
 store.dispatch("get_userdetail")
 store.dispatch("get_website_zh")
-
-
+store.dispatch("get_users")
 
 new Vue({
   el: '#app',
@@ -44,7 +43,10 @@ new Vue({
       },{
         label: "診斷結果",
         link: "/share",
-      },
+      },{
+        label: "會員管理",
+        link: "/users",
+      }
       // {
       //   label: "圖表與分析",
       //   link: "/analysis",

@@ -197,11 +197,57 @@ export default {
         obj.hash=this.rooms[deviceBelongRoomId].hash
       })
 
-      this.devices=device_data
-      this.originDevicesData = JSON.parse(JSON.stringify(this.devices))
-
-    })
+      this.devices=device_data    
+      this.originDevicesData = JSON.parse(JSON.stringify(this.devices))    
     
+      //logined user with last data       
+      if(store.state.member_data.users_id != "0")
+      {
+        try {
+          axios.get("/api/devicesLast/"+store.state.member_data.users_id).then((res)=>
+        {
+            let device_data_new=res.data
+            device_data_new.forEach((obj,i,arr)=>{
+              //let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
+              //obj.place_id=deviceBelongRoomId
+              obj.option=obj.default_freq_option
+              obj.light_option=0
+              obj.buy_time=""
+              obj.alter_specs=[]
+              obj.consumption=obj.default_consumption     
+              if (obj.type=="light"){
+                obj.consumption=this.light_list[0].value
+              }
+              if (obj.type=="hotwater"){
+                obj.consumption=1070
+              }
+              
+              obj.roomtype="origin"
+              obj.hash=this.rooms[obj.place_id].hash          
+            
+              obj.count=obj.dvclog_count
+              this.devices.forEach((d, i, arr)=>{
+                if (d.id==obj.id && d.place_id==obj.place_id) {
+                  //console.log("index:",i);
+                  this.devices.splice(i,1);
+                }
+              })
+           })
+           //this.devices.splice(0,1);
+           //this.devices.splice(1,1);
+           this.devices = device_data_new.concat(this.devices)
+           //this.originDevicesData = JSON.parse(JSON.stringify(this.devices))    
+           console.log("device_data_new:",device_data_new)
+           console.log("this.devices:",this.devices)
+        }) 
+        } catch (error) {
+          
+        }         
+      }
+    })    
+    //console.log("devicelogLast if");
+  //console.log("devicelogLast if end");
+
   },
   components: {
     SoundPanel,button_moreinfo

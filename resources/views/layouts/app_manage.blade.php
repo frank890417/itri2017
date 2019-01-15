@@ -130,6 +130,8 @@
                   |  Sub Item 3
           --}}
           <li role="presentation" onClick="location.replace('{{ url('manage/detail_info') }}')" class="divider"></li>
+          <li><a href="./webCounterQuery"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg>瀏覽次數查詢</a></li>
+          <li role="presentation" onClick="location.replace('{{ url('manage/detail_info') }}')" class="divider"></li>
           <li v-if="!user"><a href="/login" >
               <svg class="glyph stroked male-user">
                 <use xlink:href="#stroked-male-user"></use>
