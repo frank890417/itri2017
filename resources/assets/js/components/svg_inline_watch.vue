@@ -39,7 +39,7 @@ export default {
             $pointers[1].css("transform","rotate("+36*(this.temp_degree%1000/100)+"deg)")
             $pointers[2].css("transform","rotate("+36*(this.temp_degree%100/10)+"deg)")
             $pointers[3].css("transform","rotate("+36*(this.temp_degree%10)+"deg)")
-            console.log(vobj.temp_degree)
+            // console.log(vobj.temp_degree)
           }
         }else{
           clearInterval(interval_approach)

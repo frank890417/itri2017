@@ -10,7 +10,7 @@
     .container
       .row.text-left
         .card.col-sm-4
-          .card_inner
+          .card_inner.minheight
             h5 {{now_room.eng}}
             h2 {{now_room.name}}
             //.btn_group_inline
@@ -23,7 +23,7 @@
             p(v-else)
               span (資料填寫不足！無法計算)<br><br><br>
         .card.col-sm-8
-          .card_inner
+          .card_inner.minheight
             .card_title
               h5 Comsumption Percentage
               h2 用電比例視覺化({{now_room.name}})
@@ -63,13 +63,53 @@
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  
 
-            h3 行動處方
-            hr
+        .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare")
+          .card_inner.yellow
+            .container-fluid
+              .row
+                .col-sm-3
+                  h5 Device Comparison
+                  h2 電器耗電比較 - {{ advice_device }}
+                  img.fadeIn.animated.ani-delay-2.mt-3(:src="'/img/電器/icon_'+advice_device+'.svg'",
+                                        :key="advice_device")
+                  span.text-center 以上試算數據僅供參考，需以產品實際使用情況為準。
+
+                .col-sm-9.col_watches(v-if="current_compare_data")
+                  .row
+                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device")
+                      h5.block_title 您的電器
+                      div
+                      .p-5.pb-0
+                        .watch.mb-4
+                          svg_inline_compare_watch.elec_watch(
+                            src="/img/compare_watch.svg",
+                            :degree="1424", :init="scrl_start_watch")
+                        h6.tag.text-center x 1.5倍耗電量
+                        
+                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device")
+                      h5.block_title.mr-4 節能電器
+                      span.ml-3 {{ current_compare_data.notes }}
+                      div
+                      .p-5.pb-0
+                        .watch.mb-4
+                          svg_inline_compare_watch.elec_watch(
+                            src="/img/compare_watch.svg",
+                            :degree="current_compare_data.consumption", :init="scrl_start_watch")
+                        
+                        h6.tag.text-center 建議更新(省1124度電)
+                          img.crown.fadeIn.animated.ani-delay-10(src="/img/crown.svg", :key="advice_device")
+                      
+            
+        .card.col-sm-12.card_prescription
+          .card_inner.yellow
+            h5 Action prescription
+            h2.mb-5 行動處方 - {{ advice_device }}
+            //- hr
             transition(name="fade",mode="out-in")
               div(:key="advice_device")
                 .col-sm-12(v-if="get_advices(advice_device,cataname).length",
                     v-for="cataname in ['聰明省','好選擇','好習慣']")
-                  .row.row_cata
+                  .row.row_cata.mb-3
                     .col-sm-2.col_advice_cata
                       img.advice_cata_icon(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'")
                     ul.col-sm-10
@@ -80,8 +120,11 @@
         
         .card.col-sm-12(v-if="advice_devices.length>0")
           .card_inner.nominh
-            h2 節能電器推薦
-              a.small(:href="get_cata_link(advice_device)", target="_blank") (查看更多推薦電器)
+            h2.mb-5 節能電器推薦
+              
+              a.small(:href="get_cata_link(advice_device)", target="_blank") 
+                span.small (查看更多推薦電器)
+                span.small.mr-5 資料日期：2019/01/16
             input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
             hr
             .recommend_list.row
@@ -120,6 +163,7 @@
 import { mapState, mapMutations } from 'vuex'
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
+import svg_inline_compare_watch from "./svg_inline_compare_watch"
 // import advices from '../advices'
 // import advice_devices from '../advice_devices_compiled' 
 import Axios from 'axios'
@@ -139,11 +183,110 @@ export default {
       advice_catas: advice_catas,
       recommend_advice_filter: "",
       filter_brand: "",
-      advice_index: 1
+      advice_index: 1,
+      scrl_start_watch: false,
+      compare_data: [
+        {
+          "order": 1,
+          "name": "冷氣機",
+          "consumption": 623,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "分離式冷氣機:3.2kW分離式"
+        },
+        {
+          "order": 2,
+          "name": "冰箱",
+          "consumption": 259,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電冰箱(台):560公升"
+        },
+        {
+          "order": 3,
+          "name": "照明",
+          "consumption": 26,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "公設LED燈泡(顆):提供1380lm"
+        },
+        {
+          "order": 4,
+          "name": "電視",
+          "consumption": 87,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電視:40吋"
+        },
+        {
+          "order": 5,
+          "name": "電熱水瓶",
+          "consumption": 191,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電熱水瓶:3公升"
+        },
+        {
+          "order": 6,
+          "name": "電熱水器",
+          "consumption": 219,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電熱水器(儲備型):75公升"
+        },
+        {
+          "order": 7,
+          "name": "電鍋",
+          "consumption": 687,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電鍋:800W"
+        },
+        {
+          "order": 8,
+          "name": "飲水機",
+          "consumption": 353,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "溫熱型開飲機:3公升"
+        },
+        {
+          "order": 9,
+          "name": "吹風機",
+          "consumption": 183,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "與規格無關"
+        },
+        {
+          "order": 10,
+          "name": "電子鍋",
+          "consumption": 687,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電子鍋:800W"
+        },
+        {
+          "order": 11,
+          "name": "電腦",
+          "consumption": "",
+          "show_compare": 0,
+          "show_solution": 1,
+          "notes": ""
+        },
+        {
+          "order": 12,
+          "name": "洗衣機",
+          "consumption": "",
+          "show_compare": 0,
+          "show_solution": 1,
+          "notes": ""
+        }
+      ]
     };
   },
   components: {
-    graph_bubble
+    graph_bubble, svg_inline_compare_watch
   },
   mounted() {
     console.log("solution mounted");
@@ -164,6 +307,14 @@ export default {
         this.advice_devices=res.data
       })
     },
+    scrollTop(){
+      
+      if (this.scrollTop+$(window).height()>$(".col_watches").offset().top+$(".elec_watch").outerWidth()-100){
+        this.scrl_start_watch=true;
+      }else{
+        this.scrl_start_watch=false;
+      }
+    }
   },
   computed: {
     ...mapState(['device_result', 'devices','scrollTop','site_width']),
@@ -289,6 +440,9 @@ export default {
   
       return false
       
+    },
+    current_compare_data(){
+      return this.compare_data.find(d=>d.name==this.advice_device)
     }
   },
   methods: {
