@@ -21,13 +21,15 @@
             p(v-if="sorted_devices.length>0")
               span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)<br>
             p(v-else)
-              span (資料填寫不足！無法計算)<br><br><br>
+              span (資料填寫不足！無法計算)
         .card.col-sm-8
           .card_inner.minheight
             .card_title
               h5 Comsumption Percentage
               h2 用電比例視覺化({{now_room.name}})
-            .btn-bubble-all(@click="now_place_id=-1", v-if="now_place_id!=-1")  &lt; 顯示總比例
+            .btn-bubble-all(@click="now_place_id=-1", v-if="now_place_id!=-1") 
+              i.fa.fa-angle-left.mr-4
+              span 顯示總比例
             graph_bubble(:datas="device_value",
                          :use_power="0.33",
                          :use_unit="'度'",
@@ -69,8 +71,10 @@
               .row
                 .col-sm-3
                   h5 Device Comparison
-                  h2 電器耗電比較 - {{ advice_device }}
-                  img.fadeIn.animated.ani-delay-2.mt-3(:src="'/img/電器/icon_'+advice_device+'.svg'",
+                  h2 電器耗電比較
+                    br
+                    span {{ advice_device }}
+                  img.fadeIn.animated.ani-delay-2(:src="'/img/電器/icon_'+advice_device+'.svg'",
                                         :key="advice_device")
                   span.text-center 以上試算數據僅供參考，需以產品實際使用情況為準。
 
@@ -84,7 +88,7 @@
                           svg_inline_compare_watch.elec_watch(
                             src="/img/compare_watch.svg",
                             :degree="1424", :init="scrl_start_watch")
-                        h6.tag.text-center x 1.5倍耗電量
+                        h5.tag.text-center x 1.5倍耗電量
                         
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device")
                       h5.block_title.mr-4 節能電器
@@ -96,67 +100,76 @@
                             src="/img/compare_watch.svg",
                             :degree="current_compare_data.consumption", :init="scrl_start_watch")
                         
-                        h6.tag.text-center 建議更新(省1124度電)
+                        h5.tag.text-center 建議更新(省1124度電)
                           img.crown.fadeIn.animated.ani-delay-10(src="/img/crown.svg", :key="advice_device")
                       
             
         .card.col-sm-12.card_prescription
           .card_inner.yellow
-            h5 Action prescription
-            h2.mb-5 行動處方 - {{ advice_device }}
-            //- hr
-            transition(name="fade",mode="out-in")
-              div(:key="advice_device")
-                .col-sm-12(v-if="get_advices(advice_device,cataname).length",
-                    v-for="cataname in ['聰明省','好選擇','好習慣']")
-                  .row.row_cata.mb-3
-                    .col-sm-2.col_advice_cata
-                      img.advice_cata_icon(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'")
-                    ul.col-sm-10
-                      li 
-                        h4 {{cataname}}
-                      li(v-for="(adv,id) in get_advices(advice_device,cataname)")
-                        div {{id+1}}. {{adv.content}}                  
-        
+            .container-fluid
+              .row
+                .col-sm-12
+                  h5 Action prescription
+                  h2.mb-5 行動處方 - {{ advice_device }}
+                  //- hr
+                  transition(name="fade",mode="out-in")
+                    div(:key="advice_device").mt-3
+                      .col-sm-12(v-if="get_advices(advice_device,cataname).length",
+                          v-for="cataname in ['聰明省','好選擇','好習慣']")
+                        .row.row_cata.mb-3
+                          .col-sm-2.col_advice_cata
+                            img.advice_cata_icon(:src="'/img/建議icon/advice_cata_'+cataname+'.svg'")
+                          ul.col-sm-10
+                            li 
+                              h3 {{cataname}}
+                            li(v-for="(adv,id) in get_advices(advice_device,cataname)") {{id+1}}. {{adv.content}}                  
+              
         .card.col-sm-12(v-if="advice_devices.length>0")
           .card_inner.nominh
-            h2.mb-5 節能電器推薦
-              
-              a.small(:href="get_cata_link(advice_device)", target="_blank") 
-                span.small (查看更多推薦電器)
-                span.small.mr-5 資料日期：2019/01/16
-            input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
-            hr
-            .recommend_list.row
-              .col-sm-3
-                img(:src="'/img/電器/icon_'+advice_device+'.svg'")
-                //select.brandlist(v-model="filter_brand")
-                  option(value="") 全部品牌
-                  option(v-for="brand in advice_brands", :value="brand") {{brand}}
-              .col-sm-9.row
-                .col-sm-6.option(v-for="ad_dev in filter_value(advice_devices.slice(advice_index*6,advice_index*6+6),recommend_advice_filter,filter_brand)")
-                  .info
-                    //- pre {{ad_dev}}
-                    
-                    div(v-if="ad_dev.infos")
-                      div {{info}}
-                      div(v-for="info in parse_json(ad_dev.infos)")
-                        span {{info.label}}： 
-                        span {{info.content}}                        
-                    div(v-else)
-                      .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.company}}
-                      .device_com 型號 &nbsp;|&nbsp; {{ad_dev.itemid}}
-                      .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
-                      .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.consumption}}
-                      
-                    a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
-                      i.fa.fa-external-link
-                  hr
+            .container-fluid
+              .row
                 .col-sm-12
-                  .nav_btns
-                    .btn.btn_pre(@click="advice_index -=advice_index>0?1:0") &lt; 上6筆
-                    .pagenum {{advice_index+1}} / {{parseInt(advice_devices.length/6)}}
-                    .btn.btn_post(@click="advice_index+=1") 下6筆 &gt;
+                  h2.mb-5 節能電器推薦
+                    
+                    a.small(:href="get_cata_link(advice_device)", target="_blank") 
+                      span.small (查看更多推薦電器)
+                      span.small.mr-5 資料日期：2019/01/16
+                  input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
+                  hr
+                  .recommend_list.row
+                    .col-sm-3
+                      img(:src="'/img/電器/icon_'+advice_device+'.svg'")
+                      //select.brandlist(v-model="filter_brand")
+                        option(value="") 全部品牌
+                        option(v-for="brand in advice_brands", :value="brand") {{brand}}
+                    .col-sm-9.row
+                      .col-sm-6.option(v-for="ad_dev in filter_value(advice_devices.slice(advice_index*6,advice_index*6+6),recommend_advice_filter,filter_brand)")
+                        .info
+                          //- pre {{ad_dev}}
+                          
+                          div(v-if="ad_dev.infos")
+                            div {{info}}
+                            div(v-for="info in parse_json(ad_dev.infos)")
+                              span {{info.label}}： 
+                              span {{info.content}}                        
+                          div(v-else)
+                            .device_title 品牌 &nbsp;|&nbsp; {{ad_dev.company}}
+                            .device_com 型號 &nbsp;|&nbsp; {{ad_dev.itemid}}
+                            .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
+                            .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.consumption}}
+                            
+                          a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
+                            i.fa.fa-external-link
+                        hr
+                      .col-sm-12
+                        .nav_btns
+                          .btn.btn_pre(@click="advice_index -=advice_index>0?1:0") 
+                            i.fa.fa-angle-left 
+                            span.ml-3 上6筆
+                          .pagenum {{advice_index+1}} / {{parseInt(advice_devices.length/6)}}
+                          .btn.btn_post(@click="advice_index+=1") 
+                            span.mr-3 下6筆
+                            i.fa.fa-angle-right
 </template>
 
 <script>

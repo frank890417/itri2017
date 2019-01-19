@@ -4,32 +4,32 @@
     ul
       li(@click="login()", v-if="!member_data.isLogin")
         .eng LOGIN
-        .chinese 會員登入
+        .chinese.mt-2.mb-5 會員登入
       //li(@click="to_section('.section_index')")
       li(@click="to_section('.section_top')")
         .eng INDEX
-        .chinese 首頁
+        .chinese.mt-2.mb-5 首頁
       li(@click="to_section('.section_about')")
         .eng FACT
-        .chinese 節能簡介
+        .chinese.mt-2.mb-5 節能簡介
       li(@click="to_section('.section_diagnose')")
         .eng DIAGNOSE
-        .chinese 節能診斷
+        .chinese.mt-2.mb-5 節能診斷
       li(@click="to_section('.section_room')")
         .eng ROOM
-        .chinese 電器選取
+        .chinese.mt-2.mb-5 電器選取
       li(@click="to_section('.section_solution')", v-if="show_result")
         .eng SOLUTION
-        .chinese 節能處方箋
+        .chinese.mt-2.mb-5 節能處方箋
       li(@click="to_section('.section_share')", v-if="show_result")
         .eng RESULT
-        .chinese 診斷結果
+        .chinese.mt-2.mb-5 診斷結果
       li(@click="to_manage()", v-if="member_data.isAdmin==1")
         .eng MANAGE
-        .chinese 管理平台
+        .chinese.mt-2.mb-5 管理平台
       li(@click="logout()", v-if="member_data.isLogin")
         .eng LOGOUT
-        .chinese 登出
+        .chinese.mt-2.mb-5 登出
 
 </template>
 

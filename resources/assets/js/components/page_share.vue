@@ -10,11 +10,11 @@
       .row
         .col-sm-4
           h4 我的用電是平均的...
-          h1.mul_text {{ ( (user_degree?user_degree*6:device_result.value) / total_avg_year ).toFixed(1) }}倍
+          h1.mul_text {{ ( (user_degree?(user_degree*6):device_result.value) / total_avg_year ).toFixed(1) }}倍
             button_moreinfo(:msg="'依據您目前填寫的資料與全國日均用電量相較結果'")
           span {{user_degree?"根據所填寫的用電度數估算":"根據電器加總度數估算"}}
           svg_inline_watch.elec_watch(src="/img/elec_watch-01.svg",
-                     :degree="(user_degree?user_degree*6:device_result.value)",
+                     :degree="user_degree?(user_degree*6):device_result.value",
                      :init="scrl_start_watch")
 
         .card.col-sm-8.text-left

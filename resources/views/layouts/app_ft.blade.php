@@ -15,7 +15,7 @@
 
     <!-- Styles -->
     
-    <link rel="icon" type="image/png" href="img/favicon.png" />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
 <style>
@@ -42,7 +42,7 @@
   <body>
     <div id="app" class="section_top">
       <div id='divMember' style="padding-left: 80px; padding-top: 10px; z-index: 200; width:300px; position:fixed;">
-      <i class="fa fa-user-circle" style="font-size: 50px; text-shadow: 2px 2px 5px grey;"></i>
+      <i class="fa fa-user-circle" style="font-size: 40px;margin-top: 10px;"></i>
       @if (Auth::check())
         <span>{{ Auth::user()->name }}</span>
       @else
