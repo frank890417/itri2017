@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     full_nav_open: false,
     general_infos: {},
     devices: [],
-    show_result: true,
+    show_result: false,
     scrollTop: 0,
     user_degree: 0,
     user_uuid: uuidv4(),

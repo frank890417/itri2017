@@ -65,32 +65,35 @@
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  
 
-        .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare")
+        .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show")
           .card_inner.yellow
             .container-fluid
               .row
+                //.col-12
+                  pre {{current_compare_device_filled_data}}
+
                 .col-sm-3
                   h5 Device Comparison
-                  h2 電器耗電比較
+                  h2.mb-1 電器耗電比較
                     br
                     span {{ advice_device }}
                   img.fadeIn.animated.ani-delay-2(:src="'/img/電器/icon_'+advice_device+'.svg'",
-                                        :key="advice_device")
+                                        :key="advice_device+'_img'")
                   span.text-center 以上試算數據僅供參考，需以產品實際使用情況為準。
 
                 .col-sm-9.col_watches(v-if="current_compare_data")
                   .row
-                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device")
+                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device+'_cur_data'")
                       h5.block_title 您的電器
                       div
                       .p-5.pb-0
                         .watch.mb-4
                           svg_inline_compare_watch.elec_watch(
                             src="/img/compare_watch.svg",
-                            :degree="1424", :init="scrl_start_watch")
-                        h5.tag.text-center x 1.5倍耗電量
+                            :degree="compare_result.target_consumption", :init="scrl_start_watch")
+                        h5.tag.text-center x {{ compare_result.mul }} 倍耗電量
                         
-                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device")
+                    .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device+'_compare_data'")
                       h5.block_title.mr-4 節能電器
                       span.ml-3 {{ current_compare_data.notes }}
                       div
@@ -100,8 +103,10 @@
                             src="/img/compare_watch.svg",
                             :degree="current_compare_data.consumption", :init="scrl_start_watch")
                         
-                        h5.tag.text-center 建議更新(省1124度電)
-                          img.crown.fadeIn.animated.ani-delay-10(src="/img/crown.svg", :key="advice_device")
+                        h5.tag.text-center 建議更新(省 {{ compare_result.delta }} 度電)
+                          img.crown.fadeIn.animated.ani-delay-10(
+                              src="/img/crown.svg", :key="advice_device",
+                              v-if="compare_result.crown")
                       
             
         .card.col-sm-12.card_prescription
@@ -148,7 +153,7 @@
                           //- pre {{ad_dev}}
                           
                           div(v-if="ad_dev.infos")
-                            div {{info}}
+                            //- div {{info}}
                             div(v-for="info in parse_json(ad_dev.infos)")
                               span {{info.label}}： 
                               span {{info.content}}                        
@@ -179,6 +184,7 @@ import rooms from '../rooms'
 import svg_inline_compare_watch from "./svg_inline_compare_watch"
 // import advices from '../advices'
 // import advice_devices from '../advice_devices_compiled' 
+import _ from 'underscore'
 import Axios from 'axios'
 
 var advice_catas = [{"value":0,"name":"全部"},{"value":1,"name":"冷氣機"},{"value":59,"name":"無風管空調機"},{"value":8,"name":"電扇"},{"value":5,"name":"除濕機"},{"value":4,"name":"電冰箱"},{"value":7,"name":"電視機"},{"value":9,"name":"螢光燈管"},{"value":6,"name":"洗衣機"},{"value":2,"name":"乾衣機"},{"value":10,"name":"吹風機"},{"value":11,"name":"烘手機"},{"value":12,"name":"溫熱型開飲機"},{"value":13,"name":"冰溫熱型開飲機"},{"value":14,"name":"冰溫熱型飲水機"},{"value":15,"name":"汽車"},{"value":16,"name":"機車"},{"value":17,"name":"安定器內藏式螢光燈泡"},{"value":20,"name":"顯示器"},{"value":19,"name":"燃氣台爐"},{"value":18,"name":"即熱式燃氣熱水器"},{"value":21,"name":"電鍋_電子鍋"},{"value":23,"name":"貯備型電熱水器"},{"value":22,"name":"電熱水瓶"},{"value":24,"name":"出口及避難指示燈"},{"value":25,"name":"DVD(錄)放影機"},{"value":26,"name":"溫熱型飲水機"},{"value":27,"name":"室內照明燈具"},{"value":28,"name":"組合音響"},{"value":29,"name":"緊密型螢光燈管"},{"value":32,"name":"影印機"},{"value":33,"name":"印表機"},{"value":34,"name":"空氣清淨機"},{"value":35,"name":"道路照明燈具"},{"value":41,"name":"浴室用通風電扇"},{"value":42,"name":"壁式通風電扇"},{"value":37,"name":"筆記型電腦"},{"value":36,"name":"桌上型電腦"},{"value":46,"name":"空氣源式熱泵熱水器"},{"value":47,"name":"排油煙機"},{"value":48,"name":"微波爐"},{"value":43,"name":"軸流式風機"},{"value":49,"name":"離心式風機"},{"value":50,"name":"螢光燈管用安定器"},{"value":51,"name":"電烤箱"},{"value":53,"name":"貯(儲)備型電開水機"},{"value":54,"name":"發光二極體燈泡"},{"value":56,"name":"LED平板燈"},{"value":57,"name":"在線式不斷電式電源供應器"},{"value":58,"name":"天井燈"},{"value":60,"name":"筒燈及嵌燈"}];
@@ -321,11 +327,12 @@ export default {
       })
     },
     scrollTop(){
-      
-      if (this.scrollTop+$(window).height()>$(".col_watches").offset().top+$(".elec_watch").outerWidth()-100){
-        this.scrl_start_watch=true;
-      }else{
-        this.scrl_start_watch=false;
+      if ($(".col_watches").length){
+        if (this.scrollTop+$(window).height()>$(".col_watches").offset().top+$(".elec_watch").outerWidth()-100){
+          this.scrl_start_watch=true;
+        }else{
+          this.scrl_start_watch=false;
+        }
       }
     }
   },
@@ -456,6 +463,32 @@ export default {
     },
     current_compare_data(){
       return this.compare_data.find(d=>d.name==this.advice_device)
+    },
+    current_compare_device_filled_data(){
+      
+
+      // var profiles = _.flatten(this.devices.map(d=>[
+      //   d,d.alter_specs
+      // ])).filter(d=>d.count>0)
+      let result =  _.flatten(this.devices.filter(d=>d.name==this.current_compare_data.name).map(d=>[d,d.alter_specs]))
+                      .filter(d=>d.count>0)
+                      .filter(d=>d.max_per_device_consumption)
+                      .sort((a,b)=>a.max_per_device_consumption>b.max_per_device_consumption?-1:1)
+      // console.log(result)
+      return result.length?result[0]:null
+    },
+    compare_result(){
+      if (!this.current_compare_device_filled_data){
+        return {}
+      }
+      let target_consumption = this.current_compare_device_filled_data.max_per_device_consumption
+      return {
+        target_consumption: target_consumption,
+        show: (this.current_compare_data && this.current_compare_device_filled_data)?true:false,
+        mul: (target_consumption/this.current_compare_data.consumption).toFixed(2),
+        crown: target_consumption/this.current_compare_data.consumption>1.5,
+        delta: target_consumption - this.current_compare_data.consumption
+      }
     }
   },
   methods: {

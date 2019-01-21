@@ -69,7 +69,7 @@ export default {
     this.mul=this.use_mul ? this.use_mul:this.mul;
     this.unit=this.use_unit ? this.use_unit:this.unit;
     this.power=this.use_power ? this.use_power:this.power;
-    console.log(this.use_unit);
+    // console.log(this.use_unit);
 
     if (this.datas) this.nodes=JSON.parse(JSON.stringify(this.datas));
     var nodes = this.nodes;

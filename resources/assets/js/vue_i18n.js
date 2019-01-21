@@ -40,7 +40,7 @@ Vue.use(VueI18n)
 // }
 
 const messages = window.site_info_zh
-console.log(JSON.stringify(messages))
+// console.log(JSON.stringify(messages))
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: 'zh', // set locale

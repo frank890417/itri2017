@@ -64,13 +64,16 @@ export default {
       let vobj=this
       // var $pointers = [4,3,2,1].map((num)=>$(`[data-name='pointer_${num}']`))
       // var $degree_text = $($(`.svg_inline[hash=${this.hash}] text`)[0])
+      let ref = this.$refs.comp_watch.querySelector(".pointer")
       var interval_approach = setInterval(()=>{
-
+        
         if (Math.abs(vobj.temp_degree-vobj.degree)>1){
           if (vobj.init){
             vobj.temp_degree-=(vobj.temp_degree-vobj.degree)*0.025
             // $degree_text.text(Math.ceil(this.temp_degree) )
-            $(this.$refs.comp_watch.querySelector(".pointer")).css("transform","rotate("+180*(this.temp_degree/2000 )+"deg)")
+            if (ref){
+              $(ref).css("transform","rotate("+180*(this.temp_degree/2000 )+"deg)")
+            }
            
             // console.log(vobj.temp_degree)
           }

@@ -51,7 +51,7 @@ export default {
   mounted(){
     let vobj=this
     axios.get(this.src).then((r)=>{
-      console.log(r)
+      // console.log(r)
       this.svg_html=r.data
       vobj.degree=0
     })

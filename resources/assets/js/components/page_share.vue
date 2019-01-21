@@ -17,7 +17,7 @@
                      :degree="user_degree?(user_degree*6):device_result.value",
                      :init="scrl_start_watch")
 
-        .card.col-sm-8.text-left
+        .card.col-sm-8.text-left(v-if='monster')
           .card_inner
             h2 我家的吃電怪獸是….{{monster.name}}
             img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")

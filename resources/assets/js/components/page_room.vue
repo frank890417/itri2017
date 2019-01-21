@@ -86,7 +86,7 @@
               .col-xs-4
                 label 電器瓦數
               .col-xs-8(v-if="now_device_profile")
-                input(type="number",v-model="now_device_profile.consumption")
+                input(type="number",v-model.number="now_device_profile.consumption")
             .form-group.row(v-if="now_device.type=='light'")
               .col-xs-12
                 ul.room_device_list
@@ -151,14 +151,14 @@
 // import device_data from '../device_data'
 import rooms from '../rooms'
 import {mapState,mapMutations} from 'vuex'
-import SoundPanel from './SoundPanel'
+// import SoundPanel from './SoundPanel'
 import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
 import Vue from 'vue'
 export default {
   name: 'page_room',
   mounted (){
-    console.log("page room mounted.");
+    // console.log("page room mounted.");
     //assign hash number for rooms
     this.rooms.forEach(room=>{
       room.type="origin"
@@ -250,11 +250,12 @@ export default {
 
   },
   components: {
-    SoundPanel,button_moreinfo
+    button_moreinfo
   },
   computed: {
+    //目前房間的電器
     filter_device(){
-      console.log(this.devices.map(o=>o.place ));
+      // console.log(this.devices.map(o=>o.place ));
       return this.devices
             .filter( device => (device.hash==this.rooms[this.now_place_id].hash) );
     },
@@ -268,7 +269,7 @@ export default {
       return this.alter_id==-1 ? this.now_device : this.now_device.alter_specs[this.alter_id]
     },
     inPageRange(){
-      console.log("element room",this.$el)
+      // console.log("element room",this.$el)
       let sc = this.scrollTop
     
       if (this.$el){
@@ -287,7 +288,10 @@ export default {
       var light_total=0;
       var room_sum=this.rooms.map(o=>0);
 
-      //加總電器
+      //devices 每一個電器種類
+      //profile 每一份不同規格的電器
+
+      //加總電器 
       this.devices.forEach((device,i)=>{
         var cump=0;
 
@@ -299,7 +303,9 @@ export default {
           [device].concat(device.alter_specs)
                   .filter(o=>o.count>0)
 
-        
+        profiles.forEach(profile=>{
+          profile.max_per_device_consumption=0
+        })
         profiles.forEach(profile=>{
           //不同計算消耗電的方式
           if (device.type=="normal"){
@@ -315,8 +321,8 @@ export default {
 
           //計算使用時間 ＊ 單位時間能耗
           var hour=[device.rarely,device.occasionally,device.often,device.frequently][profile.option];
-          var device_consumption= parseInt(cump*profile.count*device.consumption_mul*device.day
-                  *hour/1000 );
+          var per_profile_device_consumption= parseInt(cump*device.consumption_mul*device.day*hour/1000 );
+          var profile_consumption = profile.count * per_profile_device_consumption
           // console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
 
           //老舊加乘
@@ -325,32 +331,35 @@ export default {
           let is_old = parseInt(optiontext)>=device.old_condition && device.old_condition!=-1
           
           if (is_old){
-            device_consumption*=1.5
+            profile_consumption*=1.5
           }
 
           if (device.type=="light"){
-            light_total +=device_consumption;
+            light_total +=profile_consumption;
           } 
-          total_c+=device_consumption;
+          total_c+=profile_consumption;
 
         
           //將計算是記錄下來    
           log_list.push({
             content: profile.count+" x "+device.name 
                     + " ("+["很少","偶爾","經常","頻繁"][profile.option]+")"
-                    +(is_old?"(老舊*1.5)":"") + " : " +device_consumption+" (度 / 年)",
+                    +(is_old?"(老舊*1.5)":"") + " : " +profile_consumption+" (度 / 年)",
             place: device.place,
             hash: device.hash
           });
         
           //設定設備清單上的單電器消耗量
+          if ((!profile.max_per_device_consumption || per_profile_device_consumption>profile.max_per_device_consumption )) {
+            profile.max_per_device_consumption = per_profile_device_consumption ;
+          }
           device.hour_consumption += cump;
-          device.device_consumption += device_consumption;
+          device.device_consumption += profile_consumption;
 
           //加總到房間總耗電量
           let room_id = this.get_place_id(device.hash);
-          console.log(device_consumption)
-          room_sum[room_id]+=device_consumption;
+          console.log(profile_consumption)
+          room_sum[room_id]+=profile_consumption;
         })
             
         //如果沒有任何成立的profile 預設值為0
@@ -533,7 +542,7 @@ export default {
       // console.log("log",log)
       return log.filter(o=>o.hash==this.rooms[this.now_place_id].hash ) 
     },
-    ...mapMutations(['set_device_result','set_devices','scrollTop','site_width'])
+    ...mapMutations(['set_device_result','set_devices'])
   },
   data(){
     return {

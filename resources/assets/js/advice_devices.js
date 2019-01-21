@@ -1,14 +1,18 @@
 import ed from "./energylabel/cata_冷氣機.js"
-import cata_ice from "./savepowercrawl/cata_電冰箱.js"
+import cata_ice from "./energylabel/cata_電冰箱.js"
 import cata_tv from "./energylabel/cata_電視機.js"
-import cata_hotpot from "./savepowercrawl/cata_電熱水瓶.js"
+import cata_hotpot from "./energylabel/cata_電熱水瓶.js"
 import cata_washing from "./energylabel/cata_洗衣機.js"
 import cata_cooking from "./energylabel/cata_電鍋_電子鍋.js"
-import cata_hot_water from "./savepowercrawl/cata_貯備型電熱水器.js"
+import cata_hot_water from "./energylabel/cata_貯備型電熱水器.js"
 import cata_computer from "./energylabel/cata_桌上型電腦.js"
 
-import cata_ac_1 from "./savepowercrawl/cata_分離式冷氣機.js"
-import cata_ac_2 from "./savepowercrawl/cata_窗(壁)型及箱型冷氣機.js"
+// import cata_ac_1 from "./energylabel/cata_分離式冷氣機.js"
+// import cata_ac_2 from "./energylabel/cata_窗(壁)型及箱型冷氣機.js"
+
+import cata_ac_1 from "./energylabel/cata_冷氣機.js"
+import cata_ac_2 from "./energylabel/cata_冷氣機.js"
+
 
 // console.log("test電扇",ed)
 

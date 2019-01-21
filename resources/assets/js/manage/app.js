@@ -1,3 +1,4 @@
+// require("./node_modules/babel-polyfill/dist/polyfill.js");
 require('../bootstrap');
 import router from './router'
 import store from './store'
