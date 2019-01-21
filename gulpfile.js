@@ -16,8 +16,11 @@ require('laravel-elixir-jade');
 
 elixir((mix) => {
     // mix.options({
-    //     uglify: false,
-    //   })
+    //     uglify: {
+    //     compress: false,
+    //     }
+    // })
+
     mix.sass('app.sass')
        .webpack([
           './node_modules/babel-polyfill/dist/polyfill.js',
