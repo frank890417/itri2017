@@ -487,7 +487,7 @@ export default {
         show: (this.current_compare_data && this.current_compare_device_filled_data)?true:false,
         mul: (target_consumption/this.current_compare_data.consumption).toFixed(2),
         crown: target_consumption/this.current_compare_data.consumption>1.5,
-        delta: target_consumption - this.current_compare_data.consumption
+        delta: this.current_compare_data.consumption - target_consumption
       }
     }
   },
