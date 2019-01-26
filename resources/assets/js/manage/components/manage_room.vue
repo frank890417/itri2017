@@ -118,7 +118,7 @@ export default {
       this.push_website_data(this.temp_zh)
     },
     edit(event){
-      console.log(event)
+      // console.log(event)
       this.$router.push("/device/"+(event.id))
     }
   }

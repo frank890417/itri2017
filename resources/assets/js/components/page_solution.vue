@@ -91,7 +91,7 @@
                           svg_inline_compare_watch.elec_watch(
                             src="/img/compare_watch.svg",
                             :degree="compare_result.target_consumption", :init="scrl_start_watch")
-                        h5.tag.text-center x {{ compare_result.mul }} 倍耗電量
+                        h5.tag.text-center 您的電器耗電量為節能電器 {{ compare_result.mul }} 倍
                         
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device+'_compare_data'")
                       h5.block_title.mr-4 節能電器
@@ -103,7 +103,7 @@
                             src="/img/compare_watch.svg",
                             :degree="current_compare_data.consumption", :init="scrl_start_watch")
                         
-                        h5.tag.text-center 建議更新(省 {{ compare_result.delta }} 度電)
+                        h5.tag.text-center 節能電器可省下{{ -compare_result.delta }}度電({{ -compare_result.delta*2.48 }}元)
                           img.crown.fadeIn.animated.ani-delay-10(
                               src="/img/crown.svg", :key="advice_device",
                               v-if="compare_result.crown")
@@ -223,19 +223,19 @@ export default {
         },
         {
           "order": 3,
-          "name": "照明",
-          "consumption": 26,
-          "show_compare": 1,
-          "show_solution": 1,
-          "notes": "公設LED燈泡(顆):提供1380lm"
-        },
-        {
-          "order": 4,
           "name": "電視",
           "consumption": 87,
           "show_compare": 1,
           "show_solution": 1,
           "notes": "電視:40吋"
+        },
+        {
+          "order": 4,
+          "name": "照明",
+          "consumption": 26,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "公設LED燈泡(顆):提供1380lm"
         },
         {
           "order": 5,
@@ -247,11 +247,11 @@ export default {
         },
         {
           "order": 6,
-          "name": "電熱水器",
-          "consumption": 219,
+          "name": "飲水機",
+          "consumption": 353,
           "show_compare": 1,
           "show_solution": 1,
-          "notes": "電熱水器(儲備型):75公升"
+          "notes": "溫熱型開飲機:3公升"
         },
         {
           "order": 7,
@@ -263,27 +263,27 @@ export default {
         },
         {
           "order": 8,
-          "name": "飲水機",
-          "consumption": 353,
-          "show_compare": 1,
-          "show_solution": 1,
-          "notes": "溫熱型開飲機:3公升"
-        },
-        {
-          "order": 9,
-          "name": "吹風機",
-          "consumption": 183,
-          "show_compare": 1,
-          "show_solution": 1,
-          "notes": "與規格無關"
-        },
-        {
-          "order": 10,
           "name": "電子鍋",
           "consumption": 687,
           "show_compare": 1,
           "show_solution": 1,
           "notes": "電子鍋:800W"
+        },
+        {
+          "order": 9,
+          "name": "電熱水器",
+          "consumption": 219,
+          "show_compare": 1,
+          "show_solution": 1,
+          "notes": "電熱水器(儲備型):75公升"
+        },
+        {
+          "order": 10,
+          "name": "吹風機",
+          "consumption": 183,
+          "show_compare": 0,
+          "show_solution": 1,
+          "notes": "與規格無關"
         },
         {
           "order": 11,
@@ -344,9 +344,13 @@ export default {
               .filter((d,i,arr)=>arr.indexOf(d)==i)
     },
     advice_device_list() {
-      return this.advices
-                    .map(o => o.device)
-                    .filter((d, i, arr) => arr.indexOf(d) == i);
+      let getOrder = (name)=>(this.compare_data.find(d=>d.name==name) || {}).order  || 1000
+      let result =  this.advices
+                    .map(advice=>advice.device)
+                    .filter((d, i, arr) => arr.indexOf(d) == i)
+                    .sort((a,b)=>(getOrder(a)-getOrder(b)))
+      console.log(result)
+      return result
     },
     sorted_devices() {
       //取的排序好的電器(前三名)

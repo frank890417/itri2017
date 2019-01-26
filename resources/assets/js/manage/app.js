@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import Vue from 'vue'
 import axios from 'axios'
+// import elementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// Vue.use(elementUI)
 
 window.store=store
 

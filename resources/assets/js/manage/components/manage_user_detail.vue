@@ -13,7 +13,7 @@ section.manage_person.container-fluid
       .panel.panel-primary
         .panel-heading 使用者資料 {{show_data[0].uuid}} |  ({{show_data[0].updated_at}})
         .panel-body
-          ul(v-if="userinfo")
+          //- ul(v-if="userinfo")
             li uuid: {{userinfo.uuid}}
             li 居住地區: {{ userinfo.county}}
             li 家庭人數: {{userinfo.member_count}}
@@ -22,10 +22,30 @@ section.manage_person.container-fluid
             li 度數: {{userinfo.degree}}
             li 電費: {{userinfo.money}}
             li 建立時間: {{userinfo.created_at}}
-          vue_lazy_table(
-            :table_data="show_data",
-            :rows = "user_rows"
-          )
+          //- el-button(@click='resetDateFilter') 清除日期过滤器
+          //- el-button(@click='clearFilter') 清除所有过滤器
+          //el-table(ref='filterTable', :data='show_data', style='width: 100%')
+            //- el-table-column(prop='uuid', label='uuid', sortable='', width='180', column-key='date', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='county', label='居住地區', sortable='', width='180', column-key='county', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='member_count', label='家庭人數', sortable='', width='180', column-key='member_count', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='area_size', label='空間大小(坪)', sortable='', width='180', column-key='area_size', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='summer', label='月份', sortable='', width='180', column-key='summer', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='degree', label='度數', sortable='', width='180', column-key='degree', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='money', label='電費', sortable='', width='180', column-key='money', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            //- el-table-column(prop='created_at', label='建立時間', sortable='', width='180', column-key='created_at', :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]", :filter-method='filterHandler')
+            
+            
+            
+            //- el-table-column(prop='name', label='姓名', width='180')
+            //- el-table-column(prop='address', label='地址', :formatter='formatter')
+            //- el-table-column(prop='tag', label='标签', width='100', :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]", :filter-method='filterTag', filter-placement='bottom-end')
+            //-   template(slot-scope='scope')
+            //-     el-tag(:type="scope.row.tag === '家' ? 'primary' : 'success'", disable-transitions='') {{scope.row.tag}}
+
+          //- vue_lazy_table(
+          //-   :table_data="show_data",
+          //-   :rows = "user_rows"
+          //- )
 </template>
 
 <script>
@@ -72,6 +92,24 @@ export default {
         o.place=this.devices[o.device_id].place
       })
       return temp
+    }
+  },
+  methods: {
+    resetDateFilter() {
+      this.$refs.filterTable.clearFilter('date');
+    },
+    clearFilter() {
+      this.$refs.filterTable.clearFilter();
+    },
+    formatter(row, column) {
+      return row.address;
+    },
+    filterTag(value, row) {
+      return row.tag === value;
+    },
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
     }
   }
 }
