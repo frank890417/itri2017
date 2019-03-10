@@ -3,6 +3,32 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       h1 資料分析
+  .row.pt-3.pb-3.mt-3
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 紀錄分析圖表
+        .panel-body.pt-2.pb-2
+          .container-fluid
+            .row.mt-3
+              .col-sm-6
+
+                h3.text-center 使用者地區分佈
+                DoughnutChart(:chartData="data_grouped_by_county", v-if="data_grouped_by_county")
+              .col-sm-6
+
+                h3.text-center 房間耗電占比分佈
+                DoughnutChart(:chartData="data_grouped_by_place", v-if="data_grouped_by_place")
+      .panel.panel-primary
+        .panel-heading 電器紀錄分析圖表
+        .panel-body.pt-2.pb-2
+          .container-fluid
+            .row
+              .col-sm-12
+
+                h3.text-center 電器耗電總比例 (1MWh)
+                DoughnutChart(:chartData="data_grouped_by_device", v-if="data_grouped_by_device")
+  
+      
   .row
     .col-sm-12
       .panel.panel-primary
@@ -12,7 +38,20 @@ section.manage_index.container-fluid
                         :rows = "uuid_user_details",
                         :dataTitle = "'使用者基本資料'")
           //graph_bar(:data = "")
+        //- p {{data_grouped_by_county }}
+        //- CommitChart
 
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 使用者基本資料(e-table)
+        el-input
+        el-table(:data="userdetails")
+          el-table-column(v-for="r in uuid_user_details",
+                          :prop = "r.split(' -> ')[0]",
+                          :label = "r.split(' -> ')[1]",
+                          :key="r")
+            
   .row
     .col-sm-12
       .panel.panel-primary
@@ -57,6 +96,8 @@ import vue_lazy_table from '../components/vue_lazy_table';
 import advices from "../../advices"
 import {mapState,mapMutations,mapActions} from 'vuex' ;
 import region_data from '../../region_data'
+import * as d3 from 'd3'
+import _ from "lodash"
 export default {
   data () {
     return {
@@ -118,7 +159,8 @@ export default {
       // advice_devices: advice_devices.advice_devices,
       // advice_catas: advice_devices.advice_catas,
       temp_zh: null,
-      
+      data_grouped_by_device_raw: null,
+      data_grouped_by_place_raw: null
     }
   },
   computed: {
@@ -141,6 +183,49 @@ export default {
         device_count: (this.uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(1)
       }]
     },
+    data_grouped_by_county(){
+      var c = d3.scaleOrdinal(d3.schemeCategory20)
+      let result = Object.entries(_.groupBy(this.userdetails,"county")).map((item)=>item[1].length)
+      console.log(result)
+      return {
+        labels: Object.keys(_.groupBy(this.userdetails,"county")),
+        datasets: [{
+          label: "使用者",
+          backgroundColor: result.map((d,i)=>c(i)),
+          data: result
+        }]
+      }
+
+    },
+    data_grouped_by_device(){
+      if (!this.data_grouped_by_device_raw) return null
+      var c = d3.scaleOrdinal(d3.schemeCategory20)
+
+      return {
+        labels: this.data_grouped_by_device_raw.map(d=>this.devices.find(device=>device.id==d.device_id).name),
+        datasets: [{
+          label: "電器耗電比例",
+          backgroundColor: this.data_grouped_by_device_raw.map((d,i)=>c(i)),
+          data: this.data_grouped_by_device_raw.map(d=>d.sum/1000)
+        }]
+      }
+
+    },
+    data_grouped_by_place(){
+      if (!this.data_grouped_by_place_raw) return null
+      var c = d3.scaleOrdinal(d3.schemeCategory20)
+
+      return {
+        labels: this.data_grouped_by_place_raw.map(d=>d.place),
+        datasets: [{
+          label: "房間耗電比例",
+          backgroundColor: this.data_grouped_by_place_raw.map((d,i)=>c(i)),
+          data: this.data_grouped_by_place_raw.map(d=>d.sum/1000)
+        }]
+      }
+
+    }
+    
     // graph_degree(){
     //   // let result = this.uuid_devicelog_rows.reduce((total,obj)=>{
     //   //   for(let i =0;i<5;i++){
@@ -177,6 +262,15 @@ export default {
     gotoUser(row){
       this.$router.push("/user/"+row.uuid)
     }
+  },
+  created(){
+    axios.get("/api/device/summary").then(res=>{
+      this.$set(this,"data_grouped_by_device_raw",res.data)
+    })
+
+    axios.get("/api/place/summary").then(res=>{
+      this.$set(this,"data_grouped_by_place_raw",res.data)
+    })
   }
   // methods: {}
 }

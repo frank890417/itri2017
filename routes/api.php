@@ -23,7 +23,6 @@ Route::get("/devicelog/uuid","DevicelogController@show_uuid_group");
 Route::get("/devicelog/{uuid}","DevicelogController@show_uuid_group_detail");
 Route::resource("devices","DeviceController");
 
-
 Route::get("/advice_devices/{cata}","ApiController@get_advice_devices_by_cata");
 Route::get("devices","ApiController@devices");
 Route::resource("advices","AdviceController");
@@ -32,6 +31,8 @@ Route::get("userdetails","ApiController@userdetails");
 Route::get("userdetails/{users_id}","ApiController@userdetails_by_users_id");
 Route::get("/websiteinfo/key/{key}","ApiController@websiteinfo");
 Route::post("/websiteinfo/key/{key}","ApiController@websiteinfo_save");
+Route::get("/device/summary","ApiController@get_device_cata_summary");
+Route::get("/place/summary","ApiController@get_device_place_summary");
 
 //authenticate issues
 Route::get("users","ApiController@users");

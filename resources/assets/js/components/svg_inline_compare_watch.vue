@@ -72,7 +72,8 @@ export default {
             vobj.temp_degree-=(vobj.temp_degree-vobj.degree)*0.025
             // $degree_text.text(Math.ceil(this.temp_degree) )
             if (ref){
-              $(ref).css("transform","rotate("+180*(this.temp_degree/2000 )+"deg)")
+              let use_rotate_degree = Math.min(this.temp_degree/2000*180,190)
+              $(ref).css("transform","rotate("+use_rotate_degree+"deg)")
             }
            
             // console.log(vobj.temp_degree)

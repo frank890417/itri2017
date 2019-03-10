@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Device;
+use App\Devicelog;
 use App\Advice;
 use App\Websiteinfo;
 use App\Userdetail;
@@ -18,6 +19,7 @@ class ApiController extends Controller
     public function devices(){
       return Device::all();
     }
+
     //
     public function advices(){
       return Advice::all();
@@ -25,6 +27,43 @@ class ApiController extends Controller
 
     public function get_advice_devices_by_cata($cata){
       return AdviceDevice::where("cata",$cata)->get();
+    }
+
+    public function get_device_cata_summary(){
+      $result =  DB::table('devicelogs')->where("device_consumption","!=",null)
+                      ->select("device_id","device_consumption")
+                      // ->all()
+                      ->leftJoin("devices",function($join){
+                        $join->on('devicelogs.device_id',"=","devices.id");
+                      })
+                      ->groupBy('name')
+                      ->selectRaw("device_id,name,sum(device_consumption) as sum,count(device_consumption) as count")
+                      ->orderBy('sum','DESC')
+                      // ->select("device_id","device_consumption")
+                      // ->leftJoin('devices',function($join){
+                      //   $join->on('devicelogs.id',"=","devices.id");
+                      // })
+                      ->get();
+      return $result; 
+    }
+
+    public function get_device_place_summary(){
+      $result =  DB::table('devicelogs')->where("device_consumption","!=",null)
+                      ->select("device_id","device_consumption")
+                      // ->all()
+                      ->leftJoin("devices",function($join){
+                        $join->on('devicelogs.device_id',"=","devices.id");
+                      })
+                      ->select("place","name","device_id","device_consumption")
+                      ->groupBy('place')
+                      ->selectRaw("place,name,sum(device_consumption) as sum,count(device_consumption) as count")
+                      ->orderBy('place')
+                      // ->select("device_id","device_consumption")
+                      // ->leftJoin('devices',function($join){
+                      //   $join->on('devicelogs.id',"=","devices.id");
+                      // })
+                      ->get();
+      return $result; 
     }
 
     public function userdetails(){

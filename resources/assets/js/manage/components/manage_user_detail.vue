@@ -8,12 +8,12 @@ section.manage_person.container-fluid
   .row
     .col-sm-12
       h1 詳細資料
-  .row
+  .row(v-if="show_data[0]")
     .col-sm-12
       .panel.panel-primary
         .panel-heading 使用者資料 {{show_data[0].uuid}} |  ({{show_data[0].updated_at}})
         .panel-body
-          //- ul(v-if="userinfo")
+          ul(v-if="userinfo")
             li uuid: {{userinfo.uuid}}
             li 居住地區: {{ userinfo.county}}
             li 家庭人數: {{userinfo.member_count}}
