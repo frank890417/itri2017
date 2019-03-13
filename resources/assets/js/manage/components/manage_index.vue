@@ -183,12 +183,17 @@ export default {
         device_count: (this.uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(1)
       }]
     },
+    //計算縣市比例與標籤資料
     data_grouped_by_county(){
       var c = d3.scaleOrdinal(d3.schemeCategory20)
-      let result = Object.entries(_.groupBy(this.userdetails,"county")).map((item)=>item[1].length)
+      let grouping = _.groupBy(this.userdetails,"county")
+      let result = Object.entries(grouping).map((item)=>item[1].length)
       console.log(result)
+      let total = result.reduce((t,d)=>t+d,0)
       return {
-        labels: Object.keys(_.groupBy(this.userdetails,"county")),
+        labels: Object.keys(grouping).map(
+          key=>key==-1?'未填寫':( key+" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%") 
+        ),
         datasets: [{
           label: "使用者",
           backgroundColor: result.map((d,i)=>c(i)),
@@ -200,9 +205,11 @@ export default {
     data_grouped_by_device(){
       if (!this.data_grouped_by_device_raw) return null
       var c = d3.scaleOrdinal(d3.schemeCategory20)
+      let total = this.data_grouped_by_device_raw.map(d=>d.sum/1000).reduce((t,d)=>t+d,0)
+      let percentage =  this.data_grouped_by_device_raw.map(d=> parseFloat(d.sum/1000/total*100).toFixed(2)+"%")
 
       return {
-        labels: this.data_grouped_by_device_raw.map(d=>this.devices.find(device=>device.id==d.device_id).name),
+        labels: this.data_grouped_by_device_raw.map((d,i)=>this.devices.find(device=>device.id==d.device_id).name + " " +percentage[i] ),
         datasets: [{
           label: "電器耗電比例",
           backgroundColor: this.data_grouped_by_device_raw.map((d,i)=>c(i)),
@@ -214,9 +221,9 @@ export default {
     data_grouped_by_place(){
       if (!this.data_grouped_by_place_raw) return null
       var c = d3.scaleOrdinal(d3.schemeCategory20)
-
+      var total = this.data_grouped_by_place_raw.map(d=>d.sum).reduce((t,d)=>t+1*d,0)
       return {
-        labels: this.data_grouped_by_place_raw.map(d=>d.place),
+        labels: this.data_grouped_by_place_raw.map(d=>d.place +" "+ parseFloat(100*d.sum/total).toFixed(2)+"%")  ,
         datasets: [{
           label: "房間耗電比例",
           backgroundColor: this.data_grouped_by_place_raw.map((d,i)=>c(i)),
