@@ -3,6 +3,16 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       h1 資料分析
+      br
+  .row
+    .col-sm-12
+      .panel.panel-primary(:class="{ fixed_top: dateSelFixedTop }")
+        .panel-heading 資料日期區間 ({{start_date}} - {{end_date}})
+        .panel-body.pt-2.pb-2
+          el-date-picker(v-model="start_date", placeholder="開始日期")
+          el-date-picker(v-model="end_date", placeholder="結束日期")
+          el-button(@click="start_date=\"2017-01-01\"; end_date=Date.now(); ") 全時間區間
+      hr#date_sel
   .row.pt-3.pb-3.mt-3
     .col-sm-12
       .panel.panel-primary
@@ -12,12 +22,16 @@ section.manage_index.container-fluid
             .row.mt-3
               .col-sm-6
 
-                h3.text-center 使用者地區分佈
-                DoughnutChart(:chartData="data_grouped_by_county", v-if="data_grouped_by_county")
+                h3.text-center 使用者地區分佈 ({{data_grouped_by_county.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_county.datasets[0].data.length") 此區間無資料
+                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_county", v-else-if="data_grouped_by_county",
+                              :key="data_grouped_by_county.datasets[0].data.length")
               .col-sm-6
 
-                h3.text-center 房間耗電占比分佈
-                DoughnutChart(:chartData="data_grouped_by_place", v-if="data_grouped_by_place")
+                h3.text-center 房間耗電占比分佈 ({{data_grouped_by_place.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_place.datasets[0].data.length") 此區間無資料
+                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_place", v-else-if="data_grouped_by_place",
+                              :key="data_grouped_by_place.datasets[0].data.length")
       .panel.panel-primary
         .panel-heading 電器紀錄分析圖表
         .panel-body.pt-2.pb-2
@@ -25,37 +39,29 @@ section.manage_index.container-fluid
             .row
               .col-sm-12
 
-                h3.text-center 電器耗電總比例 (1MWh)
-                DoughnutChart(:chartData="data_grouped_by_device", v-if="data_grouped_by_device")
+                h3.text-center 電器耗電總比例 (1MWh) ({{data_grouped_by_device.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_device.datasets[0].data.length") 此區間無資料
+                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_device", v-else-if="data_grouped_by_device",
+                              :key="data_grouped_by_device.datasets[0].data.length")
   
       
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 使用者基本資料
+        .panel-heading 使用者基本資料 ({{uuid_user_details.length}}筆)
         .panel-body
-          vue_lazy_table(:table_data = "userdetails",
+          vue_lazy_table(:table_data = "date_range_userdetails",
                         :rows = "uuid_user_details",
                         :dataTitle = "'使用者基本資料'")
           //graph_bar(:data = "")
         //- p {{data_grouped_by_county }}
         //- CommitChart
 
-  .row
-    .col-sm-12
-      .panel.panel-primary
-        .panel-heading 使用者基本資料(e-table)
-        el-input
-        el-table(:data="userdetails")
-          el-table-column(v-for="r in uuid_user_details",
-                          :prop = "r.split(' -> ')[0]",
-                          :label = "r.split(' -> ')[1]",
-                          :key="r")
             
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 電器填寫紀錄
+        .panel-heading 電器填寫紀錄 ({{show_uuid_table.length}}筆)
         .panel-body
           vue_lazy_table(:table_data = "show_uuid_table",
                          :rows = "uuid_devicelog_rows",
@@ -67,7 +73,7 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 統計
+        .panel-heading 統計資訊
         .panel-body
           vue_lazy_table(:table_data = "conclude_table"
                       :rows = "conclude_table_rows"
@@ -160,13 +166,41 @@ export default {
       // advice_catas: advice_devices.advice_catas,
       temp_zh: null,
       data_grouped_by_device_raw: null,
-      data_grouped_by_place_raw: null
+      data_grouped_by_place_raw: null,
+      start_date: (new Date("2017-1-1")).toLocaleDateString(),
+      end_date: (new Date()).toLocaleDateString(),
+      scrollPos: 0,
+      dateSelFixedTop: false
     }
   },
   computed: {
     ...mapState(['uuid_devicelog','devices','website_zh','userdetails']),
+    date_range_uuid_devicelog(){
+      let startDateObj = new Date(this.start_date)
+      let endDateObj = new Date(this.end_date)
+
+
+      return this.uuid_devicelog.filter(item=>{
+        // console.log(item)
+        let cur = new Date(item.created_time.replace(/\//g,"-"))
+        // console.log(cur, startDateObj , endDateObj)
+        return cur> startDateObj && cur < endDateObj
+      })
+    },
+    date_range_userdetails(){
+      let startDateObj = new Date(this.start_date)
+      let endDateObj = new Date(this.end_date)
+
+
+      return this.userdetails.filter(item=>{
+        // console.log(item)
+        let cur = new Date(item.created_at.replace(/\//g,"-"))
+        // console.log(cur, startDateObj , endDateObj)
+        return cur> startDateObj && cur < endDateObj
+      })
+    },
     userdetails_show(){
-      return this.userdetails.map((u)=>({
+      return this.date_range_userdetails.map((u)=>({
         ...u,
         region: this.region_data[u.region],
 
@@ -174,21 +208,21 @@ export default {
       }) )
     },
     show_uuid_table(){
-      return this.uuid_devicelog
+      return this.date_range_uuid_devicelog
     },
     conclude_table(){
       return [{
-        total: this.uuid_devicelog.length,
-        avg: (this.uuid_devicelog.map(o=>o.total_consumption).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(2),
-        device_count: (this.uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.uuid_devicelog.length).toFixed(1)
+        total: this.date_range_uuid_devicelog.length,
+        avg: (this.date_range_uuid_devicelog.map(o=>o.total_consumption).reduce((a,b)=>1.0*a+1.0*b,0)/ this.date_range_uuid_devicelog.length).toFixed(2),
+        device_count: (this.date_range_uuid_devicelog.map(o=>o.device_count).reduce((a,b)=>1.0*a+1.0*b,0)/ this.date_range_uuid_devicelog.length).toFixed(1)
       }]
     },
     //計算縣市比例與標籤資料
     data_grouped_by_county(){
       var c = d3.scaleOrdinal(d3.schemeCategory20)
-      let grouping = _.groupBy(this.userdetails,"county")
+      let grouping = _.groupBy(this.date_range_userdetails,"county")
       let result = Object.entries(grouping).map((item)=>item[1].length)
-      console.log(result)
+      // console.log(result)
       let total = result.reduce((t,d)=>t+d,0)
       return {
         labels: Object.keys(grouping).map(
@@ -256,6 +290,12 @@ export default {
   watch: {
     website_zh(){
       this.temp_zh=this.website_zh
+    },
+    start_date(){
+      this.loadDatas()
+    },
+    end_date(){
+      this.loadDatas()
     }
   },
   components: {
@@ -268,15 +308,40 @@ export default {
     },
     gotoUser(row){
       this.$router.push("/user/"+row.uuid)
+    },
+    loadDatas(){
+      axios.get("/api/device/summary", {
+        params: {
+          start_date: this.start_date,
+          end_date: this.end_date
+        }
+      }).then(res=>{
+        this.$set(this,"data_grouped_by_device_raw",res.data)
+      })
+
+      axios.get("/api/place/summary", {
+        params: {
+          start_date: this.start_date,
+          end_date: this.end_date
+        }
+      }).then(res=>{
+        this.$set(this,"data_grouped_by_place_raw",res.data)
+      })
+      
     }
   },
   created(){
-    axios.get("/api/device/summary").then(res=>{
-      this.$set(this,"data_grouped_by_device_raw",res.data)
-    })
-
-    axios.get("/api/place/summary").then(res=>{
-      this.$set(this,"data_grouped_by_place_raw",res.data)
+    this.loadDatas();
+    window.addEventListener("scroll",()=>{
+      this.scrollPos = window.scrollY
+      let el = document.getElementById("date_sel")
+      if ( el.getBoundingClientRect().y < 0){
+        this.dateSelFixedTop=true
+      }else{
+        this.dateSelFixedTop=false
+      }
+      
+      
     })
   }
   // methods: {}
@@ -285,5 +350,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-
+.fixed_top
+  position: fixed
+  top: 50px
+  width: 100%
+  z-index: 10
+  
 </style>

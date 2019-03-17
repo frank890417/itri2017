@@ -30,7 +30,13 @@ class ApiController extends Controller
     }
 
     public function get_device_cata_summary(){
-      $result =  DB::table('devicelogs')->where("device_consumption","!=",null)
+      $inputs= Input::all();
+      $from = date($inputs['start_date']);
+      $to = date($inputs['end_date']);
+      $result =  DB::table('devicelogs')
+                      ->whereBetween('devicelogs.created_at', [$from, $to])
+                      ->where("device_consumption","!=",null)
+                      
                       ->select("device_id","device_consumption")
                       // ->all()
                       ->leftJoin("devices",function($join){
@@ -48,7 +54,12 @@ class ApiController extends Controller
     }
 
     public function get_device_place_summary(){
-      $result =  DB::table('devicelogs')->where("device_consumption","!=",null)
+      $inputs= Input::all();
+      $from = date($inputs['start_date']);
+      $to = date($inputs['end_date']);
+      $result =  DB::table('devicelogs')
+                      ->whereBetween('devicelogs.created_at', [$from, $to])
+                      ->where("device_consumption","!=",null)
                       ->select("device_id","device_consumption")
                       // ->all()
                       ->leftJoin("devices",function($join){

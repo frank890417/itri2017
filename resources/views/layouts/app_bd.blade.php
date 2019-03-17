@@ -10,7 +10,8 @@
     <!-- Styles -->
     
     <link rel="icon" type="image/png" href="img/favicon.png" />
-  
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Scripts -->
     <script>
