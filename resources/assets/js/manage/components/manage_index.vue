@@ -10,8 +10,11 @@ section.manage_index.container-fluid
         .panel-heading 資料日期區間 ({{start_date}} - {{end_date}})
         .panel-body.pt-2.pb-2
           el-date-picker(v-model="start_date", placeholder="開始日期")
+          span &nbsp;-&nbsp; 
           el-date-picker(v-model="end_date", placeholder="結束日期")
-          el-button(@click="start_date=\"2017-01-01\"; end_date=Date.now(); ") 全時間區間
+          span &nbsp
+          el-button(type="primary",
+                  @click="start_date=\"2017-01-01\"; end_date=(new Date()).toLocaleDateString(); ") 全時間區間
       hr#date_sel
   .row.pt-3.pb-3.mt-3
     .col-sm-12
@@ -48,7 +51,7 @@ section.manage_index.container-fluid
   .row
     .col-sm-12
       .panel.panel-primary
-        .panel-heading 使用者基本資料 ({{uuid_user_details.length}}筆)
+        .panel-heading 使用者基本資料 ({{date_range_userdetails.length}}筆)
         .panel-body
           vue_lazy_table(:table_data = "date_range_userdetails",
                         :rows = "uuid_user_details",
