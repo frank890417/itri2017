@@ -138,7 +138,7 @@
                     
                     a.small(:href="get_cata_link(advice_device)", target="_blank") 
                       span.small (查看更多推薦電器)
-                      span.small.mr-5 資料日期：2019/01/16
+                      span.small.mr-5 資料更新日期：2019/03/17
                   input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
                   hr
                   .recommend_list.row
