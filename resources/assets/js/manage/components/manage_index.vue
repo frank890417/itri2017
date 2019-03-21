@@ -24,7 +24,7 @@ section.manage_index.container-fluid
           .container-fluid
             .row.mt-3
               .col-sm-6
-                pre {{region_data}}
+                //- pre {{region_data}}
                 h3.text-center 使用者地區分佈 ({{data_grouped_by_county.datasets[0].data.length}}筆)
                 h4.text-center(v-if="!data_grouped_by_county.datasets[0].data.length") 此區間無資料
                 DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_county", v-else-if="data_grouped_by_county",
@@ -225,7 +225,14 @@ export default {
     //計算縣市比例與標籤資料
     data_grouped_by_county(){
       var c = d3.scaleOrdinal(d3.schemeCategory20)
-      let grouping = _.groupBy(this.date_range_userdetails,"county")
+      //把空區域轉換成-1
+      let polyFillUserData = this.date_range_userdetails.map(d=>{
+        return {
+          ...d,
+          county: d.county!=""?d.county:-1
+        }
+      })
+      let grouping = _.groupBy(polyFillUserData,"county")
       let groupingArray = Object.entries(grouping)
 
       //根據縣市區域排列
