@@ -24,7 +24,7 @@ section.manage_index.container-fluid
           .container-fluid
             .row.mt-3
               .col-sm-6
-
+                pre {{region_data}}
                 h3.text-center 使用者地區分佈 ({{data_grouped_by_county.datasets[0].data.length}}筆)
                 h4.text-center(v-if="!data_grouped_by_county.datasets[0].data.length") 此區間無資料
                 DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_county", v-else-if="data_grouped_by_county",
@@ -107,6 +107,8 @@ import {mapState,mapMutations,mapActions} from 'vuex' ;
 import region_data from '../../region_data'
 import * as d3 from 'd3'
 import _ from "lodash"
+import region_data from '../../region_data'
+
 export default {
   data () {
     return {
@@ -224,11 +226,18 @@ export default {
     data_grouped_by_county(){
       var c = d3.scaleOrdinal(d3.schemeCategory20)
       let grouping = _.groupBy(this.date_range_userdetails,"county")
-      let result = Object.entries(grouping).map((item)=>item[1].length)
+      let groupingArray = Object.entries(grouping)
+
+      //根據縣市區域排列
+      groupingArray.sort((a,b)=>(
+        _.findIndex(region_data,obj=>obj.name==a[0]) -  _.findIndex(region_data,obj=>obj.name==b[0])
+      ))
+
+      let result = groupingArray.map((item)=>item[1].length)
       // console.log(result)
       let total = result.reduce((t,d)=>t+d,0)
       return {
-        labels: Object.keys(grouping).map(
+        labels: groupingArray.map(d=>d[0]).map(
           key=>key==-1?'未填寫':( key+" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%") 
         ),
         datasets: [{
