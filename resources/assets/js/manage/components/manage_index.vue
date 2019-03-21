@@ -245,7 +245,7 @@ export default {
       let total = result.reduce((t,d)=>t+d,0)
       return {
         labels: groupingArray.map(d=>d[0]).map(
-          key=>key==-1?'未填寫':( key+" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%") 
+          key=>(key==-1?'未填寫': key) +" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%" 
         ),
         datasets: [{
           label: "使用者",
