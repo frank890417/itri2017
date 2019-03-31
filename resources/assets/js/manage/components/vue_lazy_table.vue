@@ -3,7 +3,7 @@
     div(v-if="conf.show_search")
       .form-group-inline
         label Search: &nbsp;
-        input(v-model="search_keyword")
+        input(v-model="search_keyword", :placeholder="'共 '+sliced_data.length+' 筆結果'")
         .btn.btn-primary.pull-right(@click="export_csv") 匯出csv
       //- pre {{rowFilters}}
     table.table.table-hover
@@ -16,8 +16,8 @@
           span(v-if="row_key==sort_key && !sort_direction") ▲
           span(v-if="row_key!=sort_key ") 　
           br
-          div
-            div(v-for="(filter,fid) in (rowFilters[row_key] || [])",
+          span
+            span(v-for="(filter,fid) in (rowFilters[row_key] || [])",
                 style="display: flex")
               select(v-model="filter.operator")
                 option(v-for="op in operators", :value="op") {{op.symbol}}
@@ -25,7 +25,8 @@
               input(v-model="filter.target", @keyup = "$forceUpdate();", style="flex: 1;width: calc(100% - 50px);flex-grow: 0.3;display: inline-block;")
               button(@click="rowFilters[row_key].splice(fid,1);$forceUpdate();") x
             div(@click="addFilter(row_key)")
-              i.fa.fa-filter 
+              i.fa.fa-filter
+                label 加入篩選條件
 
           //- input(v-model="rowFilters[row_key]" style="width: 100%",
           //-       placeholder="" )
@@ -72,6 +73,9 @@ export default {
       },{
         symbol: "<=",
         func: (a,b)=>1*a<=1*b
+      },{
+        symbol: "包含",
+        func: (a,b)=>(a+"").indexOf(b)!=-1
       }],
       conf: {
         show_id: true,
@@ -311,6 +315,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass?indentedSyntax">
+.power_table
   *
     // border: solid 1px black
   th
@@ -323,5 +328,10 @@ export default {
 
   .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ 
     opacity: 0
-
+  i.fa.fa-filter
+    label
+      opacity: 0
+    &:hover
+      label
+        opacity: 1
 </style>
