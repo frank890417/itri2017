@@ -10,7 +10,7 @@
       thead
         th(v-for = "row_key in (row_keys || default_row_keys)",
            @click = "set_sort_key(row_key)",
-           v-if = "row_name_alias(row_key)!='__hide'")
+           v-if = "row_name_alias(row_key)!='__hide'",)
           | {{ row_name_alias(row_key) }}
           span(v-if="row_key==sort_key && sort_direction") ▼
           span(v-if="row_key==sort_key && !sort_direction") ▲
@@ -24,9 +24,8 @@
               //- pre {{filter.operator}}
               input(v-model="filter.target", @keyup = "$forceUpdate();", style="flex: 1;width: calc(100% - 50px);flex-grow: 0.3;display: inline-block;min-width: 50px;")
               button(@click="rowFilters[row_key].splice(fid,1);$forceUpdate();") x
-            div(@click="addFilter(row_key)")
-              i.fa.fa-filter
-                label 加入篩選條件
+            div
+              i.fa.fa-filter(@click="addFilter(row_key)", title="新增篩選條件")
 
           //- input(v-model="rowFilters[row_key]" style="width: 100%",
           //-       placeholder="" )
@@ -325,6 +324,7 @@ export default {
     cursor: pointer
     user-select: none
     padding: 10px
+    vertical-align: top
 
   .fade-enter-active, .fade-leave-active 
     transition: opacity .5s
@@ -332,9 +332,12 @@ export default {
   .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ 
     opacity: 0
   i.fa.fa-filter
-    label
-      opacity: 0
+
+
+    opacity: 0.7
     &:hover
-      label
-        opacity: 1
+      transform: scale(1.1)
+      opacity: 1
+
+
 </style>
