@@ -321,6 +321,7 @@ export default {
 
           //計算使用時間 ＊ 單位時間能耗
           var hour=[device.rarely,device.occasionally,device.often,device.frequently][profile.option];
+          var use_hour_per_year = device.day*hour;
           var per_profile_device_consumption= parseInt(cump*device.consumption_mul*device.day*hour/1000 );
           var profile_consumption = profile.count * per_profile_device_consumption
           // console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
@@ -355,6 +356,9 @@ export default {
           }
           device.hour_consumption += cump;
           device.device_consumption += profile_consumption;
+
+          //一年總共用的小時數（計算比較電器用)
+          device.use_hour_per_year = use_hour_per_year;
 
           //加總到房間總耗電量
           let room_id = this.get_place_id(device.hash);

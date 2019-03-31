@@ -17,6 +17,9 @@ export default {
     },
     init: {
       default: false
+    },
+    max: {
+      default: 2000
     }
   },
   data(){
@@ -60,7 +63,6 @@ export default {
     //更新元素轉動角度
     updatePointer(){
       // console.log("pointer", this.$refs.comp_watch.querySelector(".pointer") )
-      
       let vobj=this
       // var $pointers = [4,3,2,1].map((num)=>$(`[data-name='pointer_${num}']`))
       // var $degree_text = $($(`.svg_inline[hash=${this.hash}] text`)[0])
@@ -72,7 +74,7 @@ export default {
             vobj.temp_degree-=(vobj.temp_degree-vobj.degree)*0.025
             // $degree_text.text(Math.ceil(this.temp_degree) )
             if (ref){
-              let use_rotate_degree = Math.min(this.temp_degree/2000*180,190)
+              let use_rotate_degree = Math.min(this.temp_degree/this.max*180,190)
               $(ref).css("transform","rotate("+use_rotate_degree+"deg)")
             }
            

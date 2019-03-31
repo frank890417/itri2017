@@ -118,10 +118,17 @@
 
   //新舊電器耗電比較
   .col_watches
+    .extra_multiplier
+      position: absolute
+      left: 50%
+      bottom: 0px
+      transform: translateX(-50%)
     .block_title
       background-color: rgba(white,0.2)
       padding: 5px 10px
       display: inline-block
+      &.watch_title
+        font-size: 2rem
     .tag
       background-color: white
       padding: 15px

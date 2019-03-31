@@ -10203,10 +10203,21 @@ svg:not(.gauge) * {
   box-sizing: border-box;
 }
 
+.section_solution .col_watches .extra_multiplier {
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translateX(-50%);
+}
+
 .section_solution .col_watches .block_title {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 5px 10px;
   display: inline-block;
+}
+
+.section_solution .col_watches .block_title.watch_title {
+  font-size: 2rem;
 }
 
 .section_solution .col_watches .tag {

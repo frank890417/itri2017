@@ -84,26 +84,27 @@
                 .col-sm-9.col_watches(v-if="current_compare_data")
                   .row
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device+'_cur_data'")
-                      h5.block_title 您的電器
+                      h5.block_title.watch_title 您的電器
                       div
                       .p-5.pb-0
                         .watch.mb-4
                           svg_inline_compare_watch.elec_watch(
                             src="/img/compare_watch.svg",
-                            :degree="compare_result.target_consumption", :init="scrl_start_watch")
+                            :degree="compare_result.target_consumption", :max="current_compare_data.maximum_consumption", :init="scrl_start_watch")
                         h5.tag.text-center 您的電器耗電量為節能電器 {{ compare_result.mul }} 倍
                         
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device+'_compare_data'")
-                      h5.block_title.mr-4 節能電器
-                      span.ml-3 {{ current_compare_data.notes }}
+                      h5.block_title.watch_title.mr-4 節能電器
+                      span.ml-3 {{ current_compare_data.notes }} 
+                      span.extra_multiplier {{ current_compare_data.multiplier_info?`(${current_compare_data.multiplier_info} - x${current_compare_data.multiplier})`:"" }}
                       div
                       .p-5.pb-0
                         .watch.mb-4
                           svg_inline_compare_watch.elec_watch(
                             src="/img/compare_watch.svg",
-                            :degree="current_compare_data.consumption", :init="scrl_start_watch")
+                            :degree="compare_result.ideal_consumption", :max="current_compare_data.maximum_consumption", :init="scrl_start_watch")
                         
-                        h5.tag.text-center 節能電器可省下{{ -compare_result.delta }}度電({{ -compare_result.delta*2.48 }}元)
+                        h5.tag.text-center 節能電器可省下{{ -compare_result.delta }}度電({{ parseInt(-compare_result.delta*2.48) }}元)
                           img.crown.fadeIn.animated.ani-delay-10(
                               src="/img/crown.svg", :key="advice_device",
                               v-if="compare_result.crown")
@@ -208,7 +209,7 @@ export default {
         {
           "order": 1,
           "name": "冷氣機",
-          "consumption": 623,
+          "consumption": 807,
           "show_compare": 1,
           "show_solution": 1,
 
@@ -221,7 +222,7 @@ export default {
         {
           "order": 2,
           "name": "冰箱",
-          "consumption": 259,
+          "consumption": 54,
           "show_compare": 1,
           "show_solution": 1,
 
@@ -234,7 +235,7 @@ export default {
         {
           "order": 3,
           "name": "電視",
-          "consumption": 87,
+          "consumption": 60,
           "show_compare": 1,
           "show_solution": 1,
 
@@ -245,7 +246,7 @@ export default {
         {
           "order": 4,
           "name": "照明",
-          "consumption": 26,
+          "consumption": 13,
           "show_compare": 1,
           "show_solution": 1,
           "multiplier": 1,
@@ -255,7 +256,7 @@ export default {
         {
           "order": 5,
           "name": "電熱水瓶",
-          "consumption": 191,
+          "consumption": 22,
           "show_compare": 1,
           "show_solution": 1,
           "multiplier": 1,
@@ -265,7 +266,7 @@ export default {
         {
           "order": 6,
           "name": "飲水機",
-          "consumption": 353,
+          "consumption": 40,
           "show_compare": 1,
           "show_solution": 1,
           "multiplier": 1,
@@ -275,12 +276,13 @@ export default {
         {
           "order": 7,
           "name": "電鍋",
-          "consumption": 687,
+          "consumption": 800,
           "show_compare": 1,
           "show_solution": 1,
 
-          "multiplier": 1/0.85,
-          "multiplier_info": "壓縮機運轉率",
+          "user_multiplier": (1/0.65).toFixed(2),
+          "multiplier": (1/0.85).toFixed(2),
+          "multiplier_info": "家電熱效率",
           "maximum_consumption": 500,
 
           "notes": "電鍋:800W"
@@ -288,12 +290,13 @@ export default {
         {
           "order": 8,
           "name": "電子鍋",
-          "consumption": 687,
+          "consumption": 800,
           "show_compare": 1,
           "show_solution": 1,
 
-          "multiplier": 1/0.85,
-          "multiplier_info": "壓縮機運轉率",
+          "user_multiplier": (1/0.65).toFixed(2),
+          "multiplier": (1/0.85).toFixed(2),
+          "multiplier_info": "家電熱效率",
           "maximum_consumption": 500,
 
           "notes": "電子鍋:800W"
@@ -301,7 +304,7 @@ export default {
         {
           "order": 9,
           "name": "電熱水器",
-          "consumption": 219,
+          "consumption": 25,
           "show_compare": 1,
           "show_solution": 1,
           "multiplier": 1,
@@ -311,11 +314,11 @@ export default {
         {
           "order": 10,
           "name": "吹風機",
-          "consumption": 183,
+          "consumption": "",
           "show_compare": 0,
           "show_solution": 1,
           "multiplier": 1,
-          "notes": "與規格無關"
+          "notes": ""
         },
         {
           "order": 11,
@@ -389,6 +392,7 @@ export default {
     sorted_devices() {
       //取的排序好的電器(前三名)
       // console.log( this.devices);
+
       if (this.now_place_id == -1) {
         //全屋排名，利用不重複明稱，撈filter同名稱reduce累加，模擬成電器資料
         return this.uni_name_list.map(dev_name => ({
@@ -503,8 +507,6 @@ export default {
       return this.compare_data.find(d=>d.name==this.advice_device)
     },
     current_compare_device_filled_data(){
-      
-
       // var profiles = _.flatten(this.devices.map(d=>[
       //   d,d.alter_specs
       // ])).filter(d=>d.count>0)
@@ -512,20 +514,23 @@ export default {
                       .filter(d=>d.count>0)
                       .filter(d=>d.max_per_device_consumption)
                       .sort((a,b)=>a.max_per_device_consumption>b.max_per_device_consumption?-1:1)
-      // console.log(result)
+      console.log(result)
       return result.length?result[0]:null
     },
     compare_result(){
       if (!this.current_compare_device_filled_data){
         return {}
       }
-      let target_consumption = this.current_compare_device_filled_data.max_per_device_consumption
+      let target_consumption = this.current_compare_device_filled_data.max_per_device_consumption * (this.current_compare_data.user_multiplier || 1)
+      let ideal_consumption = parseInt(this.current_compare_data.consumption * this.current_compare_data.multiplier * this.current_compare_device_filled_data.use_hour_per_year / 1000)
+
       return {
         target_consumption: target_consumption,
+        ideal_consumption: ideal_consumption,
         show: (this.current_compare_data && this.current_compare_device_filled_data)?true:false,
-        mul: (target_consumption/this.current_compare_data.consumption).toFixed(2),
-        crown: target_consumption/this.current_compare_data.consumption>1.5,
-        delta: this.current_compare_data.consumption - target_consumption
+        mul: (target_consumption/ideal_consumption).toFixed(2),
+        crown: target_consumption/ideal_consumption>1.5,
+        delta: ideal_consumption - target_consumption
       }
     }
   },
