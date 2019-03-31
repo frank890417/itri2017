@@ -1,7 +1,7 @@
 <template lang="pug">
 section.manage_index.container-fluid
 
-  .row
+  .row.mb-3
     .col-sm-12
       h1 頁面編輯
   .row

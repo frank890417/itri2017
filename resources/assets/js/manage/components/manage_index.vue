@@ -4,9 +4,9 @@ section.manage_index.container-fluid
     .col-sm-12
       h1 資料分析
       br
-  .row
+  .row(style="min-height: 250px;")
     .col-sm-12
-      .panel.panel-primary(:class="{ fixed_top: dateSelFixedTop }")
+      .panel.panel-primary(:class="{ fixed_top: dateSelFixedTop }" )
         .panel-heading 資料日期區間 ({{start_date}} - {{end_date}})
         .panel-body.pt-2.pb-2
           el-date-picker(v-model="start_date", placeholder="開始日期")
@@ -16,6 +16,9 @@ section.manage_index.container-fluid
           el-button(type="primary",
                   @click="start_date=\"2017-01-01\"; end_date=(new Date()).toLocaleDateString(); ") 全時間區間
       hr#date_sel
+      //- br
+      //- br
+      //- br
   .row.pt-3.pb-3.mt-3
     .col-sm-12
       .panel.panel-primary
@@ -46,7 +49,6 @@ section.manage_index.container-fluid
                 h4.text-center(v-if="!data_grouped_by_device.datasets[0].data.length") 此區間無資料
                 DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_device", v-else-if="data_grouped_by_device",
                               :key="data_grouped_by_device.datasets[0].data.length")
-  
       
   .row
     .col-sm-12
@@ -55,7 +57,7 @@ section.manage_index.container-fluid
         .panel-body
           vue_lazy_table(:table_data = "date_range_userdetails",
                         :rows = "uuid_user_details",
-                        :dataTitle = "'使用者基本資料'")
+                        :dataTitle = "'使用者基本資料'",)
           //graph_bar(:data = "")
         //- p {{data_grouped_by_county }}
         //- CommitChart
@@ -115,6 +117,33 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
       region_data,
+       tableData: [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }],
+      cols:  [{
+        label: "date",
+        name: "date",
+        filter: {
+            type: "simple",
+            placeholder: "Enter date"
+        },
+        sort: true,
+        // uniqueId: true
+    }],
       uuid_user_details: [
         "id -> 編號",
         "uuid -> 使用者編號",
@@ -354,7 +383,7 @@ export default {
     window.addEventListener("scroll",()=>{
       this.scrollPos = window.scrollY
       let el = document.getElementById("date_sel")
-      if ( el.getBoundingClientRect().y < 0){
+      if ( el.getBoundingClientRect().y < 150){
         this.dateSelFixedTop=true
       }else{
         this.dateSelFixedTop=false

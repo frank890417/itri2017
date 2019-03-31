@@ -14,6 +14,9 @@
     <!-- Icons -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/js/admin_js/lumino.glyphs.js"></script>
+    
+    
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
     <!-- <script src="/js/Rx.min.js"></script> -->
     <!--      
       script(src='/js/admin_js/html5shiv.js')

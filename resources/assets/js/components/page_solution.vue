@@ -211,6 +211,11 @@ export default {
           "consumption": 623,
           "show_compare": 1,
           "show_solution": 1,
+
+          "multiplier": 0.65,
+          "multiplier_info": "壓縮機運轉率",
+          "maximum_consumption": 4000,
+
           "notes": "分離式冷氣機:3.2kW分離式"
         },
         {
@@ -219,6 +224,11 @@ export default {
           "consumption": 259,
           "show_compare": 1,
           "show_solution": 1,
+
+          "multiplier": 0.55,
+          "multiplier_info": "壓縮機運轉率",
+          "maximum_consumption": 1000,
+
           "notes": "電冰箱(台):560公升"
         },
         {
@@ -227,6 +237,9 @@ export default {
           "consumption": 87,
           "show_compare": 1,
           "show_solution": 1,
+
+          "multiplier": 1,
+          "maximum_consumption": 1000,
           "notes": "電視:40吋"
         },
         {
@@ -235,6 +248,8 @@ export default {
           "consumption": 26,
           "show_compare": 1,
           "show_solution": 1,
+          "multiplier": 1,
+          "maximum_consumption": 500,
           "notes": "公設LED燈泡(顆):提供1380lm"
         },
         {
@@ -243,6 +258,8 @@ export default {
           "consumption": 191,
           "show_compare": 1,
           "show_solution": 1,
+          "multiplier": 1,
+          "maximum_consumption": 500,
           "notes": "電熱水瓶:3公升"
         },
         {
@@ -251,6 +268,8 @@ export default {
           "consumption": 353,
           "show_compare": 1,
           "show_solution": 1,
+          "multiplier": 1,
+          "maximum_consumption": 1000,
           "notes": "溫熱型開飲機:3公升"
         },
         {
@@ -259,6 +278,11 @@ export default {
           "consumption": 687,
           "show_compare": 1,
           "show_solution": 1,
+
+          "multiplier": 1/0.85,
+          "multiplier_info": "壓縮機運轉率",
+          "maximum_consumption": 500,
+
           "notes": "電鍋:800W"
         },
         {
@@ -267,6 +291,11 @@ export default {
           "consumption": 687,
           "show_compare": 1,
           "show_solution": 1,
+
+          "multiplier": 1/0.85,
+          "multiplier_info": "壓縮機運轉率",
+          "maximum_consumption": 500,
+
           "notes": "電子鍋:800W"
         },
         {
@@ -275,6 +304,8 @@ export default {
           "consumption": 219,
           "show_compare": 1,
           "show_solution": 1,
+          "multiplier": 1,
+          "maximum_consumption": 1000,
           "notes": "電熱水器(儲備型):75公升"
         },
         {
@@ -283,6 +314,7 @@ export default {
           "consumption": 183,
           "show_compare": 0,
           "show_solution": 1,
+          "multiplier": 1,
           "notes": "與規格無關"
         },
         {
@@ -291,6 +323,7 @@ export default {
           "consumption": "",
           "show_compare": 0,
           "show_solution": 1,
+          "multiplier": 1,
           "notes": ""
         },
         {
@@ -299,6 +332,7 @@ export default {
           "consumption": "",
           "show_compare": 0,
           "show_solution": 1,
+          "multiplier": 1,
           "notes": ""
         }
       ]

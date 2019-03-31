@@ -7,6 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>家庭電器用電家計簿 - 後台</title>
+    
     <!-- Styles -->
     
     <link rel="icon" type="image/png" href="img/favicon.png" />
@@ -24,6 +25,7 @@
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
+      
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script> --}}
     <!--新黑體-->
     {{-- <script type="text/javascript" src="//typesquare.com/accessor/zh_tw/apiscript/typesquare.js?HGNrQi080jw%3D" charset="utf-8"></script> --}}

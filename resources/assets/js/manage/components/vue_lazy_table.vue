@@ -2,10 +2,10 @@
   .power_table
     div(v-if="conf.show_search")
       .form-group-inline
-        label Search: 
+        label Search: &nbsp;
         input(v-model="search_keyword")
         .btn.btn-primary.pull-right(@click="export_csv") 匯出csv
-        
+      //- pre {{rowFilters}}
     table.table.table-hover
       thead
         th(v-for = "row_key in (row_keys || default_row_keys)",
@@ -15,6 +15,21 @@
           span(v-if="row_key==sort_key && sort_direction") ▼
           span(v-if="row_key==sort_key && !sort_direction") ▲
           span(v-if="row_key!=sort_key ") 　
+          br
+          div
+            div(v-for="(filter,fid) in (rowFilters[row_key] || [])",
+                style="display: flex")
+              select(v-model="filter.operator")
+                option(v-for="op in operators", :value="op") {{op.symbol}}
+              //- pre {{filter.operator}}
+              input(v-model="filter.target", @keyup = "$forceUpdate();", style="flex: 1;width: calc(100% - 50px);flex-grow: 0.3;display: inline-block;")
+              button(@click="rowFilters[row_key].splice(fid,1);$forceUpdate();") x
+            div(@click="addFilter(row_key)")
+              i.fa.fa-filter 
+
+          //- input(v-model="rowFilters[row_key]" style="width: 100%",
+          //-       placeholder="" )
+          
       tbody
         tr(v-for="(row,rid) in sliced_data", :key="rid")
           td(v-for = "row_key in (row_keys || default_row_keys)",
@@ -42,13 +57,30 @@ export default {
     return {
       sort_key: null,
       sort_direction: true,
+      operators: [{
+        symbol: "=", 
+        func: (a,b)=>a==b
+      },{
+        symbol: "<",
+        func: (a,b)=>1*a<1*b
+      },{
+        symbol: ">",
+        func: (a,b)=>1*a>1*b
+      },{
+        symbol: ">=",
+        func: (a,b)=>1*a>=1*b
+      },{
+        symbol: "<=",
+        func: (a,b)=>1*a<=1*b
+      }],
       conf: {
         show_id: true,
         show_search: true
       },
       search_keyword: "",
       page_split_num: 10,
-      page: 1
+      page: 1,
+      rowFilters: {},
     }
   },
   watch:{
@@ -74,6 +106,38 @@ export default {
     },
     sorted_data(){
       let data_clone = JSON.parse(JSON.stringify(this.table_data))
+
+      //filter original data
+      if (this.rowFilters){
+        Object.keys(this.rowFilters).filter(key=>this.rowFilters[key]!="").forEach(key=>{
+            data_clone=data_clone.filter(item=>{
+              let flag = true
+              console.log(this.rowFilters[key])
+              this.rowFilters[key].forEach(condition=>{
+                
+                if (condition.target=="" || !condition.operator  || !condition.operator.func){
+                  flag = true
+                  return
+                }
+                if (!condition.operator.func(item[key],condition.target) ){
+                  flag = false
+                }
+              })
+              // .map(item=>item).replace(/\$/g, item[key]  )
+              // console.log(cond)
+              // let result = true
+              // try{
+              //   result = eval(cond)  
+              // }catch(e){
+              //   result = false
+              // }
+              return flag
+            })
+
+        })
+      }
+
+
 
       let handlers = this.default_row_keys.map(key=>({key,handler: this.get_key_handler(key)}) )
       console.log(handlers)
@@ -119,6 +183,8 @@ export default {
       let raw_sort = this.sorted_data.slice()
       let slice_pre = (this.sort_direction?raw_sort:raw_sort.reverse());
       let slice_post = slice_pre.slice( (this.page-1)*this.page_split_num,(this.page)*this.page_split_num )
+      
+      // slice_post
       return slice_post
     },
     pages(){
@@ -146,6 +212,14 @@ export default {
     }
   },
   methods: { 
+    addFilter(key){
+
+      if (!this.rowFilters[key]){
+        this.$set(this.rowFilters,key,[])
+      }
+      this.rowFilters[key].push({operator: this.operators.find(op=>op.symbol=="="),target: ""})
+    },
+
     //取得表格欄位的暱稱
     row_name_alias(row_name){
       let parse_items_list = this.parse_items_list

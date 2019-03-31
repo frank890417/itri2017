@@ -8,7 +8,8 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 
 // import 'element-ui/lib/theme-chalk/index.css'
-
+import VueBootstrap4Table from 'vue-bootstrap4-table'
+Vue.component("VueBootstrap4Table",VueBootstrap4Table)
 
 import CommitChart from './components/CommitChart.js'
 Vue.component("CommitChart",CommitChart)
