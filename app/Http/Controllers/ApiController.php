@@ -76,6 +76,30 @@ class ApiController extends Controller
                       ->get();
       return $result; 
     }
+    public function get_device_full_summary(){
+      $inputs= Input::all();
+      $from = date(array_key_exists('start_date',$inputs)? $inputs['start_date']:"");
+      $to = date(array_key_exists('end_date',$inputs)? $inputs['end_date']:"");
+
+      $result =  DB::table('devicelogs');
+      if ($from && $to){
+        $result = $result->whereBetween('devicelogs.created_at', [$from, $to]);
+      }
+      $result =  $result
+                    ->leftJoin("userdetails",function($join){
+                      $join->on('devicelogs.uuid',"=","userdetails.uuid");
+                    })
+                    ->leftJoin("devices",function($join){
+                      $join->on('devicelogs.device_id',"=","devices.id");
+                    })
+                    ->select("devicelogs.*","userdetails.*","devices.name as device_name","devicelogs.created_at","devicelogs.updated_at")
+                    // ->select("device_id","device_consumption")
+                    // ->leftJoin('devices',function($join){
+                    //   $join->on('devicelogs.id',"=","devices.id");
+                    // })
+                    ->get();
+      return $result; 
+    }
 
     public function userdetails(){
       return Userdetail::all();

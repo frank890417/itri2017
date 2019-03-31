@@ -83,6 +83,17 @@ section.manage_index.container-fluid
           vue_lazy_table(:table_data = "conclude_table"
                       :rows = "conclude_table_rows"
                       :configs = "{show_id: false, show_search: false}")
+  
+  .row
+    .col-sm-12
+      .panel.panel-primary
+        .panel-heading 下載原始資料集（電器填寫＋使用者＋電器資訊)
+        .panel-body
+          vue_lazy_table(:table_data = "device_log_full_table"
+                      :configs = "{show_id: false, show_search: true}",
+                      :dataTitle="'電器紀錄原始資料集'",)
+
+
   //h1 裝置
   //hr
   //vue_lazy_table(:table_data = "devices",
@@ -117,33 +128,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       advices: advices,
       region_data,
-       tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }],
-      cols:  [{
-        label: "date",
-        name: "date",
-        filter: {
-            type: "simple",
-            placeholder: "Enter date"
-        },
-        sort: true,
-        // uniqueId: true
-    }],
+      device_log_full_table: [],
       uuid_user_details: [
         "id -> 編號",
         "uuid -> 使用者編號",
@@ -374,6 +359,15 @@ export default {
         }
       }).then(res=>{
         this.$set(this,"data_grouped_by_place_raw",res.data)
+      })
+
+      axios.get("/api/device/summary/full", {
+        params: {
+          start_date: this.start_date,
+          end_date: this.end_date
+        }
+      }).then(res=>{
+        this.$set(this,"device_log_full_table",res.data)
       })
       
     }

@@ -33,6 +33,7 @@ Route::get("/websiteinfo/key/{key}","ApiController@websiteinfo");
 Route::post("/websiteinfo/key/{key}","ApiController@websiteinfo_save");
 Route::get("/device/summary","ApiController@get_device_cata_summary");
 Route::get("/place/summary","ApiController@get_device_place_summary");
+Route::get("/device/summary/full","ApiController@get_device_full_summary");
 
 //authenticate issues
 Route::get("users","ApiController@users");

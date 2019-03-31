@@ -3,7 +3,7 @@
     div(v-if="conf.show_search")
       .form-group-inline
         label Search: &nbsp;
-        input(v-model="search_keyword", :placeholder="'共 '+sliced_data.length+' 筆結果'")
+        input(v-model="search_keyword", :placeholder="'共 '+sorted_data.length+' 筆結果'")
         .btn.btn-primary.pull-right(@click="export_csv") 匯出csv
       //- pre {{rowFilters}}
     table.table.table-hover
@@ -22,7 +22,7 @@
               select(v-model="filter.operator")
                 option(v-for="op in operators", :value="op") {{op.symbol}}
               //- pre {{filter.operator}}
-              input(v-model="filter.target", @keyup = "$forceUpdate();", style="flex: 1;width: calc(100% - 50px);flex-grow: 0.3;display: inline-block;")
+              input(v-model="filter.target", @keyup = "$forceUpdate();", style="flex: 1;width: calc(100% - 50px);flex-grow: 0.3;display: inline-block;min-width: 50px;")
               button(@click="rowFilters[row_key].splice(fid,1);$forceUpdate();") x
             div(@click="addFilter(row_key)")
               i.fa.fa-filter
@@ -74,8 +74,11 @@ export default {
         symbol: "<=",
         func: (a,b)=>1*a<=1*b
       },{
-        symbol: "包含",
+        symbol: "⊃",
         func: (a,b)=>(a+"").indexOf(b)!=-1
+      },{
+        symbol: "≠",
+        func: (a,b)=>a!=b
       }],
       conf: {
         show_id: true,

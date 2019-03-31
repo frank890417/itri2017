@@ -32,7 +32,7 @@ const store = new Vuex.Store({
   },
   actions: {
     get_uuid_devicelog(context){
-      axios.get("/api/devicelog/uuid").then(
+      axios.get("/api/device/uuid").then(
         (res)=>context.commit("set_uuid_devicelog",res.data)
 
       )
