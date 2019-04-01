@@ -126,6 +126,11 @@ import _ from "lodash"
 import region_data from '../../region_data'
 import DoughnutChartWrapper from './DoughnutChartWrapper'
 
+
+let today =  (new Date());
+today.setDate(today.getDate() + 2);
+
+
 export default {
   data () {
     return {
@@ -191,7 +196,7 @@ export default {
       data_grouped_by_device_raw: null,
       data_grouped_by_place_raw: null,
       start_date: (new Date("2017-1-1")).toLocaleDateString(),
-      end_date: (new Date()).toLocaleDateString(),
+      end_date: today.toLocaleDateString(),
       scrollPos: 0,
       dateSelFixedTop: false
     }
