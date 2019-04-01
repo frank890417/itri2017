@@ -104,7 +104,7 @@
                             src="/img/compare_watch.svg",
                             :degree="compare_result.ideal_consumption", :max="current_compare_data.maximum_consumption", :init="scrl_start_watch")
                         
-                        h5.tag.text-center 節能電器可省下{{ -compare_result.delta }}度電({{ parseInt(-compare_result.delta*2.48) }}元)
+                        h5.tag.text-center 節能電器可省下{{ -parseInt(compare_result.delta) }}度電({{ parseInt(-compare_result.delta*2.48) }}元)
                           img.crown.fadeIn.animated.ani-delay-10(
                               src="/img/crown.svg", :key="advice_device",
                               v-if="compare_result.crown")
@@ -280,7 +280,7 @@ export default {
           "show_compare": 1,
           "show_solution": 1,
 
-          "user_multiplier": (1/0.65).toFixed(2),
+          "user_multiplier": (1/0.68).toFixed(2),
           "multiplier": (1/0.85).toFixed(2),
           "multiplier_info": "家電熱效率",
           "maximum_consumption": 500,
@@ -294,7 +294,7 @@ export default {
           "show_compare": 1,
           "show_solution": 1,
 
-          "user_multiplier": (1/0.65).toFixed(2),
+          "user_multiplier": (1/0.68).toFixed(2),
           "multiplier": (1/0.85).toFixed(2),
           "multiplier_info": "家電熱效率",
           "maximum_consumption": 500,
