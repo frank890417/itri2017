@@ -14,8 +14,11 @@ Vue.component("VueBootstrap4Table",VueBootstrap4Table)
 import CommitChart from './components/CommitChart.js'
 Vue.component("CommitChart",CommitChart)
 
-import DoughnutChart from './components/DoughnutChart.js'
-Vue.component("DoughnutChart",DoughnutChart)
+// import DoughnutChart from './components/DoughnutChart.js'
+// Vue.component("DoughnutChart",DoughnutChart)
+
+import DoughnutChartWrapper from './components/DoughnutChartWrapper'
+Vue.component("DoughnutChartWrapper",DoughnutChartWrapper)
 
 Vue.use(ElementUI)
 

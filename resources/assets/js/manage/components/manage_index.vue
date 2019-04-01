@@ -28,16 +28,18 @@ section.manage_index.container-fluid
             .row.mt-3
               .col-sm-6
                 //- pre {{region_data}}
-                h3.text-center 使用者地區分佈 ({{data_grouped_by_county.datasets[0].data.length}}筆)
-                h4.text-center(v-if="!data_grouped_by_county.datasets[0].data.length") 此區間無資料
-                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_county", v-else-if="data_grouped_by_county",
-                              :key="data_grouped_by_county.datasets[0].data.length")
+                h3.text-center 使用者地區分佈 ({{data_grouped_by_county.graphData.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_county.graphData.datasets[0].data.length") 此區間無資料
+                DoughnutChartWrapper.animated.fadeIn(:chartData="data_grouped_by_county", v-else-if="data_grouped_by_county",
+                              :key="data_grouped_by_county.graphData.datasets[0].data.length",
+                              title="使用者地區分佈")
               .col-sm-6
 
-                h3.text-center 房間耗電占比分佈 ({{data_grouped_by_place.datasets[0].data.length}}筆)
-                h4.text-center(v-if="!data_grouped_by_place.datasets[0].data.length") 此區間無資料
-                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_place", v-else-if="data_grouped_by_place",
-                              :key="data_grouped_by_place.datasets[0].data.length")
+                h3.text-center 房間耗電占比分佈 ({{data_grouped_by_place.graphData.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_place.graphData.datasets[0].data.length") 此區間無資料
+                DoughnutChartWrapper.animated.fadeIn(:chartData="data_grouped_by_place", v-else-if="data_grouped_by_place",
+                              :key="data_grouped_by_place.graphData.datasets[0].data.length",
+                              title="房間耗電占比分佈")
       .panel.panel-primary
         .panel-heading 電器紀錄分析圖表
         .panel-body.pt-2.pb-2
@@ -45,10 +47,11 @@ section.manage_index.container-fluid
             .row
               .col-sm-12
 
-                h3.text-center 電器耗電總比例 (1MWh) ({{data_grouped_by_device.datasets[0].data.length}}筆)
-                h4.text-center(v-if="!data_grouped_by_device.datasets[0].data.length") 此區間無資料
-                DoughnutChart.animated.fadeIn(:chartData="data_grouped_by_device", v-else-if="data_grouped_by_device",
-                              :key="data_grouped_by_device.datasets[0].data.length")
+                h3.text-center 電器耗電總比例 (1MWh) ({{data_grouped_by_device.graphData.datasets[0].data.length}}筆)
+                h4.text-center(v-if="!data_grouped_by_device.graphData.datasets[0].data.length") 此區間無資料
+                DoughnutChartWrapper.animated.fadeIn(:chartData="data_grouped_by_device", v-else-if="data_grouped_by_device",
+                              :key="data_grouped_by_device.graphData.datasets[0].data.length",
+                              title="電器紀錄分析圖表")
       
   .row
     .col-sm-12
@@ -121,6 +124,7 @@ import region_data from '../../region_data'
 import * as d3 from 'd3'
 import _ from "lodash"
 import region_data from '../../region_data'
+import DoughnutChartWrapper from './DoughnutChartWrapper'
 
 export default {
   data () {
@@ -258,14 +262,23 @@ export default {
       // console.log(result)
       let total = result.reduce((t,d)=>t+d,0)
       return {
-        labels: groupingArray.map(d=>d[0]).map(
-          key=>(key==-1?'未填寫': key) +" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%" 
-        ),
-        datasets: [{
-          label: "使用者",
-          backgroundColor: result.map((d,i)=>c(i)),
-          data: result
-        }]
+        printData: {
+          data: groupingArray.map((d,i)=>d[0]).map((d,i)=>({
+            name: (d==-1?'未填寫': d),
+            percentage: parseFloat(100* grouping[d].length/total).toFixed(2)+"%",
+            count: result[i]
+          }))
+        },
+        graphData: {
+          labels: groupingArray.map(d=>d[0]).map(
+            key=>(key==-1?'未填寫': key) +" "+ parseFloat(100* grouping[key].length/total).toFixed(2)+"%" 
+          ),
+          datasets: [{
+            label: "使用者",
+            backgroundColor: result.map((d,i)=>c(i)),
+            data: result
+          }]
+        }
       }
 
     },
@@ -276,26 +289,35 @@ export default {
       let percentage =  this.data_grouped_by_device_raw.map(d=> parseFloat(d.sum/1000/total*100).toFixed(2)+"%")
 
       return {
-        labels: this.data_grouped_by_device_raw.map((d,i)=>this.devices.find(device=>device.id==d.device_id).name + " " +percentage[i] ),
-        datasets: [{
-          label: "電器耗電比例",
-          backgroundColor: this.data_grouped_by_device_raw.map((d,i)=>c(i)),
-          data: this.data_grouped_by_device_raw.map(d=>d.sum/1000)
-        }]
+        printData: {
+          data: this.data_grouped_by_device_raw.map((d,i)=>({...d,percentage: percentage[i]}))
+        },
+        graphData: {
+          labels: this.data_grouped_by_device_raw.map((d,i)=>this.devices.find(device=>device.id==d.device_id).name + " " +percentage[i] ),
+          datasets: [{
+            label: "電器耗電比例",
+            backgroundColor: this.data_grouped_by_device_raw.map((d,i)=>c(i)),
+            data: this.data_grouped_by_device_raw.map(d=>d.sum/1000)
+          }]
+        }
       }
-
     },
     data_grouped_by_place(){
       if (!this.data_grouped_by_place_raw) return null
       var c = d3.scaleOrdinal(d3.schemeCategory20)
       var total = this.data_grouped_by_place_raw.map(d=>d.sum).reduce((t,d)=>t+1*d,0)
       return {
-        labels: this.data_grouped_by_place_raw.map(d=>d.place +" "+ parseFloat(100*d.sum/total).toFixed(2)+"%")  ,
-        datasets: [{
-          label: "房間耗電比例",
-          backgroundColor: this.data_grouped_by_place_raw.map((d,i)=>c(i)),
-          data: this.data_grouped_by_place_raw.map(d=>d.sum/1000)
-        }]
+        printData: {
+          data: this.data_grouped_by_place_raw.map(d=>({...d,percentage: parseFloat(100*d.sum/total).toFixed(2)+"%" }))
+        },
+        graphData: {
+          labels: this.data_grouped_by_place_raw.map(d=>d.place +" "+ parseFloat(100*d.sum/total).toFixed(2)+"%")  ,
+          datasets: [{
+            label: "房間耗電比例",
+            backgroundColor: this.data_grouped_by_place_raw.map((d,i)=>c(i)),
+            data: this.data_grouped_by_place_raw.map(d=>d.sum/1000)
+          }]
+        }
       }
 
     }
@@ -332,7 +354,7 @@ export default {
     }
   },
   components: {
-    vue_lazy_table
+    vue_lazy_table, DoughnutChartWrapper
   },
   methods: {
     ...mapActions(['push_website_data']),
