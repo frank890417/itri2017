@@ -216,7 +216,7 @@ export default {
   },
   mounted (){
     console.log("diagnose mounted");
-    this.update_general_infos();
+    // this.update_general_infos();
     if(store.state.member_data.users_id != "0")
     {
       axios.get("/api/userdetails/"+store.state.member_data.users_id).then((res)=>
