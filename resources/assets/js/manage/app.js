@@ -59,6 +59,9 @@ new Vue({
         label: "節能處方",
         link: "/solution",
       },{
+        label: "一級電器比較",
+        link: "/comparedevice",
+      },{
         label: "診斷結果",
         link: "/share",
       },{

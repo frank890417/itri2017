@@ -65,7 +65,7 @@
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  
 
-        .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show")
+        .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show  && compare_result.better")
           .card_inner.yellow
             .container-fluid
               .row
@@ -81,7 +81,7 @@
                                         :key="advice_device+'_img'")
                   span.text-center 以上試算數據僅供參考，需以產品實際使用情況為準。
 
-                .col-sm-9.col_watches(v-if="current_compare_data")
+                .col-sm-9.col_watches(v-if="current_compare_data" )
                   .row
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device+'_cur_data'")
                       h5.block_title.watch_title 您的電器
@@ -96,7 +96,7 @@
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device+'_compare_data'")
                       h5.block_title.watch_title.mr-4 節能電器
                       span.ml-3 {{ current_compare_data.notes }} 
-                      span.extra_multiplier {{ current_compare_data.multiplier_info?`(${current_compare_data.multiplier_info} - x${current_compare_data.multiplier})`:"" }}
+                      //- span.extra_multiplier {{ current_compare_data.multiplier_info?`(${current_compare_data.multiplier_info} - x${current_compare_data.multiplier})`:"" }}
                       div
                       .p-5.pb-0
                         .watch.mb-4
@@ -205,140 +205,7 @@ export default {
       filter_brand: "",
       advice_index: 1,
       scrl_start_watch: false,
-      compare_data: [
-        {
-          "order": 1,
-          "name": "冷氣機",
-          "consumption": 807,
-          "show_compare": 1,
-          "show_solution": 1,
-
-          "multiplier": 0.65,
-          "multiplier_info": "壓縮機運轉率",
-          "maximum_consumption": 4000,
-
-          "notes": "分離式冷氣機:3.2kW分離式"
-        },
-        {
-          "order": 2,
-          "name": "冰箱",
-          "consumption": 54,
-          "show_compare": 1,
-          "show_solution": 1,
-
-          "multiplier": 0.55,
-          "multiplier_info": "壓縮機運轉率",
-          "maximum_consumption": 1000,
-
-          "notes": "電冰箱(台):560公升"
-        },
-        {
-          "order": 3,
-          "name": "電視",
-          "consumption": 60,
-          "show_compare": 1,
-          "show_solution": 1,
-
-          "multiplier": 1,
-          "maximum_consumption": 1000,
-          "notes": "電視:40吋"
-        },
-        {
-          "order": 4,
-          "name": "照明",
-          "consumption": 13,
-          "show_compare": 1,
-          "show_solution": 1,
-          "multiplier": 1,
-          "maximum_consumption": 500,
-          "notes": "公設LED燈泡(顆):提供1380lm"
-        },
-        {
-          "order": 5,
-          "name": "電熱水瓶",
-          "consumption": 22,
-          "show_compare": 1,
-          "show_solution": 1,
-          "multiplier": 1,
-          "maximum_consumption": 500,
-          "notes": "電熱水瓶:3公升"
-        },
-        {
-          "order": 6,
-          "name": "飲水機",
-          "consumption": 40,
-          "show_compare": 1,
-          "show_solution": 1,
-          "multiplier": 1,
-          "maximum_consumption": 1000,
-          "notes": "溫熱型開飲機:3公升"
-        },
-        {
-          "order": 7,
-          "name": "電鍋",
-          "consumption": 800,
-          "show_compare": 1,
-          "show_solution": 1,
-
-          "user_multiplier": (1/0.68).toFixed(2),
-          "multiplier": (1/0.85).toFixed(2),
-          "multiplier_info": "家電熱效率",
-          "maximum_consumption": 500,
-
-          "notes": "電鍋:800W"
-        },
-        {
-          "order": 8,
-          "name": "電子鍋",
-          "consumption": 800,
-          "show_compare": 1,
-          "show_solution": 1,
-
-          "user_multiplier": (1/0.68).toFixed(2),
-          "multiplier": (1/0.85).toFixed(2),
-          "multiplier_info": "家電熱效率",
-          "maximum_consumption": 500,
-
-          "notes": "電子鍋:800W"
-        },
-        {
-          "order": 9,
-          "name": "電熱水器",
-          "consumption": 25,
-          "show_compare": 1,
-          "show_solution": 1,
-          "multiplier": 1,
-          "maximum_consumption": 1000,
-          "notes": "電熱水器(儲備型):75公升"
-        },
-        {
-          "order": 10,
-          "name": "吹風機",
-          "consumption": "",
-          "show_compare": 0,
-          "show_solution": 1,
-          "multiplier": 1,
-          "notes": ""
-        },
-        {
-          "order": 11,
-          "name": "電腦",
-          "consumption": "",
-          "show_compare": 0,
-          "show_solution": 1,
-          "multiplier": 1,
-          "notes": ""
-        },
-        {
-          "order": 12,
-          "name": "洗衣機",
-          "consumption": "",
-          "show_compare": 0,
-          "show_solution": 1,
-          "multiplier": 1,
-          "notes": ""
-        }
-      ]
+      compare_data: []
     };
   },
   components: {
@@ -352,6 +219,11 @@ export default {
     })
     Axios.get('/api/advice_devices/'+this.advice_device).then((res)=>{
       this.advice_devices=res.data
+    })
+    //載入電器比較資料
+    axios.get("/api/page/comparedevice").then((res)=>{
+      this.$set(this,"compare_data",JSON.parse(res.data.content).compare_data);
+      console.log("Compare Data Loaded!", this.compare_data)
     })
   },
   watch: {
@@ -527,6 +399,7 @@ export default {
       return {
         target_consumption: target_consumption,
         ideal_consumption: ideal_consumption,
+        better: ideal_consumption<target_consumption,
         show: (this.current_compare_data && this.current_compare_device_filled_data)?true:false,
         mul: (target_consumption/ideal_consumption).toFixed(2),
         crown: target_consumption/ideal_consumption>1.5,

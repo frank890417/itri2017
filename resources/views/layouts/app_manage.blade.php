@@ -15,6 +15,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="/js/admin_js/lumino.glyphs.js"></script>
     
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.27.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.27.0/jsoneditor.min.js"></script>
     
     <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
     <!-- <script src="/js/Rx.min.js"></script> -->

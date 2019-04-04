@@ -9,6 +9,7 @@ import manage_solution from '../components/manage_solution.vue'
 import manage_test from '../components/manage_test.vue'
 import manage_user_detail from '../components/manage_user_detail.vue'
 import manage_users from '../components/manage_users.vue'
+import manage_comparedevice from '../components/manage_comparedevice.vue'
 
 
 export default new Router({
@@ -28,6 +29,10 @@ export default new Router({
     {
       path: '/room',
       component: manage_room
+    },
+    {
+      path: '/comparedevice',
+      component: manage_comparedevice
     },
     {
       path: '/device/:device_id',
