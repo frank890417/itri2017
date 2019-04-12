@@ -92,7 +92,13 @@ class ApiController extends Controller
                     ->leftJoin("devices",function($join){
                       $join->on('devicelogs.device_id',"=","devices.id");
                     })
-                    ->select("devicelogs.*","devices.name as device_name","devices.place as device_place","userdetails.*","devicelogs.created_at","devicelogs.updated_at")
+                    ->leftJoin("lights",function($join){
+                      $join->on('devicelogs.light_option',"=","lights.id");
+                    })
+                    ->leftJoin("users",function($join){
+                      $join->on('userdetails.users_id',"=","users.id");
+                    })
+                    ->select("devicelogs.*","devices.name as device_name","devices.place as device_place","userdetails.*","users.email as email","lights.name as light_name","devicelogs.created_at","devicelogs.updated_at")
                     
                     // ->select("device_id","device_consumption")
                     // ->leftJoin('devices',function($join){
