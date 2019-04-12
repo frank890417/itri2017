@@ -182,7 +182,7 @@ export default {
         let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
         obj.place_id=deviceBelongRoomId
         obj.option=obj.default_freq_option
-        obj.light_option=0
+        obj.light_option=null
         obj.buy_time=""
         obj.alter_specs=[]
         obj.consumption=obj.default_consumption     
@@ -211,7 +211,7 @@ export default {
               //let deviceBelongRoomId = this.rooms.map(o=>o.name).indexOf(obj.place) 
               //obj.place_id=deviceBelongRoomId
               obj.option=obj.default_freq_option
-              obj.light_option=0
+              obj.light_option=null
               obj.buy_time=""
               obj.alter_specs=[]
               obj.consumption=obj.default_consumption     
@@ -468,7 +468,7 @@ export default {
         count: 0,
         buy_time: "",
         option: device.default_freq_option,
-        light_option: 0
+        light_option: null
       });
       // console.log(device.alter_specs)
       this.alter_id = device.alter_specs.length-1
