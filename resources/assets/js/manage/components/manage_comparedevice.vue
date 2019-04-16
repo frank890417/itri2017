@@ -12,22 +12,22 @@ section.manage_comparedevice.container-fluid
         .panel-body(@keyup="updateJsonEditor", v-show="nowEditingPage")
 
           .row
-            .col-sm-3
+            .col-sm-4
               h3 物件屬性說明
               ul.list-group
                 	
                 li.list-group-item order	排列順序
                 li.list-group-item name	 電器名稱
                 li.list-group-item consumption	預設耗電量
-                li.list-group-item show_compare	顯示在電器比較區域
-                li.list-group-item show_solution	顯示電器處方箋
+                li.list-group-item show_compare	 顯示在電器比較區域 (1顯示;0隱藏)
+                li.list-group-item show_solution	顯示電器處方箋 (1顯示;0隱藏)
                 li.list-group-item multiplier  電器加成比例
                 li.list-group-item multiplier_info	 電器加成比例原因
                 li.list-group-item maximum_consumption	指針的最大值
               el-button.mt-3.w100(@click="savePageData(nowEditingPage)",
                        type="danger") 儲存資料變更
 
-            .col-sm-9
+            .col-sm-8
               #jsoneditor.mt-2
       
 
