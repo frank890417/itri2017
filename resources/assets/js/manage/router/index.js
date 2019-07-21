@@ -10,7 +10,7 @@ import manage_test from '../components/manage_test.vue'
 import manage_user_detail from '../components/manage_user_detail.vue'
 import manage_users from '../components/manage_users.vue'
 import manage_comparedevice from '../components/manage_comparedevice.vue'
-
+import manage_page_info from '../components/manage_page_info.vue'
 
 export default new Router({
   routes: [
@@ -67,6 +67,10 @@ export default new Router({
       path: '/users',
       component: manage_users
     },  
+    {
+      path: '/page_info',
+      component: manage_page_info
+    },
   ],
   mode: "hash"
 })

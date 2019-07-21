@@ -49,6 +49,10 @@
         page_solution(v-if="show_result")
       transition(name="fade")
         page_share(v-if="show_result")
+      transition(name="fade")
+        iframe.embed_section(:src = "embed_section.url",
+              :style="{'min-height': embed_section.minHeight+'px'}",
+              v-if="embed_section.show")
       footer
         .container
           .row
@@ -110,7 +114,13 @@ import {mapState,mapMutations} from 'vuex'
 export default {
   data () {
     return {
+      embed_section: {
+        title: "",
+        url: "https://zh.wikipedia.org/wiki/Wiki",
+        show: true,
+        minHeight: 450
 
+      }
     }
   },
   components: {
@@ -127,6 +137,10 @@ export default {
     setTimeout(()=>{
       this.set_loading(false);
     },2000)
+     axios.get("/api/page/embedsection").then((res)=>{
+      this.$set(this,"embed_section",JSON.parse(res.data.content));
+      console.log("embed Data Loaded!", this.embed_section)
+    })
     window.send_user_data=this.send_user_data
   },
   computed: {...mapState(['loading','full_nav_open','show_result','scrollTop','device_result','user_uuid','devices'])},
@@ -154,5 +168,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass?indentedSyntax">
+iframe.embed_section
+  width: 100%
+  border: none
 
 </style>

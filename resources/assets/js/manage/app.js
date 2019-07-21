@@ -67,6 +67,9 @@ new Vue({
       },{
         label: "會員管理",
         link: "/users",
+      },{
+        label: "其他頁面資訊",
+        link: "/page_info",
       }
       // {
       //   label: "圖表與分析",
