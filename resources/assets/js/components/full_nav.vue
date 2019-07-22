@@ -2,7 +2,7 @@
   
   section.full_nav.yellow(:class='{active:full_nav_open}')
     ul
-      li(@click="login()", v-if="!member_data.isLogin")
+      li(@click="login();$ga.event('login', 'click');", v-if="!member_data.isLogin")
         .eng LOGIN
         .chinese.mt-2.mb-5 會員登入
       //li(@click="to_section('.section_index')")
@@ -24,10 +24,10 @@
       li(@click="to_section('.section_share')", v-if="show_result")
         .eng RESULT
         .chinese.mt-2.mb-5 診斷結果
-      li(@click="to_manage()", v-if="member_data.isAdmin==1")
+      li(@click="to_manage();$ga.event('menu', 'click','manage');", v-if="member_data.isAdmin==1")
         .eng MANAGE
         .chinese.mt-2.mb-5 管理平台
-      li(@click="logout()", v-if="member_data.isLogin")
+      li(@click="logout();$ga.event('menu', 'click','logout');", v-if="member_data.isLogin")
         .eng LOGOUT
         .chinese.mt-2.mb-5 登出
 
@@ -55,6 +55,7 @@ import {mapState,mapMutations} from 'vuex'
     ...mapMutations(['set_loading','toggle_nav', 'setMember_data_isAdmin']),
     to_section(target){
       $("html,body").animate({scrollTop: $(target).offset().top });
+      this.$ga.event('menu', 'click',target.replace(".section_","") )
       this.toggle_nav();
     },
     login(){

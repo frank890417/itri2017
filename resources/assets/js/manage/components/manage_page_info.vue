@@ -2,7 +2,7 @@
 section.manage_comparedevice.container-fluid
   .row.mb-3
     .col-sm-12
-      h1 一級節能電器編輯
+      h1 其他頁面資訊編輯
 
   .row
     .col-sm-12

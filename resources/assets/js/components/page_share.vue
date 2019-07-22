@@ -24,11 +24,11 @@
             h3 處方箋小語：
             p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
             .btn_group_inline
-              button.btn.active(@click="share_result") 分享我的吃電怪獸
+              button.btn.active(@click="share_result();$ga.event('share', 'click')") 分享我的吃電怪獸
                 i.fa.fa-share-alt
-              button.btn(@click="toggle_result") 返回診斷
+              button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','back')") 返回診斷
                 i.fa.fa-undo
-              a.btn(href="http://www.energypark.org.tw/", target="_blank") 節約能源園區
+              a.btn(href="http://www.energypark.org.tw/", target="_blank",@click="$ga.event('external_link', 'click','http://www.energypark.org.tw/')") 節約能源園區
                 i.fa.fa-external-link
 </template>
 <script>

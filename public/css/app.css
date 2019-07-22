@@ -10482,6 +10482,12 @@ footer a:first-child {
   padding-left: 0;
 }
 
+@media print {
+  .section_index, .section_about, .section_diagnose, .section_room, .section_share, .card_prescription, .card_inner.nominh, footer {
+    display: none !important;
+  }
+}
+
 .consumption_pointer {
   margin-top: 10px;
   background-color: #f6f6f6;

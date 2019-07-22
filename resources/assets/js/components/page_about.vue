@@ -23,8 +23,8 @@
           h2(v-html="$t('page_about.section_2.title')") 
           p(v-html="$t('page_about.section_2.content')") 
           .btn_group_inline
-            button.btn(@click="mode='summer'", :class="{active: mode=='summer'}") 夏月
-            button.btn(@click="mode='nsummer'", :class="{active: mode=='nsummer'}") 非夏月 
+            button.btn(@click="mode='summer';$ga.event('switch_summer', 'click', 'summer')", :class="{active: mode=='summer'}") 夏月
+            button.btn(@click="mode='nsummer';$ga.event('switch_summer', 'click', 'not_summer')", :class="{active: mode=='nsummer'}") 非夏月 
 
 </template>
 

@@ -58,22 +58,28 @@ console.log("User uuid(Random)",store.state.user_uuid)
 store.dispatch("rec_webCount")
 console.log("rec_webCount done")
 
-if (document.domain=="saving.energypark.org.tw"){
+import VueAnalytics from 'vue-analytics'
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+Vue.use(VueAnalytics, {
+  id: 'UA-52977512-20'
+})
 
-  ga('create', 'UA-52977512-20', 'auto');
-  ga('send', 'pageview');
+// if (document.domain=="saving.energypark.org.tw"){
 
-  window.ga=ga;
-  console.log("ga enabled.")
-}else{
-  console.log("ga disabled.")
+//   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+//   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+//   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+//   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-}
+//   ga('create', 'UA-52977512-20', 'auto');
+//   ga('send', 'pageview');
+
+//   window.ga=ga;
+//   console.log("ga enabled.")
+// }else{
+//   console.log("ga disabled.")
+
+// }
 
 //fb UI
 window.fbAsyncInit = function() {

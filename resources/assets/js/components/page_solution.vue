@@ -60,7 +60,7 @@
               button.btn(
                   v-for="(dev,did) in advice_device_list",
                   :class="{active:dev==advice_device}",
-                  @click="set_advice_device(dev)"
+                  @click="set_advice_device(dev);$ga.event('advice_device', 'click',dev);"
                 ) 
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
                 div {{dev}}  

@@ -13,6 +13,7 @@
       .bar
       .bar
       .bar
+      //- h1 {{nowSection}}
     transition(name="fade")
       page_load(v-show="loading")
 
@@ -28,7 +29,7 @@
                 | 家計簿
               h5 尋找家中的吃電怪獸
               br
-              button.btn.btn-lg(@click="scroll_to_about") 前往探索
+              button.btn.btn-lg(@click="scroll_to_about(); $ga.event('explore', 'click')") 前往探索
               //.lang 中文     ENG
             .col-sm-8
               .consumption_pointer
@@ -39,7 +40,7 @@
       page_diagnose
       page_room
       section.section_show_result(v-if="!show_result")
-        button.btn(@click="toggle_result") 
+        button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','start');") 
           img(src="/img/thunder.svg" height=50)
           span 計算吃電怪獸診斷結果！
         span.default(v-if="!device_result.user_filled") 您沒有填寫電器，將顯示預設數值 
@@ -66,8 +67,8 @@
               .col-sm-12.col_legal_statement
                 br
                 p 
-                  a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466257000546" , target="_blank") 智權政策
-                  a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466251104462" , target="_blank") 法律聲明
+                  a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466257000546" , target="_blank", @click="$ga.event('external_link', 'click','智權政策')") 智權政策
+                  a(href="https://www.itri.org.tw/chi/Content/Messagess/contents.aspx?SiteID=1&MmmID=620605466251104462" , target="_blank", @click="$ga.event('external_link', 'click','法律聲明')") 法律聲明
                   //a(href="http://web3.moeaboe.gov.tw/ECW/populace/content/ContentFoot.aspx?menu_id=2900" , target="_blank") 政府網站資料開放宣告
                 br
             .row
@@ -120,7 +121,8 @@ export default {
         show: true,
         minHeight: 450
 
-      }
+      },
+      nowSection: ""
     }
   },
   components: {
@@ -143,7 +145,29 @@ export default {
     })
     window.send_user_data=this.send_user_data
   },
-  computed: {...mapState(['loading','full_nav_open','show_result','scrollTop','device_result','user_uuid','devices'])},
+  computed: {
+    ...mapState(['loading','full_nav_open','show_result','scrollTop','device_result','user_uuid','devices']),
+    // nowSection(){
+    //   return
+    //               
+
+    // }  
+  },
+  watch: {
+    scrollTop(){
+       this.nowSection = Array.from($("section"))
+            .map(el=>({ name: el.classList[0], top: $(el).offset().top - this.scrollTop + window.outerHeight/2 } ))
+            .filter(obj=>obj.name!="full_nav" && obj.name!="section_loading")
+            .find(obj=>obj.top>0).name
+    },
+    nowSection(pre,post){
+      if(pre!=post){
+        let pgName = '/'+ this.nowSection.replace("section_","")
+        this.$ga.page(pgName)
+        console.log("[GA] " + pgName)
+      }
+    }
+  },
   methods: {
     ...mapMutations(['set_loading','toggle_nav','toggle_result']),
     scroll_to_about(){
