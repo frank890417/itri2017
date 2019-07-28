@@ -41,5 +41,6 @@ Route::get("devicelogLast/{users_id}","DevicelogController@show_last_devicelog_b
 Route::get("devicesLast/{users_id}","DevicelogController@show_last_devices_by_users_id");
 Route::get("user_admin/{users_id}","ApiController@user_admin");
 
+Route::post('upload',"ApiController@upload_image");
 Route::resource('page',"PageController");
 // Route::resource("devices","ApiController");

@@ -34,8 +34,7 @@ section.manage_comparedevice.container-fluid
                         @change="setEditingPage(nowEditingPage)",
                         @imageAdded="handleImageAdded",
                         :useCustomImageHandler="true",
-                        :editorOptions="editorSettings",
-                        :editorToolbar="customToolbar",
+                        
                       )
             .col-sm-8(v-show="!(nowEditingPage && nowEditingPage.title=='embedsection')",
                       @keyup="updateJsonEditor")
@@ -92,49 +91,28 @@ export default {
       }
       return list[key] || key
     },
-    // handleImageAdded(file, Editor, cursorLocation) {
-    //   // An example of using FormData
-    //   // NOTE: Your key could be different such as:
-    //   // formData.append('file', file)
-    //   console.log("get picture!")
-    //   var formData = new FormData();
-    //   formData.append('file', file)
-    //   console.log(file)
-
-    //   axios({
-    //     url: process.env.API_DOMAIN+'/api/upload',
-    //     method: 'POST',
-    //     data: formData
-    //   })
-    //     .then((result) => {
-    //       let url = result.data // Get url from response
-    //       Editor.insertEmbed(cursorLocation, 'image', url);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     })
-    // },
     handleImageAdded(file, Editor, cursorLocation) {
-      const CLIENT_ID = '04f7684aee38413'
+      // An example of using FormData
+      // NOTE: Your key could be different such as:
+      // formData.append('file', file)
+      console.log("get picture!")
       var formData = new FormData();
-      formData.append('image', file)
+      formData.append('file', file)
+      console.log(file)
+
       axios({
-        url: 'https://api.imgur.com/3/image',
+        url: '/api/upload',
         method: 'POST',
-        headers:{
-          'Authorization': 'Client-ID ' + CLIENT_ID
-        },
         data: formData
       })
-      .then((result) => {
-        console.log(result);
-        let url = result.data.data.link
-        Editor.insertEmbed(cursorLocation, 'image', url);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+        .then((result) => {
+          let url = result.data // Get url from response
+          Editor.insertEmbed(cursorLocation, 'image', url);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
   },
   data(){
     return {
