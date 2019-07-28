@@ -17,7 +17,8 @@
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.27.0/jsoneditor.min.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.27.0/jsoneditor.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.core.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css">
     <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
     <!-- <script src="/js/Rx.min.js"></script> -->
     <!--      

@@ -51,9 +51,13 @@
       transition(name="fade")
         page_share(v-if="show_result")
       transition(name="fade")
-        iframe.embed_section(:src = "embed_section.url",
-              :style="{'min-height': embed_section.minHeight+'px'}",
+        section.embed_section(
               v-if="embed_section.show")
+          .container
+            .row
+              .col-sm-12
+                div(v-html="embed_section.content")
+  
       footer
         .container
           .row
