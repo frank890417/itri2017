@@ -10203,6 +10203,10 @@ svg:not(.gauge) * {
   box-sizing: border-box;
 }
 
+.section_solution .card.card_distribution .card_inner svg {
+  position: relative;
+}
+
 .section_solution .col_watches .extra_multiplier {
   position: absolute;
   left: 50%;
@@ -10483,8 +10487,14 @@ footer a:first-child {
 }
 
 @media print {
-  .section_index, .section_about, .section_diagnose, .section_room, .section_share, .card_prescription, .card_inner.nominh, footer {
-    display: none !important;
+  section {
+    background-color: white !important;
+  }
+  #divMember, .section_index, .section_about, .section_diagnose, .section_room, .section_share, .section_embed, .section_show_result, .card_prescription, .card_inner.nominh, footer {
+    display: none;
+  }
+  .print-visible {
+    display: block;
   }
 }
 
@@ -10549,13 +10559,17 @@ footer a:first-child {
   color: rgba(255, 255, 255, 0.4);
 }
 
-.embed_section {
+.section_embed {
   background-color: #f9f9f9;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05) inset;
 }
 
-.embed_section img {
+.section_embed img {
   width: 100%;
+}
+
+.section_print {
+  display: none;
 }
 
 .fade-enter-active, .fade-leave-active {

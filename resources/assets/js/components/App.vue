@@ -51,12 +51,14 @@
       transition(name="fade")
         page_share(v-if="show_result")
       transition(name="fade")
-        section.embed_section(
+        section.section_embed(
               v-if="embed_section.show")
           .container
             .row
               .col-sm-12
                 div(v-html="embed_section.content")
+      transition(name="fade")
+        page_print
   
       footer
         .container
@@ -112,6 +114,7 @@ import page_about from './page_about'
 import page_room from './page_room'
 import page_solution from './page_solution'
 import page_share from './page_share'
+import page_print from './page_print'
 import full_nav from './full_nav'
 import axios from 'axios'
 import {mapState,mapMutations} from 'vuex' 
@@ -136,6 +139,7 @@ export default {
     page_room,
     page_solution,
     page_share,
+    page_print,
     full_nav
   },
   mounted (){

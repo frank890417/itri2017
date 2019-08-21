@@ -17,6 +17,8 @@
       .row
         .col-sm-12
           h3.page_title 第二階段 / 電器填寫
+          audio(:src="'/music/'+rooms[now_place_id].name+'/1照明.mp3'" autoplay loop)
+
         .col-sm-8
           //h5 / {{rooms[now_place_id].eng}}
           //h1 {{rooms[now_place_id].name}}
@@ -35,7 +37,8 @@
           //場景圖片
           .room_img
             //transition-group(name="fade-delay", mode="out-in")
-            img.scene(
+            
+            img.scene.animated.fadeIn(
               :src="'/img/場景/'+room.eng+'2.png'" 
               style="width: 100%",
               v-for="(room,rid) in rooms",
@@ -375,15 +378,15 @@ export default {
 
       //處理預設照明
       if (light_total==0){
-       log_list.push(
+        log_list.push(
         {
           content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
           place: "all"
         });
-       total_c+=this.house_area_size*12;
-       room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
-       room_sum.forEach((value,i)=>{
-          log_list.push(
+        total_c+=this.house_area_size*12;
+        room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
+        room_sum.forEach((value,i)=>{
+        log_list.push(
           {
             content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
             place: this.rooms[i].name,
@@ -395,7 +398,11 @@ export default {
 
 
       //後處理房間百分比與包資料
-      room_sum=room_sum.map(value=>({value,percentage: parseInt(100*value/total_c)}));
+      room_sum=room_sum.map(value=>({
+        value,
+        percentage: parseInt(100*value/total_c)
+      }));
+
       let result={
         value: total_c,
         log: log_list,

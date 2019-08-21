@@ -44,6 +44,16 @@
                  v-if="r.percentage",
                  @click="now_place_id=id" ,
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
+
+        .card.col-sm-12.card_distribution
+          .card_inner
+            .card_title
+              h5 Comsumption Distribution
+              h2 用電分佈
+            div.mt-2
+              svg_inline_distribution(src="/img/roomVisualization.svg",
+                                      :nodes="distributionData")
+
         .card.col-sm-12.card_prescription
           .card_inner
             h5 Saving Prescription
@@ -183,6 +193,7 @@ import { mapState, mapMutations } from 'vuex'
 import graph_bubble from './graph_bubble'
 import rooms from '../rooms'
 import svg_inline_compare_watch from "./svg_inline_compare_watch"
+import svg_inline_distribution from "./svg_inline_distribution"
 // import advices from '../advices'
 // import advice_devices from '../advice_devices_compiled' 
 import _ from 'underscore'
@@ -205,19 +216,39 @@ export default {
       filter_brand: "",
       advice_index: 1,
       scrl_start_watch: false,
-      compare_data: []
+      compare_data: [],
+      //- distributionData: [
+      //-   {
+      //-     name: "bathroom",
+      //-     value: 94
+      //-   },
+      //-   {
+      //-     name: "livingroom",
+      //-     value: 624
+      //-   },{
+      //-     name: "bedroom",
+      //-     value: 531
+      //-   },{
+      //-     name: "kitchen",
+      //-     value: 23
+      //-   },{
+      //-     name: "other",
+      //-     value: 135
+      //-   }
+      //- ]
+      
     };
   },
   components: {
-    graph_bubble, svg_inline_compare_watch
+    graph_bubble, svg_inline_compare_watch, svg_inline_distribution
   },
   mounted() {
     console.log("solution mounted");
     this.sound_expand = new Audio("/music/%E5%8B%95%E6%85%8B%E5%9C%96%E8%A1%A8%E9%9F%B3%E6%95%88/%E6%94%BE%E5%A4%A7.mp3");
-    Axios.get('/api/advices').then((res)=>{
+    axios.get('/api/advices').then((res)=>{
       this.advices=res.data
     })
-    Axios.get('/api/advice_devices/'+this.advice_device).then((res)=>{
+    axios.get('/api/advice_devices/'+this.advice_device).then((res)=>{
       this.advice_devices=res.data
     })
     //載入電器比較資料
@@ -405,6 +436,15 @@ export default {
         crown: target_consumption/ideal_consumption>1.5,
         delta: ideal_consumption - target_consumption
       }
+    },
+    distributionData(){
+      return this.device_result.room_sum.map((obj,oid)=>({
+        ...obj,
+        room: this.rooms[oid]
+      })).map((obj)=>({
+        name: obj.room.eng.toLowerCase(),
+        value: obj.value
+      }))
     }
   },
   methods: {
