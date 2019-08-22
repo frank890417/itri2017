@@ -10486,12 +10486,26 @@ footer a:first-child {
   padding-left: 0;
 }
 
+.section_print {
+  display: none;
+}
+
 @media print {
   section {
     background-color: white !important;
   }
-  #divMember, .section_index, .section_about, .section_diagnose, .section_room, .section_share, .section_embed, .section_show_result, .card_prescription, .card_inner.nominh, footer {
+  #divMember, .section_index, .section_about, .section_diagnose, .section_room, .section_share, .section_embed, .section_show_result, footer, .card_prescription_menu {
     display: none;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1em !important;
+  }
+  section {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .section_print {
+    display: block;
   }
   .print-visible {
     display: block;
@@ -10566,10 +10580,6 @@ footer a:first-child {
 
 .section_embed img {
   width: 100%;
-}
-
-.section_print {
-  display: none;
 }
 
 .fade-enter-active, .fade-leave-active {

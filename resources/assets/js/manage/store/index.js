@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     devices: [],
     website_zh: {},
     userdetails: [],
-  	users: []  
+    users: [],
+    debug: false
   },
   mutations: {
     set_uuid_devicelog(state,data){
@@ -68,6 +69,9 @@ const store = new Vuex.Store({
       axios.post("/api/websiteinfo/key/zh_info",data).then(()=>{
         alert("更新完畢")
       })
+    },
+    set_debug (state,data){
+      state.debug=data
     }
   }
 });

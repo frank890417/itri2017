@@ -46,6 +46,14 @@ new Vue({
   }
 })
 
+window.addEventListener("keydown",function(evt){
+  // console.log(evt.key)
+  if (evt.key=="k"){
+    store.commit("set_debug",!store.state.debug)
+    this.console.log("Debug Mode:" + store.state.debug)
+  }
+})
+
 window.onload=function(){
   store.commit("set_loading",false)
   console.log("load conplete")
@@ -59,6 +67,7 @@ store.dispatch("rec_webCount")
 console.log("rec_webCount done")
 
 import VueAnalytics from 'vue-analytics'
+// import { DEFAULT_ECDH_CURVE } from 'tls';
 
 Vue.use(VueAnalytics, {
   id: 'UA-52977512-20'

@@ -36,6 +36,12 @@
                 .pointer_el
               h2 Consumption<br>of Daily <br>Electricity
               img.scene(src="/img/場景/Kitchen2.png")
+        ul
+          li(v-for="track in HowlObjs",
+             @click="toggleTrack(track)") 
+            span {{ track.name }}  | 
+            span {{ track.playing?'開啟':'關閉' }}
+      page_print.print-visible
       page_about
       page_diagnose
       page_room
@@ -57,8 +63,6 @@
             .row
               .col-sm-12
                 div(v-html="embed_section.content")
-      transition(name="fade")
-        page_print
   
       footer
         .container
@@ -118,6 +122,7 @@ import page_print from './page_print'
 import full_nav from './full_nav'
 import axios from 'axios'
 import {mapState,mapMutations} from 'vuex' 
+import {Howl, Howler} from 'howler';
 
 export default {
   data () {
@@ -129,7 +134,8 @@ export default {
         minHeight: 450
 
       },
-      nowSection: ""
+      nowSection: "",
+      HowlObjs: []
     }
   },
   components: {
@@ -147,14 +153,21 @@ export default {
     setTimeout(()=>{
       this.set_loading(false);
     },2000)
-     axios.get("/api/page/embedsection").then((res)=>{
+    axios.get("/api/page/embedsection").then((res)=>{
       this.$set(this,"embed_section",JSON.parse(res.data.content));
       console.log("embed Data Loaded!", this.embed_section)
     })
     window.send_user_data=this.send_user_data
+
+    
+
+
+
   },
   computed: {
-    ...mapState(['loading','full_nav_open','show_result','scrollTop','device_result','user_uuid','devices']),
+    ...mapState(['loading','full_nav_open','show_result','scrollTop',
+                 'device_result','user_uuid','devices',
+                 'debug']),
     // nowSection(){
     //   return
     //               
@@ -162,6 +175,34 @@ export default {
     // }  
   },
   watch: {
+    debug(){
+      if (this.debug){
+        var sounds = `
+        1照明.mp3
+        2冷氣機.mp3
+        3電暖氣.mp3
+        4收音機.mp3
+        5電熨斗.mp3
+        6電腦.mp3
+        7印表機.mp3
+        8除濕機.mp3
+        `
+        let HowlObjs = sounds.trim().split("\n").map(o=>o.trim()).filter(o=>o)
+        .map(o=>({
+          obj: new Howl({
+            src: ['/music/臥室/'+o],
+            preload: true
+          }),
+          name: o
+        })).map(track=>({
+          id: track.obj.play(),
+          obj: track.obj,
+          playing: true,
+          name: track.name
+        }))
+        this.$set(this,"HowlObjs",HowlObjs)
+      }
+    },
     scrollTop(){
        this.nowSection = Array.from($("section"))
             .map(el=>({ name: el.classList[0], top: $(el).offset().top - this.scrollTop + window.outerHeight/2 } ))
@@ -178,6 +219,12 @@ export default {
   },
   methods: {
     ...mapMutations(['set_loading','toggle_nav','toggle_result']),
+    toggleTrack(track){
+      // console.log(track.obj)
+      // console.log(track.id)
+      track.obj.mute(track.playing,track.id)
+      track.playing=!track.playing
+    },
     scroll_to_about(){
       $("html,body").animate({scrollTop: $(".section_about").offset().top },"slow");
     },

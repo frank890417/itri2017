@@ -40,6 +40,7 @@
     "element-ui": "^2.7.0",
     "gsap": "^2.1.2",
     "gulp": "^3.9.1",
+    "howler": "^2.1.2",
     "laravel-blade-jade": "^2.0.3",
     "laravel-elixir": "^6.0.0-15",
     "laravel-elixir-jade": "^0.2.4",

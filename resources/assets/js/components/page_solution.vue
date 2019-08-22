@@ -54,7 +54,7 @@
               svg_inline_distribution(src="/img/roomVisualization.svg",
                                       :nodes="distributionData")
 
-        .card.col-sm-12.card_prescription
+        .card.col-sm-12.card_prescription.card_prescription_menu
           .card_inner
             h5 Saving Prescription
             h2 節能處方箋

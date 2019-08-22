@@ -25,6 +25,7 @@ const store = new Vuex.Store({
     },
     advice_device:'冷氣機',
     KWH:1300,
+    debug: false,
   },
   mutations: {
     FETCH(state, advice_device) {
@@ -68,6 +69,9 @@ const store = new Vuex.Store({
     setMember_data_isAdmin(state, value){
       state.member_data.isAdmin=value;    
     },
+    set_debug(state,value){
+      state.debug=value
+    }
   },
   actions: {
     send_user_data(context){
