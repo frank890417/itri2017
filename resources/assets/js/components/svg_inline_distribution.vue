@@ -1,5 +1,5 @@
 <template lang="jade">
-  .svg_inline(v-html="svg_html",:hash="hash")
+  .svg_inline(v-html="svg_html",:hash="hash").trans-not-fill-box
 
 </template>
 

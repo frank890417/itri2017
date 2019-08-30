@@ -9060,6 +9060,10 @@ svg:not(.gauge) * {
   transform-box: fill-box;
 }
 
+.trans-not-fill-box svg * {
+  transform-box: initial;
+}
+
 .page_view .btn {
   border-radius: 0%;
 }
