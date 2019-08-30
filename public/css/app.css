@@ -10207,6 +10207,13 @@ svg:not(.gauge) * {
   position: relative;
 }
 
+.section_solution .card.card_distribution label {
+  width: 100%;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
 .section_solution .col_watches .extra_multiplier {
   position: absolute;
   left: 50%;

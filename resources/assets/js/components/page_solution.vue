@@ -53,7 +53,7 @@
             div.mt-2
               svg_inline_distribution(src="/img/roomVisualization.svg",
                                       :nodes="distributionData")
-
+            label.text-right * 數值為年耗電度數
         .card.col-sm-12.card_prescription.card_prescription_menu
           .card_inner
             h5 Saving Prescription

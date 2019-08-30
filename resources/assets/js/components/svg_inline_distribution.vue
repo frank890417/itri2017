@@ -64,7 +64,7 @@ export default {
     updateNodes(){
       this.nodes.forEach(node=>{
         // console.log($(`[id='value_${node.name}']`))
-        $(`[data-name='value_${node.name}']`).text(node.value)
+        $(`[data-name='value_${node.name}']`).html("<tspan>"+node.value+"</tspan>"+"<tspan font-size='32px'> 度</tspan>")
       })
     }
   },
