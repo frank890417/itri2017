@@ -13,6 +13,14 @@
       .bar
       .bar
       .bar
+
+    .icon-music(@click="set_music_enable(!music_enabled)")
+      span(v-if="music_enabled")
+        i.fa.fa-volume-up
+      span(v-else) 
+        i.fa.fa-volume-off
+
+    
       //- h1 {{nowSection}}
     transition(name="fade")
       page_load(v-show="loading")
@@ -167,7 +175,7 @@ export default {
   computed: {
     ...mapState(['loading','full_nav_open','show_result','scrollTop',
                  'device_result','user_uuid','devices',
-                 'debug']),
+                 'debug','music_enabled']),
     // nowSection(){
     //   return
     //               
@@ -218,7 +226,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['set_loading','toggle_nav','toggle_result']),
+    ...mapMutations(['set_loading','toggle_nav','toggle_result','set_music_enable']),
     toggleTrack(track){
       // console.log(track.obj)
       // console.log(track.id)

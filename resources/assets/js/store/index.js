@@ -26,8 +26,12 @@ const store = new Vuex.Store({
     advice_device:'冷氣機',
     KWH:1300,
     debug: false,
+    music_enabled: true
   },
   mutations: {
+    set_music_enable(state,value){
+      state.music_enabled = value
+    },
     FETCH(state, advice_device) {
       state.advice_device = advice_device;
     },

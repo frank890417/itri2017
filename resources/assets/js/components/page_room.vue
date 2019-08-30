@@ -17,7 +17,8 @@
       .row
         .col-sm-12
           h3.page_title 第二階段 / 電器填寫
-          audio(:src="'/music/'+rooms[now_place_id].name+'/1照明.mp3'" :autoplay="!debug" loop)
+          div(v-if="music_enabled")
+            audio(:src="'/music/'+rooms[now_place_id].name+'/1照明.mp3'" :autoplay="!debug" loop)
 
         .col-sm-8
           //h5 / {{rooms[now_place_id].eng}}
@@ -419,7 +420,7 @@ export default {
       this.set_device_result(result);
       return result;
     },
-    ...mapState(['house_area_size','site_width','scrollTop','debug'])
+    ...mapState(['house_area_size','site_width','scrollTop','debug','music_enabled'])
   },
   methods: {
     getHash(){

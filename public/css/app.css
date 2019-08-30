@@ -9380,6 +9380,22 @@ svg:not(.gauge) * {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+.icon-music {
+  position: fixed;
+  left: 24px;
+  top: 74px;
+  font-size: 35px;
+  width: 35px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.icon-music:hover {
+  transform: scale(1.1);
+  transform-position: center center;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 2999px) and (min-width: 800px) {
   .page .page_view {
     transition: 0.5s;
