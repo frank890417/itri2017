@@ -44,6 +44,14 @@
                   span.input_side_btn(@click="area_size--") -
                   input.form-control(type="number",v-model="area_size")
                   span.input_side_btn(@click="area_size++") +
+            .row.form-group
+              .col-sm-4
+                label 住宅種類
+              .col-sm-8                
+                .btn_group_inline
+                  button.btn(:class="{active:building_type==type}",
+                             @click="building_type=type",
+                             v-for="type in ['公寓','大廈','透天屋','其他']") {{ type }}
 
             .row
               .col-sm-4
@@ -103,7 +111,8 @@ export default {
       area_size: 15,
       sel_area: "北區",
       sel_county: -1,
-      region_data
+      region_data,
+      building_type: "公寓"
     }; 
   },
   watch:{
@@ -229,6 +238,7 @@ export default {
     	this.area_size= res.data.area_size;
     	this.sel_area= this.region_data.filter(o=>o.name==res.data.county)[0].area;
     	this.sel_county= res.data.county;
+      this.building_type = res.data.building_type;
     
       //console.log("sel_area:",this.sel_area);
   		this.update_general_infos();  
@@ -254,7 +264,8 @@ export default {
         area_size: this.area_size,
         summer: this.summer,
         degree: this.degree,
-        money: this.money
+        money: this.money,
+        building_type: this.building_type
       });
     },    
   }
