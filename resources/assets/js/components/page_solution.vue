@@ -174,7 +174,7 @@
                             .device_com 尺寸 &nbsp;|&nbsp; {{ad_dev.size}}
                             .device_com 年耗電量 &nbsp;|&nbsp; {{ad_dev.consumption}}
                             
-                          a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
+                          //a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
                             i.fa.fa-external-link
                         hr
                       .col-sm-12
