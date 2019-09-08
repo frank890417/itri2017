@@ -10,11 +10,11 @@
       .row
         .col-sm-4
           h4 我的用電是平均的...
-          h1.mul_text {{ ( (user_degree?(user_degree*6):device_result.value) / total_avg_year ).toFixed(1) }}倍
+          h1.mul_text {{ ( user_degree_final/ total_avg_year ).toFixed(1) }}倍
             button_moreinfo(:msg="'依據您目前填寫的資料與全國日均用電量相較結果'")
           span {{user_degree?"根據所填寫的用電度數估算":"根據電器加總度數估算"}}
           svg_inline_watch.elec_watch(src="/img/elec_watch-01.svg",
-                     :degree="user_degree?(user_degree*6):device_result.value",
+                     :degree="user_degree_final",
                      :init="scrl_start_watch")
 
         .card.col-sm-8.text-left(v-if='monster')
@@ -35,6 +35,7 @@
 import {mapState,mapMutations} from 'vuex' 
 import button_moreinfo from "./button_moreinfo"
 import svg_inline_watch from "./svg_inline_watch"
+
 export default {
   name: 'page_share',
   data () {
@@ -48,9 +49,11 @@ export default {
     svg_inline_watch
   },
   mounted (){
+    console.log("info",this.general_infos)
     this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
-  computed: {...mapState(['loading','device_result','devices','user_degree','scrollTop']),
+  computed: {...mapState(['general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
+    
     monster(){
       var result=this.devices.slice()
                     .sort((a,b)=>(b.device_consumption-a.device_consumption))
@@ -61,6 +64,9 @@ export default {
     total_avg_year (){
       // console.log(this.avg_month*(12));
       return (this.avg_month*(12));
+    },
+    user_degree_final(){
+      return (this.user_degree?(this.user_degree*6):this.device_result.value)
     }
   },
   methods: {

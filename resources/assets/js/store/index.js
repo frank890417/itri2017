@@ -1,6 +1,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {avg_data} from '../2019_avg_house_data.js'
 const uuidv4 = require('uuid/v4');
 Vue.use(Vuex)
 
@@ -26,7 +27,8 @@ const store = new Vuex.Store({
     advice_device:'冷氣機',
     KWH:1300,
     debug: false,
-    music_enabled: true
+    music_enabled: true,
+    avg_house_data: avg_data
   },
   mutations: {
     set_music_enable(state,value){

@@ -72,6 +72,9 @@
                   label 流動電費：
                     button_moreinfo(:msg="'請填入台電電費單上之電費'")
                   input.form-control(v-model="money", type="number")
+                .form-group(v-if="debug")
+                  pre {{general_infos}}
+                  pre {{avg_standard}}
             //.row
               .col-sm-4
                 label 換算年用電
@@ -107,15 +110,18 @@ export default {
             {gate: 200000,price: 5.03,price_summer: 6.41},
           ],
       debounce: false,      
-      member_count: 3,
-      area_size: 15,
+      member_count: 0,
+      area_size: 0,
       sel_area: "北區",
       sel_county: -1,
       region_data,
-      building_type: "公寓"
+      building_type: ""
     }; 
   },
   watch:{
+    building_type(){
+      this.update_general_infos();
+    },
     sel_county(){
       this.update_general_infos();
     },
@@ -124,6 +130,7 @@ export default {
     },
     area_size (){
       this.set_area_size(this.area_size);
+      this.update_general_infos();
             
     },
     summer(){
@@ -248,8 +255,96 @@ export default {
     
   },
   computed: {
-    ...mapState(['loading','house_area_size','general_infos']),
-    
+    ...mapState(['avg_house_data','loading','house_area_size','general_infos','debug']),
+    avg_standard(){
+      let weather_north_area = "臺北市、新北市、宜蘭縣、基隆市、桃園縣、桃園市、新竹縣、新竹市、苗栗縣、連江縣、金門縣".split("、")
+      let weather_middle_area = "台中市、彰化縣、南投縣、雲林縣、澎湖縣、花蓮縣".split("、")
+      let weather_south_area = "嘉義市、嘉義縣、台南市、高雄市、屏東縣、台東縣".split("、")
+      let getArea = (name)=> {
+        if (weather_north_area.find(county=>county==name)){
+          return "北部氣候區"
+        }
+        if (weather_middle_area.find(county=>county==name)){
+          return "中部氣候區"
+        }
+        if (weather_south_area.find(county=>county==name)){
+          return "南部氣候區"
+        }
+        return "全國"
+      }
+      let judgeCondition = (condition,value)=>{
+        if (condition == "") return false
+        let regex = /(\d{1,2})[\-\~]?(\d{1,2})?/gm;
+        let result = regex.exec(condition)
+        let min = 0
+        let max = 0
+        console.log(result)
+        if (result.length==3){
+          min = parseInt(result[1])
+          max = parseInt(result[2])
+        }else if (result.length==2){
+          if (condition.indexOf("以上")!=-1){
+            min = parseInt(result[1])
+            max = 1000
+          }
+          if (condition.indexOf("以下")!=-1){
+            min = 0
+            max = parseInt(result[1])
+          }
+        }
+        console.log(min,max,value,value >= min && value <= max)
+        if (value >= min && value <= max){
+          return true
+        }else{
+          return false
+        }
+
+      }
+      let userArea = getArea(this.general_infos.county)
+
+      let result = this.avg_house_data.find((obj)=>{
+        if (obj["居住地區"]){
+          if (obj["居住地區"]!="全國" && obj["居住地區"]!=userArea){
+            return false
+          }
+        }
+        if (obj["人口數"]){
+          if ( !judgeCondition( obj["人口數"],this.general_infos.member_count ) ){
+            console.log("人口not match")
+            return false
+          }
+        }
+        if (obj["坪數"]){
+          if ( !judgeCondition( obj["坪數"],this.general_infos.area_size ) ){
+            return false
+          }
+        }
+        if (obj["住宅類型"]){
+          if (this.general_infos.building_type!=obj["住宅類型"]){
+            return false
+          }
+        }
+        return true
+      })
+
+      let feedback = ""
+      if (this.general_infos.degree){
+        if (this.general_infos.degree< parseInt(result["年平均用電度數"]) ){
+          feedback="您的用電量低於平均用電量: 請繼續保持您的好用電習慣"
+        }else if (this.general_infos.degree< 1.5* parseInt(result["年平均用電度數"]) ){
+          feedback="您的用電量高於平均用電量但小於1.5倍平均用電量: 有不錯的用電習慣，再努力一點節電可以更好喔"
+        }else {
+          feedback="您的用電量高於1.5倍平均用電量: 建議可以多參考節電手法，檢視自己的用電習慣"
+        }
+      }
+
+      return {
+        count: result.length,
+        area: userArea,
+        result,
+        feedback
+      }
+    }
   },
   methods: {
     ...mapMutations(['set_loading','set_area_size','set_user_degree','set_general_infos']),
