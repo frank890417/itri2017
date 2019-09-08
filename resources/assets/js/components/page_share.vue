@@ -19,17 +19,41 @@
 
         .card.col-sm-8.text-left(v-if='monster')
           .card_inner
-            h2 我家的吃電怪獸是….{{monster.name}}
-            img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
-            h3 處方箋小語：
-            p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
-            .btn_group_inline
-              button.btn.active(@click="share_result();$ga.event('share', 'click')") 分享我的吃電怪獸
-                i.fa.fa-share-alt
-              button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','back')") 返回診斷
-                i.fa.fa-undo
-              a.btn(href="http://www.energypark.org.tw/", target="_blank",@click="$ga.event('external_link', 'click','http://www.energypark.org.tw/')") 節約能源園區
-                i.fa.fa-external-link
+            .row
+              .col-md-6
+                h2 我家的用電量分析結果
+                ul 
+                  li 居住地區: {{ general_infos.info }}
+                  li 住宅類型: {{ general_infos.building_type }}
+                  li 家庭成員: {{ general_infos.member_count }}
+                  li 坪數: {{ general_infos.area_size }}
+                ul
+                  li 您的年平均用電度數: {{ user_degree_final }}
+                  li 同類型年平均用電: {{ avg_standard.result['年平均用電度數'] }}
+                  li 相差 {{ user_degree_final - avg_standard.result['年平均用電度數'] }}度
+                  li 
+                    br
+                    h5 比較基準：
+                  li(v-if="avg_standard.result['居住地區']") 居住地區: {{ avg_standard.result['居住地區'] }}
+                  li(v-if="avg_standard.result['住宅類型']") 住宅類型: {{ avg_standard.result['住宅類型'] }}
+                  li(v-if="avg_standard.result['人口數']") 家庭成員: {{ avg_standard.result['人口數'] }}
+                  li(v-if="avg_standard.result['坪數']") 坪數: {{ avg_standard.result['坪數'] }}
+                  li(v-if="avg_standard.result['年平均用電度數']") 年平均用電度數: {{ avg_standard.result['年平均用電度數'] }}
+                  li(v-if="debug")
+                    pre {{avg_standard}}
+              .col-md-6
+                h2 我家的吃電怪獸是….{{monster.name}}
+                img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
+                h3 處方箋小語：
+                p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
+              .col-md-12
+                .btn_group_inline
+                  button.btn.active(@click="share_result();$ga.event('share', 'click')") 分享我的吃電怪獸
+                    i.fa.fa-share-alt
+                  button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','back')") 返回診斷
+                    i.fa.fa-undo
+                  a.btn(href="http://www.energypark.org.tw/", target="_blank",@click="$ga.event('external_link', 'click','http://www.energypark.org.tw/')") 節約能源園區
+                    i.fa.fa-external-link
 </template>
 <script>
 import {mapState,mapMutations} from 'vuex' 
@@ -52,7 +76,7 @@ export default {
     console.log("info",this.general_infos)
     this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
-  computed: {...mapState(['general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
+  computed: {...mapState(['debug','general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
     
     monster(){
       var result=this.devices.slice()
@@ -67,6 +91,97 @@ export default {
     },
     user_degree_final(){
       return (this.user_degree?(this.user_degree*6):this.device_result.value)
+    },
+    avg_standard(){
+      let weather_north_area = "臺北市、新北市、宜蘭縣、基隆市、桃園縣、桃園市、新竹縣、新竹市、苗栗縣、連江縣、金門縣".split("、")
+      let weather_middle_area = "台中市、彰化縣、南投縣、雲林縣、澎湖縣、花蓮縣".split("、")
+      let weather_south_area = "嘉義市、嘉義縣、台南市、高雄市、屏東縣、台東縣".split("、")
+      let getArea = (name)=> {
+        if (weather_north_area.find(county=>county==name)){
+          return "北部氣候區"
+        }
+        if (weather_middle_area.find(county=>county==name)){
+          return "中部氣候區"
+        }
+        if (weather_south_area.find(county=>county==name)){
+          return "南部氣候區"
+        }
+        return "全國"
+      }
+      let judgeCondition = (condition,value)=>{
+        if (condition == "") return false
+        let regex = /(\d{1,2})[\-\~]?(\d{1,2})?/gm;
+        let result = regex.exec(condition)
+        let min = 0
+        let max = 0
+        //- console.log(result)
+        if (result.length==3){
+          min = parseInt(result[1])
+          max = parseInt(result[2])
+        }else if (result.length==2){
+          if (condition.indexOf("以上")!=-1){
+            min = parseInt(result[1])
+            max = 1000
+          }
+          if (condition.indexOf("以下")!=-1){
+            min = 0
+            max = parseInt(result[1])
+          }
+        }
+        //- console.log(min,max,value,value >= min && value <= max)
+        if (value >= min && value <= max){
+          return true
+        }else{
+          return false
+        }
+
+      }
+      let userArea = getArea(this.general_infos.county)
+
+      let resultList = this.avg_house_data.filter((obj)=>{
+        if (obj["居住地區"]){
+          if (obj["居住地區"]!="全國" && obj["居住地區"]!=userArea){
+            return false
+          }
+        }
+        if (obj["人口數"]){
+          if ( !judgeCondition( obj["人口數"],this.general_infos.member_count ) ){
+            //- console.log("人口not match")
+            return false
+          }
+        }
+        if (obj["坪數"]){
+          if ( !judgeCondition( obj["坪數"],this.general_infos.area_size ) ){
+            return false
+          }
+        }
+        if (obj["住宅類型"]){
+          if (this.general_infos.building_type!=obj["住宅類型"]){
+            return false
+          }
+        }
+        return true
+      })
+      let result = resultList[0]
+
+      let feedback = ""
+      if (this.user_degree_final){
+        if (this.user_degree_final< parseInt(result["年平均用電度數"]) ){
+          feedback="您的用電量低於平均用電量: 請繼續保持您的好用電習慣"
+        }else if (this.user_degree_final< 1.5* parseInt(result["年平均用電度數"]) ){
+          feedback="您的用電量高於平均用電量但小於1.5倍平均用電量: 有不錯的用電習慣，再努力一點節電可以更好喔"
+        }else {
+          feedback="您的用電量高於1.5倍平均用電量: 建議可以多參考節電手法，檢視自己的用電習慣"
+        }
+      }
+
+      return {
+        count: resultList.length,
+        area: userArea,
+        result,
+        resultList,
+        feedback
+      }
     }
   },
   methods: {

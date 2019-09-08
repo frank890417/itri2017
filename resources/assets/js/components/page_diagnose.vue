@@ -256,6 +256,7 @@ export default {
   },
   computed: {
     ...mapState(['avg_house_data','loading','house_area_size','general_infos','debug']),
+    //for debugging (正式的在page_share中)
     avg_standard(){
       let weather_north_area = "臺北市、新北市、宜蘭縣、基隆市、桃園縣、桃園市、新竹縣、新竹市、苗栗縣、連江縣、金門縣".split("、")
       let weather_middle_area = "台中市、彰化縣、南投縣、雲林縣、澎湖縣、花蓮縣".split("、")
@@ -278,7 +279,7 @@ export default {
         let result = regex.exec(condition)
         let min = 0
         let max = 0
-        console.log(result)
+        //- console.log(result)
         if (result.length==3){
           min = parseInt(result[1])
           max = parseInt(result[2])
@@ -292,7 +293,7 @@ export default {
             max = parseInt(result[1])
           }
         }
-        console.log(min,max,value,value >= min && value <= max)
+        //- console.log(min,max,value,value >= min && value <= max)
         if (value >= min && value <= max){
           return true
         }else{
@@ -302,7 +303,7 @@ export default {
       }
       let userArea = getArea(this.general_infos.county)
 
-      let result = this.avg_house_data.find((obj)=>{
+      let resultList = this.avg_house_data.filter((obj)=>{
         if (obj["居住地區"]){
           if (obj["居住地區"]!="全國" && obj["居住地區"]!=userArea){
             return false
@@ -310,7 +311,7 @@ export default {
         }
         if (obj["人口數"]){
           if ( !judgeCondition( obj["人口數"],this.general_infos.member_count ) ){
-            console.log("人口not match")
+            //- console.log("人口not match")
             return false
           }
         }
@@ -339,9 +340,10 @@ export default {
       }
 
       return {
-        count: result.length,
+        count: resultList.length,
         area: userArea,
-        result,
+        result: resultList[0],
+        resultList: resultList,
         feedback
       }
     }
