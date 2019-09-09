@@ -18,21 +18,22 @@
                      :init="scrl_start_watch")
 
         .card.col-sm-8.text-left(v-if='monster')
-          .card_inner
+          .card_inner(style="margin-top: 10px")
             .row
-              .col-md-5
+              .col-md-12
                 h2 我家的用電量分析結果
+                br
                 ul 
-                  li 
+                  li(v-if="general_infos.county")
                     b 居住地區: 
                     | {{ general_infos.county || "未填寫" }}
-                  li 
+                  li(v-if="general_infos.building_type")
                     b 住宅類型: 
                     | {{ general_infos.building_type  || "未填寫" }}
-                  li 
+                  li(v-if="general_infos.member_count")
                     b 家庭成員: 
                     | {{ general_infos.member_count || "未填寫" }}
-                  li 
+                  li(v-if="general_infos.area_size")
                     b 坪數: 
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
@@ -42,32 +43,41 @@
                     br
                     label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }}度
                     .bar(:style="compareBarStyles.avg") 
+                  br
                   li 相差 {{ user_degree_final - avg_standard.result['年平均用電度數'] }}度
-                  li 
+                  div(v-if="debug")
+                    li 
+                      br
+                      h5 比較基準：
+                    li(v-if="avg_standard.result['居住地區']")
+                      b 居住地區: 
+                      | {{ avg_standard.result['居住地區'] }}
+                    li(v-if="avg_standard.result['住宅類型']")
+                      b 住宅類型: 
+                      | {{ avg_standard.result['住宅類型'] }}
+                    li(v-if="avg_standard.result['人口數']")
+                      b 家庭成員: 
+                      | {{ avg_standard.result['人口數'] }}
+                    li(v-if="avg_standard.result['坪數']")
+                      b 坪數: 
+                      | {{ avg_standard.result['坪數'] }}
+                    li(v-if="avg_standard.result['年平均用電度數']")
+                      b 年平均用電度數: 
+                      | {{ avg_standard.result['年平均用電度數'] }}
+                    li(v-if="debug")
+                      pre {{avg_standard}}
+          .card_inner(style="margin-top: 30px")
+            .row
+              .col-md-12
+                .row
+                  .col-md-5
+                    h3 我家的吃電怪獸是….{{monster.name}}
+                    img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
+                  .col-md-7
                     br
-                    h5 比較基準：
-                  li(v-if="avg_standard.result['居住地區']")
-                    b 居住地區: 
-                    | {{ avg_standard.result['居住地區'] }}
-                  li(v-if="avg_standard.result['住宅類型']")
-                    b 住宅類型: 
-                    | {{ avg_standard.result['住宅類型'] }}
-                  li(v-if="avg_standard.result['人口數']")
-                    b 家庭成員: 
-                    | {{ avg_standard.result['人口數'] }}
-                  li(v-if="avg_standard.result['坪數']")
-                    b 坪數: 
-                    | {{ avg_standard.result['坪數'] }}
-                  li(v-if="avg_standard.result['年平均用電度數']")
-                    b 年平均用電度數: 
-                    | {{ avg_standard.result['年平均用電度數'] }}
-                  li(v-if="debug")
-                    pre {{avg_standard}}
-              .col-md-7
-                h2 我家的吃電怪獸是….{{monster.name}}
-                img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
-                h3 處方箋小語：
-                p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
+                    br
+                    h4 處方箋小語：
+                    p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
               .col-md-12
                 .btn_group_inline
                   button.btn.active(@click="share_result();$ga.event('share', 'click')") 分享我的吃電怪獸
