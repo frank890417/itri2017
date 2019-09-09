@@ -20,28 +20,50 @@
         .card.col-sm-8.text-left(v-if='monster')
           .card_inner
             .row
-              .col-md-6
+              .col-md-5
                 h2 我家的用電量分析結果
                 ul 
-                  li 居住地區: {{ general_infos.info }}
-                  li 住宅類型: {{ general_infos.building_type }}
-                  li 家庭成員: {{ general_infos.member_count }}
-                  li 坪數: {{ general_infos.area_size }}
+                  li 
+                    b 居住地區: 
+                    | {{ general_infos.county || "未填寫" }}
+                  li 
+                    b 住宅類型: 
+                    | {{ general_infos.building_type  || "未填寫" }}
+                  li 
+                    b 家庭成員: 
+                    | {{ general_infos.member_count || "未填寫" }}
+                  li 
+                    b 坪數: 
+                    | {{ general_infos.area_size || "未填寫"  }}
                 ul
-                  li 您的年平均用電度數: {{ user_degree_final }}
-                  li 同類型年平均用電: {{ avg_standard.result['年平均用電度數'] }}
+                  .compare-bars
+                    label 您的年平均用電度數 {{ user_degree_final }}度
+                    .bar(:style="compareBarStyles.user") 
+                    br
+                    label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }}度
+                    .bar(:style="compareBarStyles.avg") 
                   li 相差 {{ user_degree_final - avg_standard.result['年平均用電度數'] }}度
                   li 
                     br
                     h5 比較基準：
-                  li(v-if="avg_standard.result['居住地區']") 居住地區: {{ avg_standard.result['居住地區'] }}
-                  li(v-if="avg_standard.result['住宅類型']") 住宅類型: {{ avg_standard.result['住宅類型'] }}
-                  li(v-if="avg_standard.result['人口數']") 家庭成員: {{ avg_standard.result['人口數'] }}
-                  li(v-if="avg_standard.result['坪數']") 坪數: {{ avg_standard.result['坪數'] }}
-                  li(v-if="avg_standard.result['年平均用電度數']") 年平均用電度數: {{ avg_standard.result['年平均用電度數'] }}
+                  li(v-if="avg_standard.result['居住地區']")
+                    b 居住地區: 
+                    | {{ avg_standard.result['居住地區'] }}
+                  li(v-if="avg_standard.result['住宅類型']")
+                    b 住宅類型: 
+                    | {{ avg_standard.result['住宅類型'] }}
+                  li(v-if="avg_standard.result['人口數']")
+                    b 家庭成員: 
+                    | {{ avg_standard.result['人口數'] }}
+                  li(v-if="avg_standard.result['坪數']")
+                    b 坪數: 
+                    | {{ avg_standard.result['坪數'] }}
+                  li(v-if="avg_standard.result['年平均用電度數']")
+                    b 年平均用電度數: 
+                    | {{ avg_standard.result['年平均用電度數'] }}
                   li(v-if="debug")
                     pre {{avg_standard}}
-              .col-md-6
+              .col-md-7
                 h2 我家的吃電怪獸是….{{monster.name}}
                 img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
                 h3 處方箋小語：
@@ -77,7 +99,18 @@ export default {
     this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
   computed: {...mapState(['debug','general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
-    
+    compareBarStyles(){
+      let maximum = Math.max(this.user_degree_final,this.avg_standard.result['年平均用電度數'])
+      return {
+        user: {
+          width: (this.user_degree_final*100/maximum)+"%"
+        },
+        avg:{
+          width: (this.avg_standard.result['年平均用電度數']*100/maximum)+"%"
+        } 
+
+      }
+    },
     monster(){
       var result=this.devices.slice()
                     .sort((a,b)=>(b.device_consumption-a.device_consumption))
