@@ -27,7 +27,7 @@ section.manage_index.container-fluid
                 label(style="width: 70px") {{d.name}}
                 input.form-control(v-model="d.value")
             .col-sm-6
-              h4 資料-非夏月
+              h4 資料-全年
               div(v-for="(d,key) in temp_zh.zh.page_about.section_2.chart.nsummer").form-inline
                 label(style="width: 70px")  {{d.name}}
                 input.form-control(v-model="d.value")

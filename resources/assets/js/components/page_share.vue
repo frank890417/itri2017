@@ -21,18 +21,9 @@
         .card.col-sm-8.text-left(v-if='monster')
           .card_inner(style="margin-top: 10px")
             .row
-              .col-md-12
+              .col-md-5
                 h2 我家的用電量分析結果
                   img.ml-2(src="/img/thunder.svg" style="width: 30px;display: inline-block")
-            .row
-              .col-md-5
-                graph_end_compare(use_power="0.4",
-                                  use_mul="2",
-                                  use_unit="度" ,
-
-                                  :datas="[{name: '您的用電', value: user_degree_final*(scrl_start_watch?1:0)},{name: '年平均用電', value: avg_standard.result['年平均用電度數']*(scrl_start_watch?1:0)}]")
-                  
-              .col-md-7
                 ul.box-info(v-if="(general_infos.county && general_infos.county!=-1) || general_infos.building_type || general_infos.member_count || general_infos.area_size")
                   li(v-if="general_infos.county && general_infos.county!=-1")
                     b 居住地區: 
@@ -47,14 +38,14 @@
                     b 坪數: 
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
-                  .compare-bars
+                  //.compare-bars
                     label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }} 度
                     .bar(:style="compareBarStyles.avg") 
                     br
                     label 您的年平均用電度數 {{ user_degree_final }} 度 (較平均{{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度)
                     .bar(:style="compareBarStyles.user") 
-                  br
-                  li {{ compare_advice }}
+                  //br
+                  li.mt-1 {{ compare_advice }}
                   div(v-if="debug")
                     li 
                       br
@@ -76,6 +67,16 @@
                       | {{ avg_standard.result['年平均用電度數'] }}
                     li(v-if="debug")
                       pre {{avg_standard}}
+        
+        
+              .col-md-7
+                graph_end_compare.svg-graph-compare(use_power="0.4",
+                                  use_mul="3",
+                                  use_unit="度" ,
+
+                                  :datas="[{name: '您的用電', value: user_degree_final*(scrl_start_watch?1:0)},{name: '年平均用電', value: avg_standard.result['年平均用電度數']*(scrl_start_watch?1:0)}]")
+        
+        
           .card_inner(style="margin-top: 30px")
             .row
               .col-md-12
