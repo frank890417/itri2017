@@ -29,7 +29,7 @@
                                   :datas="[{name: '您的用電', value: user_degree_final},{name: '年平均用電', value: avg_standard.result['年平均用電度數']}]")
                   
               .col-md-6
-                ul 
+                ul.box-info(v-if="general_infos.county || general_infos.building_type || general_infos.member_count || general_infos.area_size")
                   li(v-if="general_infos.county")
                     b 居住地區: 
                     | {{ general_infos.county || "未填寫" }}
@@ -44,13 +44,13 @@
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
                   .compare-bars
-                    label 您的年平均用電度數 {{ user_degree_final }}度
-                    .bar(:style="compareBarStyles.user") 
-                    br
                     label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }}度
                     .bar(:style="compareBarStyles.avg") 
+                    br
+                    label 您的年平均用電度數 {{ user_degree_final }}度 (較平均 {{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度)
+                    .bar(:style="compareBarStyles.user") 
                   br
-                  li 您的用電較平均用電 {{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度
+                  li {{ compare_advice }}
                   div(v-if="debug")
                     li 
                       br
@@ -117,6 +117,19 @@ export default {
     this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
   computed: {...mapState(['debug','general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
+    compare_advice(){
+      let usr_value =  this.user_degree_final
+      let avg_value =  this.avg_standard.result['年平均用電度數']
+
+      if (usr_value <  avg_value){
+        return "您的用電量低於平均用電量: 請繼續保持您的好用電習慣"
+      } else if (usr_value < 1.5* avg_value){
+        return "您的用電量高於平均用電量但小於1.5倍平均用電量: 有不錯的用電習慣，再努力一點節電可以更好喔"
+      } else {
+        return "您的用電量高於1.5倍平均用電量: 建議可以多參考節電手法，省視自己的用電習慣"
+      }
+      
+    },
     compare_delta(){
       return  this.user_degree_final - this.avg_standard.result['年平均用電度數']
     },
