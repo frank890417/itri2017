@@ -23,13 +23,16 @@
             .row
               .col-md-12
                 h2 我家的用電量分析結果
-              .col-md-6
-                graph_end_compare(use_power="0.2",
+                  img.ml-2(src="/img/thunder.svg" style="width: 30px;display: inline-block")
+            .row
+              .col-md-5
+                graph_end_compare(use_power="0.4",
+                                  use_mul="2",
                                   use_unit="度" ,
 
                                   :datas="[{name: '您的用電', value: user_degree_final*(scrl_start_watch?1:0)},{name: '年平均用電', value: avg_standard.result['年平均用電度數']*(scrl_start_watch?1:0)}]")
                   
-              .col-md-6
+              .col-md-7
                 ul.box-info(v-if="(general_infos.county && general_infos.county!=-1) || general_infos.building_type || general_infos.member_count || general_infos.area_size")
                   li(v-if="general_infos.county && general_infos.county!=-1")
                     b 居住地區: 
@@ -45,10 +48,10 @@
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
                   .compare-bars
-                    label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }}度
+                    label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }} 度
                     .bar(:style="compareBarStyles.avg") 
                     br
-                    label 您的年平均用電度數 {{ user_degree_final }}度 (較平均 {{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度)
+                    label 您的年平均用電度數 {{ user_degree_final }} 度 (較平均{{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度)
                     .bar(:style="compareBarStyles.user") 
                   br
                   li {{ compare_advice }}

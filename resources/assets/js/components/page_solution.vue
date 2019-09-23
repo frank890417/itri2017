@@ -53,7 +53,10 @@
             div.mt-2
               svg_inline_distribution(src="/img/roomVisualization.svg",
                                       :nodes="distributionData")
-            label.text-right * 數值為年耗電度數
+            div 
+              h4.pull-left.m-0 全屋用電： {{ total_consumption }} 度
+              span.pull-right * 數值為年耗電度數
+              br
         .card.col-sm-12.card_prescription.card_prescription_menu
           .card_inner
             h5 Saving Prescription
@@ -73,7 +76,7 @@
                   @click="set_advice_device(dev);$ga.event('advice_device', 'click',dev);"
                 ) 
                 img(:src="'/img/電器/icon_'+dev+'.svg'")
-                div {{dev}}  
+                div {{ dev }}  
 
         .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show  && compare_result.better")
           .card_inner.yellow
@@ -335,6 +338,9 @@ export default {
       } else {
         return parseInt(this.device_result.room_sum[this.now_place_id].value)
       }
+    },
+    total_consumption(){
+      return parseInt(this.device_result.room_sum.map(o => o.value).reduce((a, b) => a + b));
     },
     uni_name_list() {
       //取得不重複的電器類別名稱
