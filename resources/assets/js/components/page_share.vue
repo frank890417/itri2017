@@ -16,6 +16,7 @@
           svg_inline_watch.elec_watch(src="/img/elec_watch-01.svg",
                      :degree="user_degree_final",
                      :init="scrl_start_watch")
+          
 
         .card.col-sm-8.text-left(v-if='monster')
           .card_inner(style="margin-top: 10px")
@@ -37,6 +38,9 @@
                     b 坪數: 
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
+                  graph_end_compare(use_power="0.2",
+                                    use_unit="度" ,
+                                    :datas="[{name: '您的用電', value: user_degree_final},{name: '年平均用電', value: avg_standard.result['年平均用電度數']}]")
                   .compare-bars
                     label 您的年平均用電度數 {{ user_degree_final }}度
                     .bar(:style="compareBarStyles.user") 
@@ -91,6 +95,7 @@
 import {mapState,mapMutations} from 'vuex' 
 import button_moreinfo from "./button_moreinfo"
 import svg_inline_watch from "./svg_inline_watch"
+import graph_end_compare from './graph_end_compare'
 
 export default {
   name: 'page_share',
@@ -102,7 +107,8 @@ export default {
   },
   components: {
     button_moreinfo,
-    svg_inline_watch
+    svg_inline_watch,
+    graph_end_compare
   },
   mounted (){
     console.log("info",this.general_infos)

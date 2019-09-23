@@ -58,7 +58,7 @@
                 label(title="請填寫最近一期-兩個月之帳單電費")
                   span 近期用電
                   button_moreinfo(:msg="'帳單電費為兩個月一期'")
-                  span  ({{summer=='true'?"夏月":"非夏月"}})：
+                  span  ({{summer=='true'?"夏月":"全年"}})：
               .col-sm-8
                 .form-group
                   .btn_group_inline

@@ -10419,6 +10419,11 @@ svg:not(.gauge) * {
   border: solid 1px #504F4F;
 }
 
+.section_share .graph_bubble {
+  width: 100%;
+  height: 300px;
+}
+
 @media screen and (max-width: 799px) and (min-width: 0px) {
   .section_share .container {
     padding-left: 0;
