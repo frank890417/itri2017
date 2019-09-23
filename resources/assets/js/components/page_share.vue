@@ -26,11 +26,12 @@
               .col-md-6
                 graph_end_compare(use_power="0.2",
                                   use_unit="度" ,
-                                  :datas="[{name: '您的用電', value: user_degree_final},{name: '年平均用電', value: avg_standard.result['年平均用電度數']}]")
+
+                                  :datas="[{name: '您的用電', value: user_degree_final*(scrl_start_watch?1:0)},{name: '年平均用電', value: avg_standard.result['年平均用電度數']*(scrl_start_watch?1:0)}]")
                   
               .col-md-6
-                ul.box-info(v-if="general_infos.county || general_infos.building_type || general_infos.member_count || general_infos.area_size")
-                  li(v-if="general_infos.county")
+                ul.box-info(v-if="(general_infos.county && general_infos.county!=-1) || general_infos.building_type || general_infos.member_count || general_infos.area_size")
+                  li(v-if="general_infos.county && general_infos.county!=-1")
                     b 居住地區: 
                     | {{ general_infos.county || "未填寫" }}
                   li(v-if="general_infos.building_type")

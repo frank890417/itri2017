@@ -125,8 +125,8 @@ export default {
 
     //顏色範圍函數(v4)
     var color= d3.scaleLinear()
-                  .domain([150,80,0])
-                  .range(["#EEC545","#F5DA4E","#F5DA4E"]);
+                  .domain([150,0])
+                  .range(["#F5DA4E","#EEC545"]);
 
     //線框圓形
     var cir_stroke=svg.selectAll("circle.stroke")
