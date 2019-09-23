@@ -23,7 +23,12 @@
             .row
               .col-md-12
                 h2 我家的用電量分析結果
-                br
+              .col-md-6
+                graph_end_compare(use_power="0.2",
+                                  use_unit="度" ,
+                                  :datas="[{name: '您的用電', value: user_degree_final},{name: '年平均用電', value: avg_standard.result['年平均用電度數']}]")
+                  
+              .col-md-6
                 ul 
                   li(v-if="general_infos.county")
                     b 居住地區: 
@@ -38,9 +43,6 @@
                     b 坪數: 
                     | {{ general_infos.area_size || "未填寫"  }}
                 ul
-                  graph_end_compare(use_power="0.2",
-                                    use_unit="度" ,
-                                    :datas="[{name: '您的用電', value: user_degree_final},{name: '年平均用電', value: avg_standard.result['年平均用電度數']}]")
                   .compare-bars
                     label 您的年平均用電度數 {{ user_degree_final }}度
                     .bar(:style="compareBarStyles.user") 
@@ -48,7 +50,7 @@
                     label 同類型年平均用電 {{ avg_standard.result['年平均用電度數'] }}度
                     .bar(:style="compareBarStyles.avg") 
                   br
-                  li 相差 {{ user_degree_final - avg_standard.result['年平均用電度數'] }}度
+                  li 您的用電較平均用電 {{ compare_delta>0?'多':'少' }} {{ Math.abs(compare_delta) }} 度
                   div(v-if="debug")
                     li 
                       br
@@ -115,6 +117,9 @@ export default {
     this.avg_month = parseInt(this.$t("page_share.avg_consump"))
   },
   computed: {...mapState(['debug','general_infos','avg_house_data','loading','device_result','devices','user_degree','scrollTop']),
+    compare_delta(){
+      return  this.user_degree_final - this.avg_standard.result['年平均用電度數']
+    },
     compareBarStyles(){
       let maximum = Math.max(this.user_degree_final,this.avg_standard.result['年平均用電度數'])
       return {

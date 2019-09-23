@@ -53,7 +53,7 @@
                              @click="building_type=type",
                              v-for="type in ['公寓','大廈','透天屋','其他']") {{ type }}
 
-            .row
+            //.row
               .col-sm-4
                 label(title="請填寫最近一期-兩個月之帳單電費")
                   span 近期用電
@@ -63,7 +63,7 @@
                 .form-group
                   .btn_group_inline
                     button.btn(:class="{active:summer=='true'}",@click="summer='true'") 夏月
-                    button.btn(:class="{active:summer=='false'}",@click="summer='false'") 非夏月
+                    button.btn(:class="{active:summer=='false'}",@click="summer='false'") 全年
                 .form-group
                   label 度數：
                     button_moreinfo(:msg="'請填入台電電費單上之用電度數'")
