@@ -10208,6 +10208,19 @@ svg:not(.gauge) * {
   background-color: #F5DA4E;
 }
 
+.section_solution .table_fix_company {
+  background-color: #fff;
+  padding: 10px;
+}
+
+.section_solution .table_fix_company td {
+  padding: 10px;
+}
+
+.section_solution .table_fix_company thead {
+  border-bottom: solid 4px #333;
+}
+
 .section_solution .card_prescription .card_inner {
   height: auto;
   overflow: hidden;

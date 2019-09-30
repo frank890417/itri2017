@@ -189,6 +189,41 @@
                           .btn.btn_post(@click="advice_index+=1") 
                             span.mr-3 下6筆
                             i.fa.fa-angle-right
+
+        .card.col-sm-12
+          .card_inner.nominh.yellow
+            .container-fluid
+              .row
+                .col-sm-12
+                  h2.mb-5
+                    i.fa.fa-hammer
+                    span 家電維修站廠商檢索
+              .row
+                .col-sm-12
+                  input(placeholder="輸入搜尋關鍵字",
+                        v-model="searchElecKeyword")
+              .row
+                .col-sm-6(v-if="dataElecLoad")
+                  h3 合格電器承裝業
+                  table.table_fix_company
+                    thead
+                      th.p-5(v-for="(d,key) in dataElecLoad[0]",
+                            style="{width: ['10%','40%','10%','80%'][key]}") {{key}}
+                    tr(v-for="item in filteredDataElecLoad")
+                      td(v-for="d in item") {{d}}
+                      td
+                        i.fa.fa-link
+                .col-sm-6(v-if="dataElecTest")
+                  h3 合格用電設備檢查維護業
+                  table.table_fix_company
+                    thead
+                      th.p-5(v-for="(d,key) in dataElecTest[0]",
+                            style="{width: ['10%','40%','50%','50%'][key]}") {{key}}
+                    tr(v-for="item in filteredDataElecTest")
+                      td(v-for="d in item") {{d}}
+                      td
+                        i.fa.fa-link
+                  
 </template>
 
 <script>
@@ -220,6 +255,7 @@ export default {
       advice_index: 1,
       scrl_start_watch: false,
       compare_data: [],
+      searchElecKeyword: ""
       //- distributionData: [
       //-   {
       //-     name: "bathroom",
@@ -280,7 +316,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['device_result', 'devices','scrollTop','site_width']),
+    ...mapState(['device_result', 'devices','scrollTop','site_width',
+                 'dataElecLoad', 'dataElecTest']),
     advice_brands(){
       return this.advice_devices
               .map(o=>o.brand)
@@ -451,9 +488,20 @@ export default {
         name: obj.room.eng.toLowerCase(),
         value: obj.value
       }))
+    },
+
+    filteredDataElecLoad(){
+      return this.filterArrByWord(this.dataElecLoad || [],this.searchElecKeyword)
+    },
+    filteredDataElecTest(){
+      return this.filterArrByWord(this.dataElecTest || [],this.searchElecKeyword)
     }
   },
   methods: {
+    filterArrByWord(arr, key){
+      let useKey = key.replace("台","臺")
+      return (arr || []).filter(obj=>JSON.stringify(obj).indexOf(useKey)!=-1 )
+    },
     parse_json(text){
       return JSON.parse(text)
     },

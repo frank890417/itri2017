@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {avg_data} from '../2019_avg_house_data.js'
+import {dataElecLoad,dataElecTest} from '../2019_fixing_panel_data.js'
 const uuidv4 = require('uuid/v4');
 Vue.use(Vuex)
 
@@ -28,7 +29,9 @@ const store = new Vuex.Store({
     KWH:1300,
     debug: false,
     music_enabled: true,
-    avg_house_data: avg_data
+    avg_house_data: avg_data,
+    dataElecLoad,
+    dataElecTest
   },
   mutations: {
     set_music_enable(state,value){
