@@ -197,7 +197,7 @@
                 .col-sm-12
                   h2.mb-5
                     i.fa.fa-hammer
-                    span 家電維修站廠商檢索
+                    span 用電設備承裝/維護站
               .row
                 .col-sm-12
                   input(placeholder="輸入搜尋關鍵字",
@@ -207,20 +207,20 @@
                   h3 合格電器承裝業
                   table.table_fix_company
                     thead
-                      th.p-5(v-for="(d,key) in dataElecLoad[0]",
-                            style="{width: ['10%','40%','10%','80%'][key]}") {{key}}
+                      th.p-1(v-for="(d,key) in Object.entries(dataElecLoad[0]) ",
+                            :style="{width: ['10%','35%','15%','40%'][key]}") {{d[0]}}
                     tr(v-for="item in filteredDataElecLoad")
-                      td(v-for="d in item") {{d}}
+                      td(v-for="d in item", v-html="d")
                       td
                         i.fa.fa-link
                 .col-sm-6(v-if="dataElecTest")
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead
-                      th.p-5(v-for="(d,key) in dataElecTest[0]",
-                            style="{width: ['10%','40%','50%','50%'][key]}") {{key}}
+                      th.p-1(v-for="(d,key) in Object.entries(dataElecTest[0])",
+                            :style="{width: ['10%','30%','30%','40%'][key]}") {{d[0]}}
                     tr(v-for="item in filteredDataElecTest")
-                      td(v-for="d in item") {{d}}
+                      td(v-for="d in item", v-html="d")
                       td
                         i.fa.fa-link
                   
@@ -491,10 +491,21 @@ export default {
     },
 
     filteredDataElecLoad(){
-      return this.filterArrByWord(this.dataElecLoad || [],this.searchElecKeyword)
+      let result =  this.filterArrByWord(this.dataElecLoad || [],this.searchElecKeyword)
+      if (this.searchElecKeyword!=""){
+        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword+")","g"),"<span class=highlight>$1</span>"))
+      }
+      result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
+      result = result.slice().sort((a,b)=>a['等級']>b['等級']?-1:1)
+      return result
     },
     filteredDataElecTest(){
-      return this.filterArrByWord(this.dataElecTest || [],this.searchElecKeyword)
+      let result =  this.filterArrByWord(this.dataElecTest || [],this.searchElecKeyword)
+      if (this.searchElecKeyword!=""){
+        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword+")","g"),"<span class=highlight>$1</span>"))
+      }
+      result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
+      return result
     }
   },
   methods: {

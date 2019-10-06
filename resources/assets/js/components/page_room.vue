@@ -159,6 +159,7 @@ import {mapState,mapMutations} from 'vuex'
 import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
 import Vue from 'vue'
+
 export default {
   name: 'page_room',
   mounted (){
@@ -201,7 +202,7 @@ export default {
         obj.hash=this.rooms[deviceBelongRoomId].hash
       })
 
-      this.devices=device_data    
+      this.devices = device_data    
       this.originDevicesData = JSON.parse(JSON.stringify(this.devices))    
     
       //logined user with last data       
@@ -266,7 +267,16 @@ export default {
     //當前的電器
     now_device(){
       if (this.now_device_id==-1) return null;
+
+      let now_device = this.filter_device[this.now_device_id]
+      let avg_consumption = [now_device].concat(now_device.alter_specs).map(obj=>({
+        count: obj.count,
+        consumption: obj.consumption
+      }))
+      now_device.avg_consumption = avg_consumption
+      
       return this.filter_device[this.now_device_id];
+
     },
     //根據alt id 選擇主規格或是alter_specs裡面的自訂規格
     now_device_profile(){   
@@ -324,9 +334,9 @@ export default {
           }
 
           //計算使用時間 ＊ 單位時間能耗
-          var hour=[device.rarely,device.occasionally,device.often,device.frequently][profile.option];
+          var hour = [device.rarely,device.occasionally,device.often,device.frequently][profile.option];
           var use_hour_per_year = device.day*hour;
-          var per_profile_device_consumption= Math.round(cump*device.consumption_mul*device.day*hour/1000 );
+          var per_profile_device_consumption = Math.round(cump*device.consumption_mul * device.day * hour/1000 );
           var profile_consumption = profile.count * per_profile_device_consumption
           // console.log("profile",cump,profile.count,device.consumption_mul,device.day,hour)
 

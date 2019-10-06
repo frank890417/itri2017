@@ -10414,6 +10414,12 @@ svg:not(.gauge) * {
   width: initial;
 }
 
+.section_solution span.highlight {
+  background-color: #F5DA4E;
+  padding: 3px;
+  border-radius: 2px;
+}
+
 .section_share {
   position: relative;
   min-height: 100vh;
