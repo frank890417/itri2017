@@ -1,6 +1,28 @@
 <template lang="pug">
-  svg.graph_bubble
+  svg.graph_bubble.graph_end_compare
+    g.maingraph
+    mask#usermask
+      circle
 
+    <g class = "face" id="face_bad" >
+      <path d="M59.07,5.49a88.5,88.5,0,1,0,114,51.59A88.6,88.6,0,0,0,59.07,5.49Zm58.12,154.14a76.23,76.23,0,1,1,44.44-98.22A76.32,76.32,0,0,1,117.19,159.63Z"/>
+      <polygon points="77.4 103.07 83.72 89.09 66.58 81.33 74.33 64.19 60.35 57.86 52.6 75.01 35.45 67.25 29.13 81.23 46.27 88.99 38.52 106.13 52.49 112.46 60.25 95.31 77.4 103.07"/>
+      <polygon points="117.6 36.28 109.84 53.43 92.69 45.67 86.37 59.65 103.52 67.4 95.76 84.55 109.74 90.87 117.49 73.73 134.64 81.48 140.96 67.51 123.82 59.75 131.57 42.6 117.6 36.28"/>
+      <rect x="65.13" y="114.78" width="76.08" height="15.34" transform="translate(-36.57 44.27) rotate(-20.66)"/>
+    </g>
+    <g class = "face" id="face_normal" >
+      <path d="M90,10.17a78.43,78.43,0,1,0,78.42,78.42A78.52,78.52,0,0,0,90,10.17Zm0,146a67.55,67.55,0,1,1,67.55-67.55A67.62,67.62,0,0,1,90,156.14Z"/>
+      <rect x="55.98" y="68.53" width="13.74" height="13.74"/>
+      <rect x="110.19" y="68.53" width="13.74" height="13.74"/>
+      <rect x="56.25" y="114.14" width="67.42" height="13.6"/>
+    </g>
+    <g class = "face" id="face_good" >
+      <path d="M126.42,10.68A87.53,87.53,0,1,0,168.81,127,87.63,87.63,0,0,0,126.42,10.68ZM57.63,158.37a75.39,75.39,0,1,1,100.18-36.51A75.49,75.49,0,0,1,57.63,158.37Z"/>
+      <rect x="60.59" y="56.23" width="15.34" height="15.34" transform="translate(-18.49 98.8) rotate(-65.02)"/>
+      <rect x="115.44" y="81.78" width="15.34" height="15.34" transform="translate(-9.96 163.27) rotate(-65.02)"/>
+      <polygon points="74.73 121.66 62.76 88.82 48.5 94.01 60.47 126.86 65.67 141.11 112.77 123.95 107.57 109.69 74.73 121.66"/>
+    </g>
+    g.maintext
 </template>
 
 
@@ -111,26 +133,32 @@ export default {
       height: this.height
     });
 
+    
+
 
     //填色圓形
-    var cir=svg.selectAll("circle.fill")
+    var mainGraph = svg.select("g.maingraph")
+    var mainText = svg.select("g.maintext")
+    var cir = mainGraph.selectAll("circle.fill")
       .data(nodes,(d,i)=>d.name+d.place).enter().append("circle");
 
     //文字
-    var text=svg.selectAll("text")
+    var text = mainText.selectAll("text")
       .data(nodes).enter().append("text");
     //百分比
-    var text_percent=svg.selectAll("text.percent")
+    var text_percent = mainText.selectAll("text.percent")
       .data(nodes).enter().append("text");
 
     //顏色範圍函數(v4)
     var color= d3.scaleLinear()
                   .domain([0,100,160])
-                  .range(["#fff8e2","#EEC545","#ff5b5b"]);
+                  .range(["#ffd272","#ffb619","#ff5619"]);
 
     //線框圓形
-    var cir_stroke=svg.selectAll("circle.stroke")
+    var cir_stroke=mainText.selectAll("circle.stroke")
       .data(nodes).enter().append("circle");
+
+    var mask_cir = svg.select("mask#usermask").select("circle")
 
     //拖曳事件與更新
     var drag = d3
@@ -195,6 +223,9 @@ export default {
 
     //更新
     function ticked(){
+
+
+
       //根據比例更新半徑
       nodes.forEach((d,i)=>{
         var target_r=Math.pow(d.value,vobj.power)*vobj.mul;
@@ -211,8 +242,50 @@ export default {
         fill: (d)=>{
           return color(d.r?d.r:0);
         },
-        dataid: (d,i)=>(i)
+        dataid: (d,i)=>(i),
+
+        //同步表情
+        addtional: function(d,i){
+          // console.log(cir)
+          let scaleMap = d3.scaleLinear().domain([0,300]).range([0,2.8])
+          if (d.name=="您的用電"){
+            svg.selectAll("g.face")
+              .attr("transform","translate("+(d.x-d.r/1.2)+" "+(d.y-d.r/2)+") scale("+scaleMap(d.r)+")")
+            
+          }
+        },
+
+        //同步mask
+        mask: function(d,i){
+          mask_cir.attrs({
+            cx: d.x,
+            cy: d.y,
+            r: d.r,
+            fill: '#fff'
+          })
+        }
       })
+
+      //設定臉
+      svg.selectAll("g.face")
+         .style("opacity",0)
+
+      var v1 = nodes.find(node=>node.name=="您的用電").value
+      var v2 = nodes.find(node=>node.name=="年平均用電").value
+
+      if (v1 < v2){
+        svg.select("#face_good").style("opacity","")
+      }else if (v1 < v2*1.5){
+        svg.select("#face_normal").style("opacity","")
+      }else{
+        svg.select("#face_bad").style("opacity","")
+      }
+
+
+
+      
+
+
 
       cir.transition().duration(100)
         .attr("fill", (d,i)=>(color(d.r))
@@ -267,10 +340,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass?indentedSyntax">
-svg.graph_bubble
-  circle
-    cursor: pointer
-  text
-    user-select: none
-
+svg.graph_end_compare
+  *
+    transform-box: initial
+  polygon,rect,path
+    fill: rgba(255,255,255,0.6)
+    transform-box: initial
 </style>
