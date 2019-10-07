@@ -58,7 +58,7 @@
                                   v-if="now_device.name=='照明'")
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
-              
+
               // 改成顯示目前填寫的平均值，若沒有電器則呈現0
               br
               p.device_watt 耗電功率平均: {{now_device.avg_consumption/1000 || 0}} kW   
@@ -87,6 +87,7 @@
                 @click="alter_id=alt_id") {{alt.consumption}}瓦 ({{alt.count}}個)
                 span.remove_alt_btn(@click = "removeAlt(now_device,alt_id)") &nbsp; x
               li.more(@click="add_other_spec(now_device)") +
+
           //電器消耗
           .form_block.contanier-fluid
             .form-group.row(v-if="now_device.type=='normal'")
@@ -162,6 +163,7 @@ import {mapState,mapMutations} from 'vuex'
 import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
 import Vue from 'vue'
+
 
 export default {
   name: 'page_room',

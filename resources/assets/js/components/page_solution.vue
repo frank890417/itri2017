@@ -209,20 +209,29 @@
                     thead
                       th.p-1(v-for="(d,key) in Object.entries(dataElecLoad[0]) ",
                             :style="{width: ['10%','35%','15%','40%'][key]}") {{d[0]}}
-                    tr(v-for="item in filteredDataElecLoad")
+                    
+                    tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
                       td(v-for="d in item", v-html="d")
                       td
                         i.fa.fa-link
+                  ul.page-sel
+                    li(v-for="(page,pageId) in getChunk(filteredDataElecLoad)",
+                       @click="nowElecLoadPage = pageId",
+                       :class="{active: pageId==nowElecLoadPage }") {{pageId+1}}
                 .col-sm-6(v-if="dataElecTest")
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead
                       th.p-1(v-for="(d,key) in Object.entries(dataElecTest[0])",
                             :style="{width: ['10%','30%','30%','40%'][key]}") {{d[0]}}
-                    tr(v-for="item in filteredDataElecTest")
+                    tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
                       td(v-for="d in item", v-html="d")
                       td
                         i.fa.fa-link
+                  ul.page-sel
+                    li(v-for="(page,pageId) in getChunk(filteredDataElecTest)",
+                       @click="nowElecTestPage = pageId",
+                       :class="{active: pageId==nowElecTestPage}") {{pageId+1}}
                   
 </template>
 
@@ -255,7 +264,9 @@ export default {
       advice_index: 1,
       scrl_start_watch: false,
       compare_data: [],
-      searchElecKeyword: ""
+      searchElecKeyword: "",
+      nowElecTestPage: 0,
+      nowElecLoadPage: 0
       //- distributionData: [
       //-   {
       //-     name: "bathroom",
@@ -507,8 +518,13 @@ export default {
       result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
       return result
     }
+
   },
   methods: {
+    getChunk(arr){
+      return _.chunk(arr,6)
+    },
+
     filterArrByWord(arr, key){
       let useKey = key.replace("台","臺")
       return (arr || []).filter(obj=>JSON.stringify(obj).indexOf(useKey)!=-1 )
@@ -553,6 +569,12 @@ export default {
       } else {
         return "#"
       }
+    }
+  },
+  watch: {
+    searchElecKeyword(){
+      this.nowElecTestPage = 0
+      this.nowElecLoadPage = 0
     }
   }
 }
