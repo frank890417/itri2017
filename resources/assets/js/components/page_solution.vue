@@ -213,7 +213,8 @@
                     tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
                       td(v-for="d in item", v-html="d")
                       td
-                        i.fa.fa-link
+                        a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
+                          i.fa.fa-link
                   ul.page-sel
                     li(v-for="(page,pageId) in getChunk(filteredDataElecLoad)",
                        @click="nowElecLoadPage = pageId",
@@ -227,7 +228,8 @@
                     tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
                       td(v-for="d in item", v-html="d")
                       td
-                        i.fa.fa-link
+                        a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
+                          i.fa.fa-link
                   ul.page-sel
                     li(v-for="(page,pageId) in getChunk(filteredDataElecTest)",
                        @click="nowElecTestPage = pageId",
