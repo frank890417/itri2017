@@ -250,7 +250,7 @@ export default {
           let scaleMap = d3.scaleLinear().domain([0,300]).range([0,2.8])
           if (d.name=="您的用電"){
             svg.selectAll("g.face")
-              .attr("transform","translate("+(d.x-d.r/1.2)+" "+(d.y-d.r/2)+") scale("+scaleMap(d.r)+")")
+              .attr("transform","translate("+(d.x-d.r/1.1)+" "+(d.y-d.r/2)+") scale("+scaleMap(d.r)+")")
             
           }
         },
