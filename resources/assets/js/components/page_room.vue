@@ -59,8 +59,11 @@
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
               
-              p.device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
-              p.device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
+              // 改成顯示目前填寫的平均值，若沒有電器則呈現0
+              br
+              p.device_watt 耗電功率平均: {{now_device.avg_consumption/1000 || 0}} kW   
+              //- p.device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
+              //- p.device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
               //- img
 
           //電器選取清單
@@ -269,11 +272,13 @@ export default {
       if (this.now_device_id==-1) return null;
 
       let now_device = this.filter_device[this.now_device_id]
-      let avg_consumption = [now_device].concat(now_device.alter_specs).map(obj=>({
+      let avg_consumption_list = [now_device].concat(now_device.alter_specs).map(obj=>({
         count: obj.count,
         consumption: obj.consumption
       }))
-      now_device.avg_consumption = avg_consumption
+      let total_device_count = avg_consumption_list.map(o=>o.count).reduce((a,b)=>(a+b),0)
+
+      now_device.avg_consumption = avg_consumption_list.reduce((total,obj)=>( total+obj.count*obj.consumption) ,0)/total_device_count
       
       return this.filter_device[this.now_device_id];
 

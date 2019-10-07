@@ -10056,14 +10056,6 @@ svg:not(.gauge) * {
   bottom: 10px;
 }
 
-.section_room .device_watt:before {
-  content: "平均: ";
-}
-
-.section_room .device_watt:after {
-  content: "瓦/小時";
-}
-
 .section_room .btn_group {
   display: flex;
   width: 100%;
