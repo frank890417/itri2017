@@ -9573,14 +9573,14 @@ svg:not(.gauge) * {
   height: 100vh;
 }
 
-.section_index .col-sm-4 {
-  padding-top: 45vh;
+.section_index .col-sm-3 {
+  padding-top: 40vh;
 }
 
 .section_index .scene {
   position: absolute;
-  width: 80vw;
-  right: -40vw;
+  width: 70vw;
+  right: -20vw;
   top: -10vw;
   mix-blend-mode: color-burn;
   pointer-events: none;

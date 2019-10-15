@@ -29,7 +29,7 @@
       section.section_index
         .container
           .row
-            .col-sm-4.text-right
+            .col-sm-3.text-right
               img(src="/img/thunder.svg" width=45)
               h4 Comsumption of daily life
               h1 家庭電器用電
@@ -39,11 +39,11 @@
               br
               button.btn.btn-lg(@click="scroll_to_about(); $ga.event('explore', 'click')") 前往探索
               //.lang 中文     ENG
-            .col-sm-8
+            .col-sm-9
               .consumption_pointer
                 .pointer_el
               h2 Consumption<br>of Daily <br>Electricity
-              img.scene(src="/img/場景/Kitchen2.png")
+              video.scene(src="/video/2019_10_13_kitchen_OVERVIEW_ren1012_1.mp4" autoplay muted loop)
         ul
           li(v-for="track in HowlObjs",
              @click="toggleTrack(track)") 
