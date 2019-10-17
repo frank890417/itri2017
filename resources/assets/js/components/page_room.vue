@@ -61,7 +61,7 @@
 
               // 改成顯示目前填寫的平均值，若沒有電器則呈現0
               br
-              p.device_watt 耗電功率平均: {{now_device.avg_consumption/1000 || 0}} kW   
+              p.device_watt 用電度數: {{now_device.device_consumption || 0}} (度/年)   
               //- p.device_watt(v-if="!isNaN(now_device.consumption) && now_device.consumption>0") {{now_device.consumption}}
               //- p.device_watt(v-if="(isNaN(now_device.consumption) || now_device.consumption=='') && now_device.default_consumption!=-1") {{now_device.default_consumption}}
               //- img
