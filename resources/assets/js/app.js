@@ -28,6 +28,7 @@ softscroll.init()
 
 window.store=store
 
+
 new Vue({
   el: '#app',
   i18n: vue_i18n.i18n,

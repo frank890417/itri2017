@@ -165,6 +165,7 @@ export default {
       this.$set(this,"embed_section",JSON.parse(res.data.content));
       console.log("embed Data Loaded!", this.embed_section)
     })
+    this.$store.dispatch('load_avg_house_data')
     window.send_user_data=this.send_user_data
 
     

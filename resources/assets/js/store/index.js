@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {avg_data} from '../2019_avg_house_data.js'
+import axios from 'axios'
 import {dataElecLoad,dataElecTest} from '../2019_fixing_panel_data.js'
 const uuidv4 = require('uuid/v4');
 Vue.use(Vuex)
@@ -34,6 +35,9 @@ const store = new Vuex.Store({
     dataElecTest
   },
   mutations: {
+    set_avg_house_data(state,value){
+      state.avg_house_data=value
+    },
     set_music_enable(state,value){
       state.music_enabled = value
     },
@@ -83,6 +87,12 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    load_avg_house_data(context){
+      axios.get("/api/page/compareavg").then((res)=>{
+        context.commit("set_avg_house_data",JSON.parse(res.data.content).avg_house_data)
+        console.log("avg house data Loaded!", context.state.avg_house_data)
+      })
+    },
     send_user_data(context){
       var user_data = context.state.devices
         .filter(o=>o.device_consumption!=0)

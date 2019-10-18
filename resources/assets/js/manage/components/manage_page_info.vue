@@ -21,6 +21,16 @@ section.manage_comparedevice.container-fluid
               el-button.mt-3.w100(@click="savePageData(nowEditingPage)",
                        type="danger") 儲存資料變更
 
+            .col-sm-8(v-show="nowEditingPage && nowEditingPage.title=='compareavg'")
+              .import-buttons
+                h3.mr-3 匯入csv比較資料
+                label 僅能包含 判定優先順序, 居住地區, 人口數, 坪數, 住宅類型, 年平均用電度數六個欄位之csv檔案，utf-8編碼
+                label 上傳完畢之後請按"儲存資料變更"
+                br
+                input#dealCsv(type="file", accept=".csv")
+              br
+              br
+
             .col-sm-8(v-if="nowEditingPage && nowEditingPage.title=='embedsection'")
               h3 嵌入區塊設定
               br
@@ -46,19 +56,61 @@ section.manage_comparedevice.container-fluid
 
 
 <script>
-// require styles
-// import 'quill/dist/quill.core.css'
-// import 'quill/dist/quill.snow.css'
-// import 'quill/dist/quill.bubble.css'
+import csv from 'csvtojson'
 import axios from 'axios'
 import { VueEditor ,Quill } from 'vue2-editor'
 
 
-
-export default {
+export default { 
   mounted(){
     var container = document.getElementById("jsoneditor");
     this.editor = new JSONEditor(container);
+
+    //csv reader
+    let _this = this
+    let input = document.getElementById('dealCsv');
+    
+    input.addEventListener('change', function() {
+
+      if (this.files && this.files[0]) {
+
+          var myFile = this.files[0];
+          var reader = new FileReader();
+          
+          reader.addEventListener('load', function (e) {
+              
+              let csvdata = e.target.result; 
+              console.log(csvdata)
+              csv({
+                noheader: true,
+                output: "csv"
+              })
+              .fromString(csvdata)
+              .then((csvRow)=>{
+                let headers = csvRow[0]
+                let contents = csvRow.slice(1)
+                let combinedData = contents.map(content=>{
+                  let row = {}
+                  for(var i=0;i<headers.length;i++){
+                    row[headers[i]]=content[i]
+                  }
+                  return row
+                })
+                console.log(combinedData)
+                let updatePageData = {
+                  avg_house_data: combinedData
+                }
+                _this.$set(_this.nowEditingPage,"content",updatePageData)
+                _this.editor.set(updatePageData);
+                _this.editor.expandAll();
+                
+              }) 
+              // parseCsv.getParsecsvdata(csvdata); // calling function for parse csv data 
+          });
+          
+          reader.readAsText(myFile);
+      }
+    });
   },
   methods:{
     updateJsonEditor(){
@@ -87,7 +139,8 @@ export default {
     getSectionTitle(key){
       let list = {
         comparedevice: "比較電器",
-        embedsection: "嵌入區塊"
+        embedsection: "嵌入區塊",
+        compareavg: "地區平均比較"
       }
       return list[key] || key
     },
