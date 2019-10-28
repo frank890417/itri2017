@@ -174,7 +174,7 @@ export default {
 
     setInterval(()=>{
       this.dollar+=5
-    },2500)
+    },2000)
 
 
 
