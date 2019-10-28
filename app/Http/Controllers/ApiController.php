@@ -118,11 +118,11 @@ class ApiController extends Controller
     }
 
     public function getElecContracter(){
-      return DB::table('pb301')->get();;
+      return DB::table('pb301')->select("id","公司行號名稱","等級","地址")->get();;
     }
 
     public function getElecMaintenance(){
-      return DB::table('pb302')->get();;
+      return DB::table('pb302')->select("id","公司行號名稱","登記維護範圍","地址")->get();;
     }
 
 	public function userdetails_by_users_id($users_id){
