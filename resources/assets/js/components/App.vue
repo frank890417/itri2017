@@ -40,6 +40,9 @@
               button.btn.btn-lg(@click="scroll_to_about(); $ga.event('explore', 'click')") 前往探索
               //.lang 中文     ENG
             .col-sm-9
+              .box-money
+                h1.animated ${{ dollar }}
+                h5.ml-2.animated.fadeOutUp(:key="dollar") +$5
               .consumption_pointer
                 .pointer_el
               h2 Consumption<br>of Daily <br>Electricity
@@ -143,7 +146,8 @@ export default {
 
       },
       nowSection: "",
-      HowlObjs: []
+      HowlObjs: [],
+        dollar: 0
     }
   },
   components: {
@@ -168,7 +172,9 @@ export default {
     this.$store.dispatch('load_avg_house_data')
     window.send_user_data=this.send_user_data
 
-    
+    setInterval(()=>{
+      this.dollar+=5
+    },5000)
 
 
 

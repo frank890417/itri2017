@@ -9590,6 +9590,15 @@ svg:not(.gauge) * {
   display: inline-block;
 }
 
+.section_index .box-money {
+  display: flex;
+  align-items: flex-end;
+}
+
+.section_index .box-money span {
+  padding-bottom: 10px;
+}
+
 .section_index h4 {
   font-size: 16px;
   letter-spacing: 1px;
