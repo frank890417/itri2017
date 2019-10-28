@@ -53,9 +53,12 @@
             .form-group
               .device_info
                 .eng {{now_device.english_name}}
-                h3 {{now_device.name}}
+                h3 {{now_device.name}} 
                   button_moreinfo(:msg="'請選擇房間主要光源'",
                                   v-if="now_device.name=='照明'")
+
+                  button_moreinfo(msg="年耗電度數(以額定冷氣能力值、<br>CSPF值與冷氣運轉率計算)，<br>實際耗電度數將依使用情況有所差異",
+                                  v-if="now_device.name=='冷氣機'")
 
               img.device_pic(:src="'/img/電器/icon_'+now_device.name+'.svg'")
 
@@ -91,9 +94,10 @@
           //電器消耗
           .form_block.contanier-fluid
             .form-group.row(v-if="now_device.type=='normal'")
-              .col-xs-4
-                label 電器瓦數
-              .col-xs-8(v-if="now_device_profile")
+              .col-md-5.col-xs-4
+                label(v-if="now_device.name=='冷氣機'") 額定冷氣能力
+                label(v-else) 電器瓦數
+              .col-md-7.col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model.number="now_device_profile.consumption")
             .form-group.row(v-if="now_device.type=='light'")
               .col-xs-12
@@ -106,9 +110,9 @@
               .col-xs-8
                 input(type="number",v-model="now_device_profile.consumption")
             .form-group.row
-              .col-xs-4
+              .col-md-5.col-xs-4
                 label 數量
-              .col-xs-8
+              .col-md-7.col-xs-8
                 .btn_with_side
                   span.input_side_btn(@click="now_device_profile.count-=now_device_profile.count>0?1:0") -
                   input(type="number" ,v-model="now_device_profile.count")

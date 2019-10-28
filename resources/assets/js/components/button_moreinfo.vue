@@ -1,6 +1,6 @@
 <template lang="pug">
   i.fa.fa-info-circle
-    .explain {{msg}}
+    .explain(v-html="msg")
 
 </template>
 
@@ -47,6 +47,7 @@ i.fa.fa-info-circle
     transoform: translate(-50%,-50%)
     pointer-events: none
     transition: 0.3s
+    line-height: 1.4
 
   &:hover
     .explain

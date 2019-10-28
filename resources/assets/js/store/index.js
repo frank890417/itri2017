@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {avg_data} from '../2019_avg_house_data.js'
 import axios from 'axios'
-import {dataElecLoad,dataElecTest} from '../2019_fixing_panel_data.js'
+// import {dataElecLoad,dataElecTest} from '../2019_fixing_panel_data.js'
 const uuidv4 = require('uuid/v4');
 Vue.use(Vuex)
 
@@ -31,8 +31,8 @@ const store = new Vuex.Store({
     debug: false,
     music_enabled: true,
     avg_house_data: avg_data,
-    dataElecLoad,
-    dataElecTest
+    // dataElecLoad,
+    // dataElecTest
   },
   mutations: {
     set_avg_house_data(state,value){

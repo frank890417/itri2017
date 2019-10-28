@@ -112,9 +112,19 @@ class ApiController extends Controller
       return $result; 
     }
 
+
     public function userdetails(){
       return Userdetail::all();
     }
+
+    public function getElecContracter(){
+      return DB::table('pb301')->get();;
+    }
+
+    public function getElecMaintenance(){
+      return DB::table('pb302')->get();;
+    }
+
 	public function userdetails_by_users_id($users_id){
       return Userdetail::where("users_id",$users_id)->orderBy('updated_at', 'desc')->first();
     }

@@ -205,34 +205,34 @@
                   input(placeholder="輸入搜尋關鍵字",
                         v-model="searchElecKeyword")
               .row
-                .col-sm-6(v-if="dataElecLoad")
+                .col-sm-6
                   h3 合格電器承裝業
                   table.table_fix_company
                     thead
-                      th.p-1(v-for="(d,key) in Object.entries(dataElecLoad[0]) ",
+                      th.p-1(v-for="(d,key) in ['序號','公司行號名稱','等級','地址'] ",
                             :style="{width: ['10%','35%','15%','40%'][key]}") {{d[0]}}
                     
                     tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
-                      td(v-for="d in item", v-html="d")
+                      td(v-for="key in ['id','公司行號名稱','等級','地址']", v-html="item[key]")
                       td
                         a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
                           i.fa.fa-link
-                  ul.page-sel
+                  ul.page-sel.mt-2
                     li(v-for="(page,pageId) in getChunk(filteredDataElecLoad)",
                        @click="nowElecLoadPage = pageId",
                        :class="{active: pageId==nowElecLoadPage }") {{pageId+1}}
-                .col-sm-6(v-if="dataElecTest")
+                .col-sm-6
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead
-                      th.p-1(v-for="(d,key) in Object.entries(dataElecTest[0])",
+                      th.p-1(v-for="(d,key) in ['序號','公司行號名稱','登記維護範圍','地址']",
                             :style="{width: ['10%','30%','30%','40%'][key]}") {{d[0]}}
                     tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
-                      td(v-for="d in item", v-html="d")
+                      td(v-for="key in ['id','公司行號名稱','登記維護範圍','地址']", v-html="item[key]")
                       td
                         a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
                           i.fa.fa-link
-                  ul.page-sel
+                  ul.page-sel.mt-2
                     li(v-for="(page,pageId) in getChunk(filteredDataElecTest)",
                        @click="nowElecTestPage = pageId",
                        :class="{active: pageId==nowElecTestPage}") {{pageId+1}}
@@ -271,7 +271,11 @@ export default {
       compare_data: [],
       searchElecKeyword: "",
       nowElecTestPage: 0,
-      nowElecLoadPage: 0
+      nowElecLoadPage: 0,
+
+      co_elec_contracter: [],
+      co_elec_maintenance: []
+
       //- distributionData: [
       //-   {
       //-     name: "bathroom",
@@ -310,7 +314,19 @@ export default {
     axios.get("/api/page/comparedevice").then((res)=>{
       this.$set(this,"compare_data",JSON.parse(res.data.content).compare_data);
       console.log("Compare Data Loaded!", this.compare_data)
+    }) 
+
+    axios.get("/api/co_elec/contracter").then((res)=>{
+      console.log("elec contracter", res.data)
+      this.$set(this,"co_elec_contracter",res.data);
+
     })
+    axios.get("/api/co_elec/maintenance").then((res)=>{
+      console.log("elec maintenance", res.data)
+      this.$set(this,"co_elec_maintenance",res.data);
+    })
+
+
   },
   watch: {
     now_place_id(){
@@ -339,8 +355,7 @@ export default {
   },
   computed: {
     
-    ...mapState(['device_result', 'devices','scrollTop','site_width',
-                 'dataElecLoad', 'dataElecTest']),
+    ...mapState(['device_result', 'devices','scrollTop','site_width']),
 
     advice_brands(){
       return this.advice_devices
@@ -515,18 +530,18 @@ export default {
     },
 
     filteredDataElecLoad(){
-      let result =  this.filterArrByWord(this.dataElecLoad || [],this.searchElecKeyword)
+      let result =  this.filterArrByWord(this.co_elec_contracter || [],this.searchElecKeyword)
       if (this.searchElecKeyword!=""){
-        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword+")","g"),"<span class=highlight>$1</span>"))
+        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
       result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
       result = result.slice().sort((a,b)=>a['等級']>b['等級']?-1:1)
       return result
     },
     filteredDataElecTest(){
-      let result =  this.filterArrByWord(this.dataElecTest || [],this.searchElecKeyword)
+      let result =  this.filterArrByWord(this.co_elec_maintenance || [],this.searchElecKeyword)
       if (this.searchElecKeyword!=""){
-        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword+")","g"),"<span class=highlight>$1</span>"))
+        result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
       result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
       return result

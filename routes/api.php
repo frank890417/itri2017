@@ -19,6 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::get('email-verification/error', 'Auth\RegisterController@getVerificationError')->name('email-verification.error');
 //Route::get('email-verification/check/{token}', 'Auth\RegisterController@getVerification')->name('email-verification.check');
 
+
+Route::get("/co_elec/contracter","ApiController@getElecContracter");
+Route::get("/co_elec/maintenance","ApiController@getElecMaintenance");
+
 Route::get("/devicelog/uuid","DevicelogController@show_uuid_group");
 Route::get("/devicelog/{uuid}","DevicelogController@show_uuid_group_detail");
 Route::resource("devices","DeviceController");
