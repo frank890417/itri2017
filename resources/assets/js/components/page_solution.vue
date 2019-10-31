@@ -154,7 +154,7 @@
                     
                     a.small(:href="get_cata_link(advice_device)", target="_blank") 
                       span.small (查看更多推薦電器)
-                      span.small.mr-5 資料更新日期：2019/03/17
+                      span.small.mr-5 資料更新日期：2019/10/30
                   input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
                   hr
                   .recommend_list.row
@@ -170,7 +170,7 @@
                           
                           div(v-if="ad_dev.infos")
                             //- div {{info}}
-                            div(v-for="info in parse_json(ad_dev.infos)")
+                            div(v-for="info in processAdviceDeviceInfo(parse_json(ad_dev.infos)) ")
                               span {{info.label}}： 
                               span {{info.content}}                        
                           div(v-else)
@@ -210,7 +210,7 @@
                   table.table_fix_company
                     thead
                       th.p-1(v-for="(d,key) in ['序號','公司行號名稱','等級','地址'] ",
-                            :style="{width: ['10%','35%','15%','40%'][key]}") {{d[0]}}
+                            :style="{width: ['10%','35%','15%','40%'][key]}") {{d}}
                     
                     tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
                       td(v-for="key in ['id','company_name','level','address']", v-html="item[key]")
@@ -231,7 +231,7 @@
                   table.table_fix_company
                     thead
                       th.p-1(v-for="(d,key) in ['序號','公司行號名稱','登記維護範圍','地址']",
-                            :style="{width: ['10%','30%','30%','40%'][key]}") {{d[0]}}
+                            :style="{width: ['10%','30%','30%','40%'][key]}") {{d}}
                     tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
                       td(v-for="key in ['id','company_name','maintenance_area','address']", v-html="item[key]")
                       td
@@ -286,7 +286,12 @@ export default {
       elecLoadStartPage: 0,
 
       co_elec_contracter: [],
-      co_elec_maintenance: []
+      co_elec_maintenance: [],
+
+      filterAdviceLabels: ["標示義務公司","產品型號","額定冷氣能力","年耗電量","內桶容量","品牌","產品型號","電鍋型式",
+      "有效內容積","標示熱效率","名稱","熱水系統貯水桶容量標示值","每24小時標準化備用損失Est,24(標示登錄值)",
+      "廠牌名","規格(吋)","待機消耗電力(W)","型號","核心處理器CPU",
+      "實測典型能源消耗量(kWh)","額定容量(Kg)","實測全流程耗電量(kWh/kg)"]
 
       //- distributionData: [
       //-   {
@@ -319,9 +324,7 @@ export default {
     axios.get('/api/advices').then((res)=>{
       this.advices=res.data
     })
-    axios.get('/api/advice_devices/'+this.advice_device).then((res)=>{
-      this.advice_devices=res.data
-    })
+    this.getAdviceDeviceData()
     //載入電器比較資料
     axios.get("/api/page/comparedevice").then((res)=>{
       this.$set(this,"compare_data",JSON.parse(res.data.content).compare_data);
@@ -356,9 +359,7 @@ export default {
       }
     },
     advice_device(){
-      axios.get("/api/advice_devices/"+this.advice_device).then((res)=>{
-        this.advice_devices=res.data
-      })
+      this.getAdviceDeviceData()
     },
     searchElecKeyword(){
       this.nowElecTestPage = 0
@@ -563,6 +564,14 @@ export default {
 
   },
   methods: {
+
+    processAdviceDeviceInfo(obj){
+      let useData = obj.filter(item=>this.filterAdviceLabels.indexOf(item.label)!=-1)
+      
+     
+      return useData
+    },
+
     getChunk(arr){
       return _.chunk(arr,6)
     },
@@ -611,6 +620,19 @@ export default {
       } else {
         return "#"
       }
+    },
+
+    //取得該種類推薦電器
+    getAdviceDeviceData(){
+      let convertList = {
+        "冷氣機": "冷氣",
+        "冰箱": "電冰箱",
+        "電視": "電視機",
+        "電腦": "桌上型電腦",
+      }
+      axios.get('/api/advice_devices/'+ (convertList[this.advice_device] || this.advice_device) ).then((res)=>{
+        this.advice_devices=res.data
+      })
     }
   }
 }
