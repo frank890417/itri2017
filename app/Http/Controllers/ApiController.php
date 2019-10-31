@@ -30,7 +30,7 @@ class ApiController extends Controller
     }
 
     public function get_advice_devices_by_cata($cata){
-      return AdviceDevice::where("cata",$cata)->limit(2000)->get();
+      return AdviceDevice::where("cata",$cata)->limit(2000)->orderBy("consumption",'asc')->orderBy("size",'asc')->get();
     }
 
     public function get_device_cata_summary(){
