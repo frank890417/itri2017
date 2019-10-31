@@ -213,14 +213,19 @@
                             :style="{width: ['10%','35%','15%','40%'][key]}") {{d[0]}}
                     
                     tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
-                      td(v-for="key in ['id','公司行號名稱','等級','地址']", v-html="item[key]")
+                      td(v-for="key in ['id','company_name','level','address']", v-html="item[key]")
                       td
                         a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2
+                    li.curp
+                      i.fa.fa-angle-left(@click="elecLoadStartPage-=10",v-if="elecLoadStartPage>0")
                     li(v-for="(page,pageId) in getChunk(filteredDataElecLoad)",
                        @click="nowElecLoadPage = pageId",
-                       :class="{active: pageId==nowElecLoadPage }") {{pageId+1}}
+                       :class="{active: pageId==nowElecLoadPage }",
+                       v-if="pageId>=elecLoadStartPage && pageId<=elecLoadStartPage+10") {{pageId+1}}
+                    li.curp
+                      i.fa.fa-angle-right(@click="elecLoadStartPage+=10", v-if="elecLoadStartPage<getChunk(filteredDataElecLoad).length-10")
                 .col-sm-6
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
@@ -228,14 +233,19 @@
                       th.p-1(v-for="(d,key) in ['序號','公司行號名稱','登記維護範圍','地址']",
                             :style="{width: ['10%','30%','30%','40%'][key]}") {{d[0]}}
                     tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
-                      td(v-for="key in ['id','公司行號名稱','登記維護範圍','地址']", v-html="item[key]")
+                      td(v-for="key in ['id','company_name','maintenance_area','address']", v-html="item[key]")
                       td
                         a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2
+                    li.curp
+                      i.fa.fa-angle-left(@click="elecTestStartPage-=10", v-if="elecTestStartPage>0")
                     li(v-for="(page,pageId) in getChunk(filteredDataElecTest)",
                        @click="nowElecTestPage = pageId",
-                       :class="{active: pageId==nowElecTestPage}") {{pageId+1}}
+                       :class="{active: pageId==nowElecTestPage}",
+                       v-if="pageId>=elecTestStartPage && pageId<=elecTestStartPage+10") {{pageId+1}}
+                    li.curp
+                      i.fa.fa-angle-right(@click="elecTestStartPage+=10", v-if="elecTestStartPage<getChunk(filteredDataElecTest).length-10")
                   
 </template>
 
@@ -272,6 +282,8 @@ export default {
       searchElecKeyword: "",
       nowElecTestPage: 0,
       nowElecLoadPage: 0,
+      elecTestStartPage: 0,
+      elecLoadStartPage: 0,
 
       co_elec_contracter: [],
       co_elec_maintenance: []
@@ -351,6 +363,8 @@ export default {
     searchElecKeyword(){
       this.nowElecTestPage = 0
       this.nowElecLoadPage = 0
+      this.elecLoadStartPage = 0
+      this.elecTestStartPage = 0
     }
   },
   computed: {
@@ -534,8 +548,8 @@ export default {
       if (this.searchElecKeyword!=""){
         result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
-      result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
-      result = result.slice().sort((a,b)=>a['等級']>b['等級']?-1:1)
+      result = result.slice()
+      result = result.slice().sort((a,b)=>a['level']>b['level']?-1:1)
       return result
     },
     filteredDataElecTest(){
@@ -543,7 +557,7 @@ export default {
       if (this.searchElecKeyword!=""){
         result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
-      result = result.slice().sort((a,b)=>a['地址'].slice(0,6)>b['地址'].slice(0,6)?-1:1)
+      result = result.slice()
       return result
     }
 
