@@ -25,7 +25,7 @@
         .card.col-sm-8
           .card_inner.minheight
             .card_title
-              h5 Comsumption Percentage
+              h5 Disaggregation of Home Electricity Use
               h2 用電比例視覺化({{now_room.name}})
             .btn-bubble-all(@click="now_place_id=-1", v-if="now_place_id!=-1") 
               i.fa.fa-angle-left.mr-4
