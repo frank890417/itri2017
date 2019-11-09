@@ -210,12 +210,13 @@
                   table.table_fix_company
                     thead
                       th.p-1(v-for="(d,key) in ['序號','公司行號名稱','等級','地址'] ",
-                            :style="{width: ['10%','35%','15%','40%'][key]}") {{d}}
+                            :style="{width: ['8%','35%','15%','40%'][key]}") {{d}}
                     
-                    tr(v-for="item in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
-                      td(v-for="key in ['id','company_name','level','address']", v-html="item[key]")
+                    tr(v-for="(item,itemIndex) in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
+                      td {{ itemIndex  + nowElecLoadPage*compPageResultLimit + 1 }}
+                      td(v-for="key in ['company_name','level','address']", v-html="item[key]")
                       td
-                        a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
+                        a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2
                     li.curp
@@ -231,11 +232,12 @@
                   table.table_fix_company
                     thead
                       th.p-1(v-for="(d,key) in ['序號','公司行號名稱','登記維護範圍','地址']",
-                            :style="{width: ['10%','30%','30%','40%'][key]}") {{d}}
-                    tr(v-for="item in getChunk(filteredDataElecTest)[nowElecTestPage]")
-                      td(v-for="key in ['id','company_name','maintenance_area','address']", v-html="item[key]")
+                            :style="{width: ['8%','30%','30%','40%'][key]}") {{d}}
+                    tr(v-for="(item,itemIndex) in getChunk(filteredDataElecTest)[nowElecTestPage]")
+                      td {{ itemIndex + nowElecTestPage*compPageResultLimit  + 1 }}
+                      td(v-for="key in ['company_name','maintenance_area','address']", v-html="item[key]")
                       td
-                        a(:href="`https://www.google.com/maps/place/${item['地址']}`", target="_blank")
+                        a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2
                     li.curp
@@ -284,6 +286,7 @@ export default {
       nowElecLoadPage: 0,
       elecTestStartPage: 0,
       elecLoadStartPage: 0,
+      compPageResultLimit: 6,
 
       co_elec_contracter: [],
       co_elec_maintenance: [],
@@ -546,18 +549,21 @@ export default {
 
     filteredDataElecLoad(){
       let result =  this.filterArrByWord(this.co_elec_contracter || [],this.searchElecKeyword)
+      let resultAddresses = result.map(r=>r.address)
       if (this.searchElecKeyword!=""){
         result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
-      result = result.slice()
+      result.forEach((r,rid)=>r.originalAddress = resultAddresses[rid])
       result = result.slice().sort((a,b)=>a['level']>b['level']?-1:1)
       return result
     },
     filteredDataElecTest(){
       let result =  this.filterArrByWord(this.co_elec_maintenance || [],this.searchElecKeyword)
+      let resultAddresses = result.map(r=>r.address)
       if (this.searchElecKeyword!=""){
         result = JSON.parse(JSON.stringify(result).replace(new RegExp("(" +this.searchElecKeyword.replace("台","臺")+")","g"),"<span class=highlight>$1</span>"))
       }
+      result.forEach((r,rid)=>r.originalAddress = resultAddresses[rid])
       result = result.slice()
       return result
     }
@@ -573,7 +579,7 @@ export default {
     },
 
     getChunk(arr){
-      return _.chunk(arr,6)
+      return _.chunk(arr,this.compPageResultLimit)
     },
 
     filterArrByWord(arr, key){
@@ -629,6 +635,7 @@ export default {
         "冰箱": "電冰箱",
         "電視": "電視機",
         "電腦": "桌上型電腦",
+        "電腦（桌上型）": "桌上型電腦",
       }
       axios.get('/api/advice_devices/'+ (convertList[this.advice_device] || this.advice_device) ).then((res)=>{
         this.advice_devices=res.data
