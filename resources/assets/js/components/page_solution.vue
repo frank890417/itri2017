@@ -154,7 +154,7 @@
                     
                     a.small(:href="get_cata_link(advice_device)", target="_blank") 
                       span.small (查看更多推薦電器)
-                      span.small.mr-5 資料更新日期：2019/10/30
+                      span.small.mr-5 資料更新日期：{{ lastUpdateDate }}
                   input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
                   hr
                   .recommend_list.row
@@ -279,9 +279,12 @@ export default {
       recommend_advice_filter: "",
       filter_brand: "",
       advice_index: 1,
+      lastUpdateDate: "",
       scrl_start_watch: false,
       compare_data: [],
       searchElecKeyword: "",
+
+      //分頁功能
       nowElecTestPage: 0,
       nowElecLoadPage: 0,
       elecTestStartPage: 0,
@@ -332,6 +335,11 @@ export default {
     axios.get("/api/page/comparedevice").then((res)=>{
       this.$set(this,"compare_data",JSON.parse(res.data.content).compare_data);
       console.log("Compare Data Loaded!", this.compare_data)
+    }) 
+    //載入爬蟲最後更新時間
+    axios.get("/api/page/datacrawler").then((res)=>{
+      this.$set(this,"lastUpdateDate",JSON.parse(res.data.content).update_date);
+      //- console.log("Compare Data Loaded!", this.compare_data)
     }) 
 
     axios.get("/api/co_elec/contracter").then((res)=>{
