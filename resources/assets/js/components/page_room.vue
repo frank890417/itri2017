@@ -33,7 +33,7 @@
           //電表跟數字
           .consumption_pointer
             .pointer_el(:style="{'animation-duration': get_duration(total.room_sum[now_place_id].value)+'s'}")
-            p {{total.room_sum[now_place_id].value}} 度/年
+            p {{ (total.room_sum[now_place_id].value).toFixed(1) }} 度/年
           
           //場景圖片
           .room_img

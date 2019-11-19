@@ -8,7 +8,7 @@
             span.chinese 診斷結果
             button_moreinfo(:msg="'計算結果僅供參考，詳細情況仍有許多變因'")
       .row
-        .col-sm-4
+        .col-sm-4.col-print-4
           h4 我的用電是平均的...
           h1.mul_text {{ ( user_degree_final/ total_avg_year ).toFixed(1) }}倍
             button_moreinfo(:msg="'依據您目前填寫的資料與全國日均用電量相較結果'")
@@ -18,10 +18,10 @@
                      :init="scrl_start_watch")
           
 
-        .card.col-sm-8.text-left(v-if='monster')
+        .card.col-sm-8.col-print-12.text-left(v-if='monster')
           .card_inner(style="margin-top: 10px")
             .row
-              .col-md-5
+              .col-md-5.col-sm-6.col-print-4
                 h2 我家的用電量分析結果
                   img.ml-2(src="/img/thunder.svg" style="width: 30px;display: inline-block")
                 ul.box-info(v-if="(general_infos.county && general_infos.county!=-1) || general_infos.building_type || general_infos.member_count || general_infos.area_size")
@@ -69,7 +69,7 @@
                       pre {{avg_standard}}
         
         
-              .col-md-7
+              .col-md-7.col-sm-6.col-print-8
                 graph_end_compare.svg-graph-compare(use_power="0.4",
                                   use_mul="3",
                                   use_unit="度" ,
@@ -81,20 +81,23 @@
             .row
               .col-md-12
                 .row
-                  .col-md-5
+                  .col-sm-5.col-print-4
                     h3 我家的吃電怪獸是….{{monster.name}}
                     img(width=300,:src="'/img/電器/icon_'+monster.name+'.svg'")
-                  .col-md-7
+                  .col-sm-7.col-print-8
                     br
                     br
                     h4 處方箋小語：
                     p {{monster.sharetext}}<br>老舊的電器平均會消耗超過兩倍的電，如果用新型有節能標章的電器，甚至可以有省電三倍以上的效能！
-              .col-md-12
+              .col-md-12.print-hide
                 .btn_group_inline
+                
                   button.btn.active(@click="share_result();$ga.event('share', 'click')") 分享我的吃電怪獸
                     i.fa.fa-share-alt
                   button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','back')") 返回診斷
                     i.fa.fa-undo
+                  button.btn(@click="print_page();$ga.event('print', 'click')") 列印結果
+                    i.fa.fa-print
                   a.btn(href="http://www.energypark.org.tw/", target="_blank",@click="$ga.event('external_link', 'click','http://www.energypark.org.tw/')") 節約能源園區
                     i.fa.fa-external-link
 </template>
@@ -260,6 +263,9 @@ export default {
     ...mapMutations(['set_loading','toggle_result']),
     share_result(){
       window.open('https://www.facebook.com/sharer/sharer.php?u='+"http://saving.energypark.org.tw")
+    },
+    print_page(){
+      window.print();
     }
   },
   watch:{

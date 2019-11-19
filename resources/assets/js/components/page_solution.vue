@@ -22,7 +22,7 @@
               span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)<br>
             p(v-else)
               span (資料填寫不足！無法計算)
-        .card.col-sm-8
+        .card.col-sm-8.col-print-12
           .card_inner.minheight
             .card_title
               h5 Disaggregation of Home Electricity Use
@@ -45,7 +45,7 @@
                  @click="now_place_id=id" ,
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
 
-        .card.col-sm-12.card_distribution
+        .card.col-sm-12.card_distribution.print-new-page
           .card_inner
             .card_title
               h5 Comsumption Distribution
@@ -79,7 +79,7 @@
                 div {{ dev }}  
 
         .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show  && compare_result.better")
-          .card_inner.yellow
+          .card_inner.yellow.print-hide
             .container-fluid
               .row
                 //.col-12
@@ -145,7 +145,7 @@
                               h3 {{cataname}}
                             li(v-for="(adv,id) in get_advices(advice_device,cataname)") {{id+1}}. {{adv.content}}                  
               
-        .card.col-sm-12(v-if="advice_devices.length>0")
+        .card.col-sm-12(v-if="advice_devices.length>0").print-new-page
           .card_inner.nominh
             .container-fluid
               .row
@@ -158,13 +158,13 @@
                   input(v-model="recommend_advice_filter", placeholder="輸入搜尋關鍵字...")
                   hr
                   .recommend_list.row
-                    .col-sm-3
+                    .col-sm-3.print-hide
                       img(:src="'/img/電器/icon_'+advice_device+'.svg'")
                       //select.brandlist(v-model="filter_brand")
                         option(value="") 全部品牌
                         option(v-for="brand in advice_brands", :value="brand") {{brand}}
-                    .col-sm-9.row
-                      .col-sm-6.option(v-for="ad_dev in filter_value(advice_devices.slice(advice_index*6,advice_index*6+6),recommend_advice_filter,filter_brand)")
+                    .col-sm-9.row.col-print-12
+                      .col-sm-6.option.col-print-6(v-for="ad_dev in filter_value(advice_devices.slice(advice_index*6,advice_index*6+6),recommend_advice_filter,filter_brand)")
                         .info
                           //- pre {{ad_dev}}
                           
@@ -182,7 +182,7 @@
                           //a(:href="ad_dev.link" target="_blank" title="點擊前往網站")
                             i.fa.fa-external-link
                         hr
-                      .col-sm-12
+                      .col-sm-12.print-hide
                         .nav_btns
                           .btn.btn_pre(@click="advice_index -=advice_index>0?1:0") 
                             i.fa.fa-angle-left 
@@ -205,7 +205,7 @@
                   input(placeholder="輸入搜尋關鍵字",
                         v-model="searchElecKeyword")
               .row
-                .col-sm-6
+                .col-sm-6.col-print-12
                   h3 合格電器承裝業
                   table.table_fix_company
                     thead
@@ -227,7 +227,7 @@
                        v-if="pageId>=elecLoadStartPage && pageId<=elecLoadStartPage+10") {{pageId+1}}
                     li.curp
                       i.fa.fa-angle-right(@click="elecLoadStartPage+=10", v-if="elecLoadStartPage<getChunk(filteredDataElecLoad).length-10")
-                .col-sm-6
+                .col-sm-6.col-print-12
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead

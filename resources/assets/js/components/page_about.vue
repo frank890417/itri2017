@@ -18,14 +18,14 @@
           graph_bar.about_bar(:init="scrl_control_bar",:highlight="highlight")
       .row 
         .col-sm-7
-          graph_bubble(:size="{width: page_width<800?page_width:800, height: 550, use_mul: 20}",:datas="bubble_data")
+          graph_bubble#testgraph(:size="{width: page_width<800?page_width:800, height: 550, use_mul: 20}",:datas="bubble_data")
         .col-sm-5.text-left
           h2(v-html="$t('page_about.section_2.title')") 
           p(v-html="$t('page_about.section_2.content')") 
           .btn_group_inline
             button.btn(@click="mode='nsummer';$ga.event('switch_summer', 'click', 'not_summer')", :class="{active: mode=='nsummer'}") 全年 
             button.btn(@click="mode='summer';$ga.event('switch_summer', 'click', 'summer')", :class="{active: mode=='summer'}") 夏月
-
+        
 </template>
 
 <script>
@@ -33,6 +33,7 @@
 import graph_bubble from './graph_bubble'
 import graph_bar from './graph_bar'
 import {mapState,mapMutations} from 'vuex' 
+import domtoimage from 'dom-to-image';
 
 export default {
   name: 'page_about',
@@ -76,6 +77,8 @@ export default {
       }
 
     }
+  },
+  methods:{
   }
 }
 </script>

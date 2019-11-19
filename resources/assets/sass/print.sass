@@ -4,26 +4,59 @@
   
 @media print
 
-
+  body
+    margin: 0
   section
     background-color: white !important
+    page-break-before: always
+  .container
+    max-width: 100% !important
+    width: 100% !important
 
-  #divMember, .section_index, .section_about, .section_diagnose, .section_room, .section_share, .section_embed, .section_show_result, footer,.card_prescription_menu
+  #divMember, .section_index, .section_about, .section_room, .section_embed, .section_show_result, footer,.card_prescription_menu, .icon-music
     display: none
 
-  h1,h2,h3,h4,h5,h6
-    margin: 1em !important
+  // h1,h2,h3,h4,h5,h6
+  //   margin: 10px
+    // margin: 1em !important
   section
     padding: 0 !important
     margin: 0 !important
+    border-top: solid 1px black
+  .print-new-page
+    page-break-before: always
+  h1.title
+    font-size: 4rem !important
 
-
+  @for $i from 1 through 12
+    [class^=col-sm]
+      float: left
+    .col-sm-#{$i}
+      width: 99%/12*$i !important
   
-
-
+  @for $i from 1 through 12
+    [class^=col-print]
+      float: left
+    .col-print-#{$i}
+      width: 99%/12*$i !important
+  
+  .mb-3
+    margin-bottom: 10px !important
+  .row_cata
+    padding: 0
+  .card_inner
+    padding: 0 !important
+  .graph_bubble
+    width: 100% !important
+    position: relative !important
+    left: 0
+    top: 0
     // section *
     // display: none
   .section_print
     display: block
-  .print-visible
-    display: block
+  .print-hide
+    display: none
+
+  .btn.active, li.active
+    border: solid 2px black !important

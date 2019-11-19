@@ -1,5 +1,6 @@
 <template lang="pug">
-  .page(:class='{full_nav_open:full_nav_open}')
+  .page(:class='{full_nav_open:full_nav_open}')#printarea
+    
     //navbar.navbar.navbar-fixed-top.nav
       ul
         li 首頁
@@ -19,7 +20,7 @@
         i.fa.fa-volume-up
       span(v-else) 
         i.fa.fa-volume-off
-
+      //button(@click="printPage") 測試列印
     
       //- h1 {{nowSection}}
     transition(name="fade")
@@ -133,7 +134,9 @@ import page_print from './page_print'
 import full_nav from './full_nav'
 import axios from 'axios'
 import {mapState,mapMutations} from 'vuex' 
-import {Howl, Howler} from 'howler';
+import {Howl, Howler} from 'howler'; 
+import html2pdf from 'html2pdf.js'
+import html2canvas from 'html2canvas'
 
 export default {
   data () {
@@ -255,7 +258,14 @@ export default {
     },
     testv(){
 	  alert("testv clicked:"+ store.state.member_data.email);
-	},
+  },
+    printPage(){
+      var element = document.getElementById("printarea");
+      html2pdf(element);
+      // html2canvas(element).then(function(canvas) {
+      //   document.body.appendChild(canvas);
+      // });
+    }
   }
 }
 </script>
