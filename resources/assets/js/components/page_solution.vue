@@ -5,9 +5,9 @@
       .row.text-left
         .col-sm-12
           h1.title SOLUTION
-            br.visible-xs
+            //- br.visible-xs
             span.chinese 節能處方箋
-    .full_width_bar.yellow
+    .full_width_bar.yellow.print-hide
     .container
       .row.text-left
         .card.col-sm-4.col-print-12
@@ -51,7 +51,7 @@
                  @click="now_place_id=id" ,
                  :class="{active: id==now_place_id}") {{rooms[id].name}} {{r.percentage}}%
 
-        .card.col-sm-12.card_distribution.print-new-page
+        .card.col-sm-12.card_distribution
           .card_inner
             .card_title
               h5 Comsumption Distribution

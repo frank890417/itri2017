@@ -10602,6 +10602,9 @@ footer a:first-child {
   .print-new-page {
     page-break-before: always;
   }
+  .print-same-page {
+    page-break-before: auto;
+  }
   h1.title {
     font-size: 4rem !important;
   }
@@ -10731,6 +10734,9 @@ footer a:first-child {
   }
   .minheight {
     min-height: auto !important;
+  }
+  .mul_text {
+    font-size: 40px !important;
   }
 }
 

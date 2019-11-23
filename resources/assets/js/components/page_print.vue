@@ -1,5 +1,5 @@
 <template lang="pug">
-section.section_print  
+section.section_print.print-same-page
   .container
     .row
       .col-sm-12
