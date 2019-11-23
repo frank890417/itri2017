@@ -10576,13 +10576,16 @@ footer a:first-child {
   display: none;
 }
 
+.print-show {
+  display: none;
+}
+
 @media print {
   body {
     margin: 0;
   }
   section {
     background-color: white !important;
-    page-break-before: always;
   }
   .container {
     max-width: 100% !important;
@@ -10602,148 +10605,100 @@ footer a:first-child {
   h1.title {
     font-size: 4rem !important;
   }
-  [class^=col-sm] {
-    float: left;
-  }
   .col-sm-1 {
-    width: 8.25% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 8.25% !important;
   }
   .col-sm-2 {
-    width: 16.5% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 16.5% !important;
   }
   .col-sm-3 {
-    width: 24.75% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 24.75% !important;
   }
   .col-sm-4 {
-    width: 33% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 33% !important;
   }
   .col-sm-5 {
-    width: 41.25% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 41.25% !important;
   }
   .col-sm-6 {
-    width: 49.5% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 49.5% !important;
   }
   .col-sm-7 {
-    width: 57.75% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 57.75% !important;
   }
   .col-sm-8 {
-    width: 66% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 66% !important;
   }
   .col-sm-9 {
-    width: 74.25% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 74.25% !important;
   }
   .col-sm-10 {
-    width: 82.5% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 82.5% !important;
   }
   .col-sm-11 {
-    width: 90.75% !important;
-  }
-  [class^=col-sm] {
     float: left;
+    width: 90.75% !important;
   }
   .col-sm-12 {
+    float: left;
     width: 99% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-1 {
+    float: left;
     width: 8.25% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-2 {
+    float: left;
     width: 16.5% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-3 {
+    float: left;
     width: 24.75% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-4 {
+    float: left;
     width: 33% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-5 {
+    float: left;
     width: 41.25% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-6 {
+    float: left;
     width: 49.5% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-7 {
+    float: left;
     width: 57.75% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-8 {
+    float: left;
     width: 66% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-9 {
+    float: left;
     width: 74.25% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-10 {
+    float: left;
     width: 82.5% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-11 {
+    float: left;
     width: 90.75% !important;
   }
-  [class^=col-print] {
-    float: left;
-  }
   .col-print-12 {
+    float: left;
     width: 99% !important;
   }
   .mb-3 {
@@ -10754,6 +10709,7 @@ footer a:first-child {
   }
   .card_inner {
     padding: 0 !important;
+    overflow: initial;
   }
   .graph_bubble {
     width: 100% !important;
@@ -10762,13 +10718,19 @@ footer a:first-child {
     top: 0;
   }
   .section_print {
-    display: block;
+    display: block !important;
   }
   .print-hide {
-    display: none;
+    display: none !important;
+  }
+  .print-show {
+    display: block !important;
   }
   .btn.active, li.active {
     border: solid 2px black !important;
+  }
+  .minheight {
+    min-height: auto !important;
   }
 }
 

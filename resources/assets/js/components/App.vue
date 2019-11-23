@@ -1,6 +1,6 @@
 <template lang="pug">
   .page(:class='{full_nav_open:full_nav_open}')#printarea
-    
+    h1.print-show 家庭電器用電家計簿診斷報告
     //navbar.navbar.navbar-fixed-top.nav
       ul
         li 首頁
@@ -53,9 +53,10 @@
              @click="toggleTrack(track)") 
             span {{ track.name }}  | 
             span {{ track.playing?'開啟':'關閉' }}
-      page_print.print-visible
+      
       page_about
       page_diagnose
+      page_print.print-visible
       page_room
       section.section_show_result(v-if="!show_result")
         button.btn(@click="toggle_result();$ga.event('caculate_result', 'click','start');") 

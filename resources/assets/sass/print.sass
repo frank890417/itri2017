@@ -2,13 +2,15 @@
 .section_print
   display: none
   
+.print-show
+  display: none
 @media print
 
   body
     margin: 0
   section
     background-color: white !important
-    page-break-before: always
+    // page-break-before: always
   .container
     max-width: 100% !important
     width: 100% !important
@@ -29,15 +31,13 @@
     font-size: 4rem !important
 
   @for $i from 1 through 12
-    [class^=col-sm]
-      float: left
     .col-sm-#{$i}
+      float: left
       width: 99%/12*$i !important
   
-  @for $i from 1 through 12
-    [class^=col-print]
-      float: left
+  @for $i from 1 through 12      
     .col-print-#{$i}
+      float: left
       width: 99%/12*$i !important
   
   .mb-3
@@ -46,6 +46,7 @@
     padding: 0
   .card_inner
     padding: 0 !important
+    overflow: initial
   .graph_bubble
     width: 100% !important
     position: relative !important
@@ -54,9 +55,15 @@
     // section *
     // display: none
   .section_print
-    display: block
+    display: block !important
   .print-hide
-    display: none
+    display: none !important
+  .print-show
+
+    display: block !important
 
   .btn.active, li.active
     border: solid 2px black !important
+
+  .minheight
+    min-height: auto !important

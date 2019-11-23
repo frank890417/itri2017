@@ -368,7 +368,7 @@ export default {
         
           //將計算是記錄下來    
           log_list.push({
-            content: profile.count+" x "+device.name 
+            content: device.name +" x "+ profile.count 
                     + " ("+["很少","偶爾","經常","頻繁"][profile.option]+")"
                     +(is_old?"(老舊*1.5)":"") + " : " +profile_consumption+" (度 / 年)",
             place: device.place,

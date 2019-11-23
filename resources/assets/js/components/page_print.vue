@@ -3,18 +3,21 @@ section.section_print
   .container
     .row
       .col-sm-12
-        h1 使用者診斷分析列印頁面
+        
         //- br
         //- h4 1. 使用者基本資料
         //-   pre {{general_infos}}
         //-   pre 房間坪數：{{house_area_size}}
 
-        h3 2. 電器填寫內容(條列式清單)
-        div(v-for="(room,roomName) in logListGroup")
-          h4 位置：{{roomName}} 
-
-          ol(v-for="log in room")
-            li {{log.content}}
+        h3 電器填寫內容
+      .row
+        .col-sm-6(v-for="(roomGroup) in [logListGroupArray.slice(0,2),logListGroupArray.slice(2)]")
+          div(v-for="(roomData) in roomGroup")
+            //- pre {{roomGroup}}
+            h4 {{roomData[0]}} 
+            ol
+              li(v-for="log in roomData[1]") {{log.content}}
+            hr
             
         //- h4 3. 電器用電度數分析
           //- pre {{device_result}}
@@ -54,6 +57,9 @@ export default {
       return _.groupBy(
               (this.device_result.log||[]).filter(item=>item.place!='all'),
               (item)=>item.place)
+    },
+    logListGroupArray(){
+      return Object.entries(this.logListGroup)
     }
   },
   

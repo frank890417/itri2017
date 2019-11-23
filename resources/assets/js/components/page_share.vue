@@ -17,7 +17,7 @@
                      :degree="user_degree_final",
                      :init="scrl_start_watch")
           
-
+        div
         .card.col-sm-8.col-print-12.text-left(v-if='monster')
           .card_inner(style="margin-top: 10px")
             .row

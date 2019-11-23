@@ -1,5 +1,6 @@
 <template lang="pug">
   section.section_solution.grey
+    .print-new-page
     .container
       .row.text-left
         .col-sm-12
@@ -9,19 +10,24 @@
     .full_width_bar.yellow
     .container
       .row.text-left
-        .card.col-sm-4
+        .card.col-sm-4.col-print-12
           .card_inner.minheight
-            h5 {{now_room.eng}}
-            h2 {{now_room.name}}
-            //.btn_group_inline
-              button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
-            img(:src="'/img/場景/'+now_room.pic+'2.png'", style="width: 100%")
-            h4 耗電：{{now_consumption}}度
-            h4 {{now_room.name}} 吃電怪獸排名：
-            p(v-if="sorted_devices.length>0")
-              span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)<br>
-            p(v-else)
-              span (資料填寫不足！無法計算)
+            .col-print-4
+              h5 {{now_room.eng}}
+              h2 {{now_room.name}}
+              //.btn_group_inline
+                button.btn(v-for="(room,rid) in rooms",:class="{active:rid==now_place_id}",@click="now_place_id=rid") {{room.name}}
+              img(:src="'/img/場景/'+now_room.pic+'2.png'", style="width: 100%")
+            .col-print-8
+              br.print-show
+              br.print-show
+              br.print-show
+              h4 耗電：{{now_consumption}}度
+              h4 {{now_room.name}} 吃電怪獸排名：
+              p(v-if="sorted_devices.length>0")
+                span(v-for="(sdevice,sid) in sorted_devices") {{sid+1}}. {{sdevice.name}} ({{sdevice.device_consumption}}度)<br>
+              p(v-else)
+                span (資料填寫不足！無法計算)
         .card.col-sm-8.col-print-12
           .card_inner.minheight
             .card_title
@@ -205,7 +211,7 @@
                   input(placeholder="輸入搜尋關鍵字",
                         v-model="searchElecKeyword")
               .row
-                .col-sm-6.col-print-12
+                .col-sm-6.col-print-12.print-new-page
                   h3 合格電器承裝業
                   table.table_fix_company
                     thead
@@ -218,7 +224,7 @@
                       td
                         a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
-                  ul.page-sel.mt-2
+                  ul.page-sel.mt-2.print-hide
                     li.curp
                       i.fa.fa-angle-left(@click="elecLoadStartPage-=10",v-if="elecLoadStartPage>0")
                     li(v-for="(page,pageId) in getChunk(filteredDataElecLoad)",
@@ -227,7 +233,7 @@
                        v-if="pageId>=elecLoadStartPage && pageId<=elecLoadStartPage+10") {{pageId+1}}
                     li.curp
                       i.fa.fa-angle-right(@click="elecLoadStartPage+=10", v-if="elecLoadStartPage<getChunk(filteredDataElecLoad).length-10")
-                .col-sm-6.col-print-12
+                .col-sm-6.col-print-12.print-new-page
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead
@@ -239,7 +245,7 @@
                       td
                         a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
-                  ul.page-sel.mt-2
+                  ul.page-sel.mt-2.print-hide
                     li.curp
                       i.fa.fa-angle-left(@click="elecTestStartPage-=10", v-if="elecTestStartPage>0")
                     li(v-for="(page,pageId) in getChunk(filteredDataElecTest)",
