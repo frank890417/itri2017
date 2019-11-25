@@ -1,5 +1,5 @@
 <template lang="pug">
-  i.fa.fa-info-circle
+  i.fa.fa-info-circle.print-hide
     .explain(v-html="msg")
 
 </template>
