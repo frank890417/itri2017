@@ -10601,6 +10601,7 @@ footer a:first-child {
   }
   .print-new-page {
     page-break-before: always;
+    float: none !important;
   }
   .print-same-page {
     page-break-before: auto;
@@ -10611,98 +10612,125 @@ footer a:first-child {
   .col-sm-1 {
     float: left;
     width: 8.25% !important;
+    vertical-align: top;
   }
   .col-sm-2 {
     float: left;
     width: 16.5% !important;
+    vertical-align: top;
   }
   .col-sm-3 {
     float: left;
     width: 24.75% !important;
+    vertical-align: top;
   }
   .col-sm-4 {
     float: left;
     width: 33% !important;
+    vertical-align: top;
   }
   .col-sm-5 {
     float: left;
     width: 41.25% !important;
+    vertical-align: top;
   }
   .col-sm-6 {
     float: left;
     width: 49.5% !important;
+    vertical-align: top;
   }
   .col-sm-7 {
     float: left;
     width: 57.75% !important;
+    vertical-align: top;
   }
   .col-sm-8 {
     float: left;
     width: 66% !important;
+    vertical-align: top;
   }
   .col-sm-9 {
     float: left;
     width: 74.25% !important;
+    vertical-align: top;
   }
   .col-sm-10 {
     float: left;
     width: 82.5% !important;
+    vertical-align: top;
   }
   .col-sm-11 {
     float: left;
     width: 90.75% !important;
+    vertical-align: top;
   }
   .col-sm-12 {
     float: left;
     width: 99% !important;
+    vertical-align: top;
   }
   .col-print-1 {
     float: left;
     width: 8.25% !important;
+    vertical-align: top;
   }
   .col-print-2 {
     float: left;
     width: 16.5% !important;
+    vertical-align: top;
   }
   .col-print-3 {
     float: left;
     width: 24.75% !important;
+    vertical-align: top;
   }
   .col-print-4 {
     float: left;
     width: 33% !important;
+    vertical-align: top;
   }
   .col-print-5 {
     float: left;
     width: 41.25% !important;
+    vertical-align: top;
   }
   .col-print-6 {
     float: left;
     width: 49.5% !important;
+    vertical-align: top;
   }
   .col-print-7 {
     float: left;
     width: 57.75% !important;
+    vertical-align: top;
   }
   .col-print-8 {
     float: left;
     width: 66% !important;
+    vertical-align: top;
   }
   .col-print-9 {
     float: left;
     width: 74.25% !important;
+    vertical-align: top;
   }
   .col-print-10 {
     float: left;
     width: 82.5% !important;
+    vertical-align: top;
   }
   .col-print-11 {
     float: left;
     width: 90.75% !important;
+    vertical-align: top;
   }
   .col-print-12 {
     float: left;
     width: 99% !important;
+    vertical-align: top;
+  }
+  .print-no-float {
+    float: none !important;
   }
   .mb-3 {
     margin-bottom: 10px !important;
@@ -10736,7 +10764,7 @@ footer a:first-child {
     min-height: auto !important;
   }
   .mul_text {
-    font-size: 40px !important;
+    font-size: 35px !important;
   }
 }
 

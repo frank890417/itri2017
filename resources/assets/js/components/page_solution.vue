@@ -198,12 +198,12 @@
                             span.mr-3 下6筆
                             i.fa.fa-angle-right
 
-        .card.col-sm-12
-          .card_inner.nominh.yellow
-            .container-fluid
+        .card.col-sm-12.print-no-float
+          .card_inner.nominh.yellow.print-no-float
+            .container-fluid.print-no-float
               .row
-                .col-sm-12
-                  h2.mb-5
+                .col-sm-12.print-new-page.print-no-float
+                  h2.mb-5.print-new-page.print-no-float
                     i.fa.fa-hammer
                     span 用電設備承裝/維護站
               .row
@@ -211,7 +211,7 @@
                   input(placeholder="輸入搜尋關鍵字",
                         v-model="searchElecKeyword")
               .row
-                .col-sm-6.col-print-12.print-new-page
+                .col-sm-6.col-print-12
                   h3 合格電器承裝業
                   table.table_fix_company
                     thead
@@ -221,7 +221,7 @@
                     tr(v-for="(item,itemIndex) in getChunk(filteredDataElecLoad)[nowElecLoadPage]")
                       td {{ itemIndex  + nowElecLoadPage*compPageResultLimit + 1 }}
                       td(v-for="key in ['company_name','level','address']", v-html="item[key]")
-                      td
+                      td.print-hide
                         a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2.print-hide
@@ -233,7 +233,7 @@
                        v-if="pageId>=elecLoadStartPage && pageId<=elecLoadStartPage+10") {{pageId+1}}
                     li.curp
                       i.fa.fa-angle-right(@click="elecLoadStartPage+=10", v-if="elecLoadStartPage<getChunk(filteredDataElecLoad).length-10")
-                .col-sm-6.col-print-12.print-new-page
+                .col-sm-6.col-print-12
                   h3 合格用電設備檢查維護業
                   table.table_fix_company
                     thead
@@ -242,7 +242,7 @@
                     tr(v-for="(item,itemIndex) in getChunk(filteredDataElecTest)[nowElecTestPage]")
                       td {{ itemIndex + nowElecTestPage*compPageResultLimit  + 1 }}
                       td(v-for="key in ['company_name','maintenance_area','address']", v-html="item[key]")
-                      td
+                      td.print-hide
                         a(:href="`https://www.google.com/maps/place/${item.originalAddress}`", target="_blank")
                           i.fa.fa-link
                   ul.page-sel.mt-2.print-hide

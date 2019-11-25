@@ -2,9 +2,9 @@
   section.section_share.yellow
     .container
       .row
-        .col-sm-12
-          h1.title RESULT
-            br.visible-xs
+        .col-sm-12.print-no-float.print-new-page
+          h1.title
+            span.print-heide RESULT
             span.chinese 診斷結果
             button_moreinfo(:msg="'計算結果僅供參考，詳細情況仍有許多變因'")
       .row
@@ -18,10 +18,10 @@
                      :init="scrl_start_watch")
           
         div
-        .card.col-sm-8.col-print-12.text-left(v-if='monster')
+        .card.col-sm-8.col-print-8.text-left
           .card_inner(style="margin-top: 10px")
             .row
-              .col-md-5.col-sm-6.col-print-4
+              .col-md-5.col-sm-6.col-print-12
                 h2 我家的用電量分析結果
                   img.ml-2(src="/img/thunder.svg" style="width: 30px;display: inline-block")
                 ul.box-info(v-if="(general_infos.county && general_infos.county!=-1) || general_infos.building_type || general_infos.member_count || general_infos.area_size")
@@ -69,15 +69,15 @@
                       pre {{avg_standard}}
         
         
-              .col-md-7.col-sm-6.col-print-8
+              .col-md-7.col-sm-6.col-print-12
                 graph_end_compare.svg-graph-compare(use_power="0.4",
                                   use_mul="3",
                                   use_unit="度" ,
 
                                   :datas="[{name: '您的用電', value: user_degree_final*(scrl_start_watch?1:0)},{name: '年平均用電', value: avg_standard.result['年平均用電度數']*(scrl_start_watch?1:0)}]")
         
-        
-          .card_inner(style="margin-top: 30px")
+        .card.col-sm-8.col-print-12.text-left
+          .card_inner(style="margin-top: 30px" v-if='monster')
             .row
               .col-md-12
                 .row
