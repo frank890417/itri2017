@@ -76,7 +76,22 @@
             .row
               .col-sm-12
                 div(v-html="embed_section.content")
-  
+      div.print-show
+        .container
+          .row
+            .col-12
+              p 
+                b 更多節能資訊請參考:
+                br
+                a(href=" https://www.moeaboe.gov.tw/",target="_blank") 經濟部能源局
+                br
+                a(href=" https://www.energypark.org.tw/",target="_blank") 節約能源園區
+                br
+                a(href="https://ranking.energylabel.org.tw/",target="_blank") 能源效率分級標示
+                br
+                a(href=" https://www.energylabel.org.tw/",target="_blank") 節能標章
+                br
+                a(href=" https://www.eims-energy.tw/ecem_public/",target="_blank") 合格電器承裝檢驗維護業查詢
       footer
         .container
           .row

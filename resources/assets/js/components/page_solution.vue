@@ -85,13 +85,13 @@
                 div {{ dev }}  
 
         .card.col-sm-12.card_prescription(v-if="current_compare_data && current_compare_data.show_compare && compare_result.show  && compare_result.better")
-          .card_inner.yellow.print-hide
+          .card_inner.yellow
             .container-fluid
               .row
                 //.col-12
                   pre {{current_compare_device_filled_data}}
 
-                .col-sm-3
+                .col-sm-3.col-print-3
                   h5 Device Comparison
                   h2.mb-1 電器耗電比較
                     br
@@ -100,10 +100,12 @@
                                         :key="advice_device+'_img'")
                   span.text-center 以上試算數據僅供參考，需以產品實際使用情況為準。
 
-                .col-sm-9.col_watches(v-if="current_compare_data" )
+                .col-sm-9.col-print-9.col_watches(v-if="current_compare_data" )
                   .row
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-3(:key="advice_device+'_cur_data'")
                       h5.block_title.watch_title 您的電器
+                      br.print-show
+                      span.print-show
                       div
                       .p-5.pb-0
                         .watch.mb-4
@@ -116,6 +118,7 @@
                         
                     .col-sm-6.block_watch.fadeIn.animated.ani-delay-6(:key="advice_device+'_compare_data'")
                       h5.block_title.watch_title.mr-4 節能電器
+                      br.print-show
                       span.ml-3 {{ current_compare_data.notes }} 
                       //- span.extra_multiplier {{ current_compare_data.multiplier_info?`(${current_compare_data.multiplier_info} - x${current_compare_data.multiplier})`:"" }}
                       div
@@ -151,7 +154,7 @@
                               h3 {{cataname}}
                             li(v-for="(adv,id) in get_advices(advice_device,cataname)") {{id+1}}. {{adv.content}}                  
               
-        .card.col-sm-12(v-if="advice_devices.length>0").print-new-page
+        .card.col-sm-12(v-if="advice_devices.length>0").print-new-page.print-hide
           .card_inner.nominh
             .container-fluid
               .row
@@ -198,7 +201,7 @@
                             span.mr-3 下6筆
                             i.fa.fa-angle-right
 
-        .card.col-sm-12.print-no-float
+        .card.col-sm-12.print-no-float.print-hide
           .card_inner.nominh.yellow.print-no-float
             .container-fluid.print-no-float
               .row

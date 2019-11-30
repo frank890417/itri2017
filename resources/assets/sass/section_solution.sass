@@ -99,6 +99,13 @@
       width: 100%
       //height: 500px
 
+
+      .comp-watch g.pointer
+        transform-origin: 90% 50%
+      
+      svg:not(.gauge)
+        transform-box: fill-box
+      
     
 
     &.yellow
@@ -172,7 +179,8 @@
 
     .crown
       position: absolute
-      width: 75px
+      max-width: 75px
+      width: 6vw
       left: -20px
       top: -20px
       transform: rotate(-17deg)

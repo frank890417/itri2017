@@ -10204,6 +10204,14 @@ svg:not(.gauge) * {
   width: 100%;
 }
 
+.section_solution .card_inner svg:not(.gauge) .comp-watch g.pointer {
+  transform-origin: 90% 50%;
+}
+
+.section_solution .card_inner svg:not(.gauge) svg:not(.gauge) {
+  transform-box: fill-box;
+}
+
 .section_solution .card_inner.yellow {
   background-color: #F5DA4E;
 }
@@ -10294,7 +10302,8 @@ svg:not(.gauge) * {
 
 .section_solution .col_watches .crown {
   position: absolute;
-  width: 75px;
+  max-width: 75px;
+  width: 6vw;
   left: -20px;
   top: -20px;
   transform: rotate(-17deg);
