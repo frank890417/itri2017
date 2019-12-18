@@ -98,7 +98,8 @@
                 label 坪數
                 .extent-border
               .col-md-7.col-xs-8(v-if="now_device_profile")
-                input(type="number",v-model.number="now_device_profile.area_size" )
+                input(type="number",v-model.number="now_device_profile.area_size",
+                      :disabled="now_device_profile.ac_power!=0" )
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
                 label 額定冷氣能力(kw)

@@ -9850,6 +9850,10 @@ svg:not(.gauge) * {
   border-top: none;
 }
 
+.section_room input[disabled] {
+  color: #ddd;
+}
+
 .section_room .btn_group_inline {
   border: none;
 }
