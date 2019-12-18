@@ -16,7 +16,7 @@ section.manage_room.container-fluid
         .panel-body
           //pre(v-html="now_device")
           //h3 {{now_device.name}}
-          .form-group.row(v-for="key in left_key_list",
+          .form-group.row(v-for="key in left_key_list.concat(now_device.type=='ac'?ac_key_list:[])",
                           v-if="!(hidden_attrs.indexOf(key)+1)")
             .col-sm-3
               label {{ translate_label(key) }}
@@ -28,6 +28,8 @@ section.manage_room.container-fluid
                 option(value="1") 偶爾
                 option(value="2") 經常
                 option(value="3") 頻繁
+
+
           .form-group
             .btn.btn-primary(@click='save_device_infos') 儲存推薦電器
     .col-sm-8
@@ -36,7 +38,7 @@ section.manage_room.container-fluid
         .panel-body
           //pre(v-html="now_device")
           //h3 {{now_device.name}}
-          .form-group.row(v-for="key in get_obj_keys(now_device,left_key_list)",
+          .form-group.row(v-for="key in get_obj_keys(now_device,left_key_list.concat(now_device.type=='ac'?ac_key_list:[]))",
                           v-if="!(hidden_attrs.indexOf(key)+1)")
             .col-sm-3
               label {{ translate_label(key) }}
@@ -72,7 +74,8 @@ export default {
       advice_devices: advice_devices.advice_devices,
       advice_catas: advice_devices.advice_catas,
       temp_zh: null,
-      left_key_list: ['name','place','count','english_name','default_consumption','default_freq_option']
+      left_key_list: ['name','place','count','english_name','default_consumption','default_freq_option'],
+      ac_key_list: ['default_area_size','default_ac_power','default_cspf']
     }
   },
   computed: {
@@ -131,6 +134,9 @@ export default {
         "year_options -> 年份",
         "old_condition -> 老舊條件",
         "default_freq_option -> 預設選項",
+        "default_area_size -> 預設坪數",
+        "default_ac_power -> 預設額定冷氣能力(kw)",
+        "default_cspf -> 預設CSPF值",
         
       ]
       translist = translist.map(o=>o.split(" -> "))

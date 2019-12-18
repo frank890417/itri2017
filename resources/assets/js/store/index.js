@@ -108,7 +108,11 @@ const store = new Vuex.Store({
             use_time: [o.rarely,o.occasionally,o.often,o.frequently][o.option],
             light_option: o.light_option,
             place_id: o.place_id,            
-            users_id: context.state.member_data.users_id ,            
+            users_id: context.state.member_data.users_id ,     
+            area_size: o.area_size,   
+            ac_power: o.ac_power,   
+            cspf: o.cspf
+
           }
         })
 

@@ -93,7 +93,24 @@
 
           //電器消耗
           .form_block.contanier-fluid
-            .form-group.row(v-if="now_device.type=='normal'")
+            .form-group.row(v-if="now_device.name=='冷氣機'")
+              .col-md-5.col-xs-4
+                label 坪數
+                .extent-border
+              .col-md-7.col-xs-8(v-if="now_device_profile")
+                input(type="number",v-model.number="now_device_profile.area_size" )
+            .form-group.row(v-if="now_device.name=='冷氣機'")
+              .col-md-5.col-xs-4
+                label 額定冷氣能力(kw)
+              .col-md-7.col-xs-8(v-if="now_device_profile")
+                input(type="number",v-model.number="now_device_profile.ac_power",
+                      placeholder="選填")
+            .form-group.row(v-if="now_device.name=='冷氣機'")
+              .col-md-5.col-xs-4
+                label CSPF值
+              .col-md-7.col-xs-8(v-if="now_device_profile")
+                input(type="number",v-model.number="now_device_profile.cspf"  min=0 max=71)
+            .form-group.row(v-else-if="now_device.type=='normal'")
               .col-md-5.col-xs-4
                 label(v-if="now_device.name=='冷氣機'") 額定冷氣能力
                 label(v-else) 電器瓦數
@@ -199,7 +216,10 @@ export default {
         obj.light_option=null
         obj.buy_time=""
         obj.alter_specs=[]
-        obj.consumption=obj.default_consumption     
+        obj.consumption=obj.default_consumption  
+        obj.area_size=obj.default_area_size   
+        obj.ac_power=obj.default_ac_power   
+        obj.cspf=obj.default_cspf      
         if (obj.type=="light"){
           obj.consumption=this.light_list[0].value
         }
@@ -342,6 +362,14 @@ export default {
             
           }if (device.type=="hotwater"){
             cump=1070;
+          }
+          if (device.type=="ac"){
+            if (profile.ac_power){
+              cump=profile.ac_power/(profile.cspf || 1);
+            }else{
+              cump=profile.area_size*0.15*3024/860/(profile.cspf || 1);
+            }
+            
           }
 
           //計算使用時間 ＊ 單位時間能耗

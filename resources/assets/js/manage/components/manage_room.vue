@@ -75,7 +75,10 @@ export default {
         'old_condition -> 老舊條件',
         'created_at -> 創建時間 | hide',
         'updated_at -> 更新時間 | hide',
-        "default_freq_option -> 預設選項",
+        "default_freq_option -> 預設頻率",
+        "default_area_size -> 預設坪數",
+        "default_ac_power -> 預設冷氣能力",
+        "default_cspf -> 預設cspf",
 
       ],
       now_select_device: "電視機",

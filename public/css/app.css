@@ -9770,6 +9770,16 @@ svg:not(.gauge) * {
   }
 }
 
+.section_room .extent-border {
+  border: solid 1px #999;
+  border-right: none;
+  height: 45px;
+  width: 10px;
+  position: absolute;
+  right: -5px;
+  top: 12px;
+}
+
 .section_room .dialog_edit_room {
   position: fixed;
   width: 100%;
