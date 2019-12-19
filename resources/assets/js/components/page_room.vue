@@ -99,12 +99,12 @@
                 .extent-border
               .col-md-7.col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model.number="now_device_profile.area_size",
-                      :disabled="now_device_profile.ac_power!=0" )
+                      :disabled="(now_device_profile.ac_power!=0 && now_device_profile.ac_power)?true:false" )
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
                 label 額定冷氣能力(kw)
               .col-md-7.col-xs-8(v-if="now_device_profile")
-                input(type="number",v-model.number="now_device_profile.ac_power",
+                input(type="number",v-model.number="now_device_ac_power_kw",
                       placeholder="選填")
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
@@ -288,6 +288,14 @@ export default {
     button_moreinfo
   },
   computed: {
+    now_device_ac_power_kw: {
+      get(){
+        return this.now_device_profile.ac_power/1000
+      },
+      set(value){
+        this.now_device_profile.ac_power=value*1000
+      }
+    },
     //目前房間的電器
     filter_device(){
       // console.log(this.devices.map(o=>o.place ));
@@ -368,7 +376,7 @@ export default {
             if (profile.ac_power){
               cump=profile.ac_power/(profile.cspf || 1);
             }else{
-              cump=profile.area_size*0.15*3024/860/(profile.cspf || 1);
+              cump=1000*profile.area_size*0.15*3024/860/(profile.cspf || 1);
             }
             
           }
