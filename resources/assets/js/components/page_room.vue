@@ -378,6 +378,7 @@ export default {
             }else{
               cump=1000*profile.area_size*0.15*3024/860/(profile.cspf || 1);
             }
+            profile.consumption= parseInt(cump)
             
           }
 
