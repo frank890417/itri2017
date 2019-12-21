@@ -103,6 +103,8 @@
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
                 label 額定冷氣能力(kW)
+                  button_moreinfo(:msg="`建議值：${acinfo.ac_power_min}~${acinfo.ac_power_max} kW`",
+                                  v-if="now_device.name=='冷氣機'")
               .col-md-7.col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model.number="now_device_ac_power_kw",
                       placeholder="選填")
@@ -186,10 +188,14 @@ import button_moreinfo from './button_moreinfo'
 import $ from 'jquery'
 import Vue from 'vue'
 
-
 export default {
   name: 'page_room',
-  mounted (){
+  mounted(){
+
+    axios.get("/api/page/acinfo").then((res)=>{
+      this.$set(this,"acinfo",JSON.parse(res.data.content));
+      console.log("ac info Data Loaded!", this.acinfo )
+    })
     // console.log("page room mounted.");
     //assign hash number for rooms
     this.rooms.forEach(room=>{
@@ -288,22 +294,43 @@ export default {
     button_moreinfo
   },
   computed: {
+    use_ac_space_mult(){
+      if (this.acinfo){
+        return this.acinfo.space_caculate_mult
+      }
+      return 0.15*3024/860
+    },
+    use_ac_power_range() {
+      if (this.acinfo){
+        
+        return {
+          max: this.acinfo.ac_power_max*1000,
+          min: this.acinfo.ac_power_min*1000,
+        }
+      }
+      return {
+        max: 71000,
+        min: 0
+      }
+    },
     now_device_ac_power_kw: {
       get(){
-        if (this.now_device_profile.ac_power>71000){
-          this.now_device_profile.ac_power=71000
+
+        if (this.now_device_profile.ac_power>this.use_ac_power_range.max){
+          this.now_device_profile.ac_power=this.use_ac_power_range.max
         }
-        if (this.now_device_profile.ac_power<0){
-          this.now_device_profile.ac_power=0
+        if (this.now_device_profile.ac_power<this.use_ac_power_range.min){
+          this.now_device_profile.ac_power=this.use_ac_power_range.min
         }
         return this.now_device_profile.ac_power/1000
       },
       set(value){
-        if (value>71000){
-          value=71000
+        console.log("ASDSDDSADSADSA",this.ac_power_max)
+        if (value>this.use_ac_power_range.max){
+          value=this.use_ac_power_range.max
         }
-        if (value<0){
-          value=0
+        if (value<this.use_ac_power_range.min){
+          value=this.use_ac_power_range.min
         }
 
         this.now_device_profile.ac_power=value*1000
@@ -389,7 +416,7 @@ export default {
             if (profile.ac_power){
               cump=profile.ac_power/(profile.cspf || 1);
             }else{
-              cump=1000*profile.area_size*0.15*3024/860/(profile.cspf || 1);
+              cump=1000*profile.area_size*this.use_ac_space_mult/(profile.cspf || 1);
             }
             profile.consumption= parseInt(cump)
             
@@ -447,7 +474,6 @@ export default {
         device.device_consumption = device.device_consumption || 0
       
       });
-    
 
       // // 處理預設照明
       // if (light_total==0){
@@ -637,6 +663,7 @@ export default {
       user_filled: false,
       alter_id: -1,
       show_edit_room: false,
+      acinfo: {},
       originDevicesData: [],
       light_list: [
         {

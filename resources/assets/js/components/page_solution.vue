@@ -134,7 +134,7 @@
                               v-if="compare_result.crown")
                       
             
-        .card.col-sm-12.card_prescription
+        .card.col-sm-12.card_prescription.print-new-page
           .card_inner.yellow
             .container-fluid
               .row

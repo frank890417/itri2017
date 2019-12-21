@@ -17,7 +17,7 @@ section.manage_comparedevice.container-fluid
               ul.list-group
                 li.list-group-item(v-for="page in pages",
                                    @click="setEditingPage(page)",
-                                   :class="{active: page===nowEditingPage}") {{ getSectionTitle(page.title) }}
+                                   :class="{active: page===nowEditingPage}") {{ getSectionTitle(page.title) }} ({{page.title}})
               el-button.mt-3.w100(@click="savePageData(nowEditingPage)",
                        type="danger") 儲存資料變更
 
@@ -46,7 +46,22 @@ section.manage_comparedevice.container-fluid
                         :useCustomImageHandler="true",
                         
                       )
-            .col-sm-8(v-show="!(nowEditingPage && nowEditingPage.title=='embedsection')",
+            .col-sm-8(v-if="nowEditingPage && nowEditingPage.title=='acinfo'")
+              h3 冷氣計算設定
+              br
+              p
+                h5 最大額定冷氣能力(kw) (ac_power_max)
+                input.form-control(v-model.number="nowEditingPage.content.ac_power_max")
+                h5 最小額定冷氣能力(kw) (ac_power_min)
+                input.form-control(v-model.number="nowEditingPage.content.ac_power_min")
+                h5 坪數加乘(space_caculate_mult)
+                input.form-control(v-model.number="nowEditingPage.content.space_caculate_mult")
+                h5 計算公式備註
+                textarea.form-control(v-model="nowEditingPage.content.ac_caculate_explain",
+                                      rows=6)
+
+
+            .col-sm-8(v-show="!(nowEditingPage && nowEditingPage.title=='embedsection') && !(nowEditingPage && nowEditingPage.title=='acinfo')",
                       @keyup="updateJsonEditor")
               #jsoneditor.mt-2
               // 
@@ -140,7 +155,9 @@ export default {
       let list = {
         comparedevice: "比較電器",
         embedsection: "嵌入區塊",
-        compareavg: "地區平均比較"
+        compareavg: "地區平均比較",
+        datacrawler: "爬蟲資訊",
+        acinfo: "冷氣計算設定"
       }
       return list[key] || key
     },
