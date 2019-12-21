@@ -102,7 +102,7 @@
                       :disabled="(now_device_profile.ac_power!=0 && now_device_profile.ac_power)?true:false" )
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
-                label 額定冷氣能力(kw)
+                label 額定冷氣能力(kW)
               .col-md-7.col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model.number="now_device_ac_power_kw",
                       placeholder="選填")
@@ -290,9 +290,22 @@ export default {
   computed: {
     now_device_ac_power_kw: {
       get(){
+        if (this.now_device_profile.ac_power>71000){
+          this.now_device_profile.ac_power=71000
+        }
+        if (this.now_device_profile.ac_power<0){
+          this.now_device_profile.ac_power=0
+        }
         return this.now_device_profile.ac_power/1000
       },
       set(value){
+        if (value>71000){
+          value=71000
+        }
+        if (value<0){
+          value=0
+        }
+
         this.now_device_profile.ac_power=value*1000
       }
     },
@@ -436,24 +449,24 @@ export default {
       });
     
 
-      //處理預設照明
-      if (light_total==0){
-        log_list.push(
-        {
-          content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
-          place: "all"
-        });
-        total_c+=this.house_area_size*12;
-        room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
-        room_sum.forEach((value,i)=>{
-        log_list.push(
-          {
-            content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
-            place: this.rooms[i].name,
-            hash: this.rooms[i].hash
-          });
-       })
-      }
+      // // 處理預設照明
+      // if (light_total==0){
+      //   log_list.push(
+      //   {
+      //     content: "無填寫預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+      //     place: "all"
+      //   });
+      //   total_c+=this.house_area_size*12;
+      //   room_sum=room_sum.map((value,i)=>value+this.house_area_size*12*this.rooms[i].default_percentage);
+      //   room_sum.forEach((value,i)=>{
+      //   log_list.push(
+      //     {
+      //       content: "預設照明： 坪數 "+this.house_area_size+" * 12w = "+this.house_area_size*12+"度",
+      //       place: this.rooms[i].name,
+      //       hash: this.rooms[i].hash
+      //     });
+      //  })
+      // }
       // console.log(room_sum)
 
 
