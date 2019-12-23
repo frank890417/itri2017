@@ -315,7 +315,9 @@ export default {
     },
     now_device_ac_power_kw: {
       get(){
-
+        if (this.now_device_profile.ac_power==0){
+          return null
+        }
         if (this.now_device_profile.ac_power>this.use_ac_power_range.max){
           this.now_device_profile.ac_power=this.use_ac_power_range.max
         }
@@ -325,7 +327,10 @@ export default {
         return this.now_device_profile.ac_power/1000
       },
       set(value){
-        console.log("ASDSDDSADSADSA",this.ac_power_max)
+        //- console.log("ASDSDDSADSADSA",this.ac_power_max)
+        if (value==null){
+          value=0
+        }
         if (value>this.use_ac_power_range.max){
           value=this.use_ac_power_range.max
         }
