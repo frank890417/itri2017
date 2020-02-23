@@ -134,7 +134,7 @@
                               v-if="compare_result.crown")
                       
             
-        .card.col-sm-12.card_prescription.print-new-page
+        .card.col-sm-12.card_prescription.print-new-page.print-hide
           .card_inner.yellow
             .container-fluid
               .row
@@ -154,7 +154,7 @@
                               h3 {{cataname}}
                             li(v-for="(adv,id) in get_advices(advice_device,cataname)") {{id+1}}. {{adv.content}}                  
               
-        .card.col-sm-12(v-if="advice_devices.length>0").print-new-page.print-hide
+        .card.col-sm-12(v-if="advice_devices.length>0").print-new-page.print-hide.print-hide
           .card_inner.nominh
             .container-fluid
               .row
@@ -205,8 +205,8 @@
           .card_inner.nominh.yellow.print-no-float
             .container-fluid.print-no-float
               .row
-                .col-sm-12.print-new-page.print-no-float
-                  h2.mb-5.print-new-page.print-no-float
+                .col-sm-12.print-new-page.print-no-float.print-hide
+                  h2.mb-5.print-new-page.print-no-float.print-hide
                     i.fa.fa-hammer
                     span 用電設備承裝/維護站
               .row
