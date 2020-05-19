@@ -87,7 +87,7 @@
               li(:class="{active: alter_id==alt_id}",
                 v-if="now_device.alter_specs.length>0" 
                 v-for="(alt,alt_id) in now_device.alter_specs",
-                @click="alter_id=alt_id") {{alt.consumption}}瓦 ({{alt.count}}個)
+                @mousedown="alter_id=alt_id") {{alt.consumption}}瓦 ({{alt.count}}個)
                 span.remove_alt_btn(@click = "removeAlt(now_device,alt_id)") &nbsp; x
               li.more(@click="add_other_spec(now_device)") +
 
@@ -99,7 +99,8 @@
                 .extent-border
               .col-md-7.col-xs-8(v-if="now_device_profile")
                 input(type="number",v-model.number="now_device_profile.area_size",
-                      :disabled="(now_device_profile.ac_power!=0 && now_device_profile.ac_power)?true:false" )
+                      :disabled="(now_device_profile.ac_power!=0 && now_device_profile.ac_power)?true:false" ,
+                      @change = "now_device_profile.area_size=now_device_profile.area_size<=1?1:now_device_profile.area_size")
             .form-group.row(v-if="now_device.name=='冷氣機'")
               .col-md-5.col-xs-4
                 label 額定冷氣能力(kW)
