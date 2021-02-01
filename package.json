@@ -16,7 +16,7 @@
     "bootstrap-sass": "^3.4.1",
     "cross-env": "^5.0.5",
     "gulp-rollup": "^2.16.2",
-    "jquery": "^3.1.1",
+    "jquery": "^3.5.0",
     "laravel-elixir-rollup-official": "^1.1.1",
     "laravel-elixir-webpack-official": "^1.0.10",
     "laravel-mix": "^1.0",
